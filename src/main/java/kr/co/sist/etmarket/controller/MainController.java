@@ -9,4 +9,9 @@ public class MainController {
     public String start(){
         return "main/main";
     }
+    
+    @GetMapping("login/login")
+    public String goLogin() {
+    	return "login/loginForm";
+    }
 }
