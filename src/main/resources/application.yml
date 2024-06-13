@@ -14,8 +14,13 @@ spring:
             enabled: true
         restart:
             enabled: true
-    config:
-        import: aws.yml
-
+#    config:
+#        import: aws.yml
+        #mysql
+    datasource:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://etmarket.ctsoceuuux09.ap-northeast-2.rds.amazonaws.com:3306/etmarket
+        username: admin
+        password: et*market!!
 server:
     port: 9000
