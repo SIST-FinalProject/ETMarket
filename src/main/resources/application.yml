@@ -1,0 +1,21 @@
+spring:
+    application:
+        name: etmarket
+    thymeleaf:
+        cache: false
+    jpa:
+        hibernate:
+            ddl-auto: update
+        generate-ddl: true
+        database: mysql
+        database-platform: org.hibernate.dialect.MySQLDialect
+    devtools:
+        livereload:
+            enabled: true
+        restart:
+            enabled: true
+    config:
+        import: aws.yml
+
+server:
+    port: 9000
