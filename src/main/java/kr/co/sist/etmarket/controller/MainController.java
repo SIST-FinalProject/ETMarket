@@ -10,8 +10,4 @@ public class MainController {
         return "main/main";
     }
     
-    @GetMapping("login/login")
-    public String goLogin() {
-    	return "login/loginForm";
-    }
 }
