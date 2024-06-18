@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 
 import kr.co.sist.etmarket.dao.UserDao;
 import kr.co.sist.etmarket.dto.UserDto;
+import kr.co.sist.etmarket.entity.User;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -30,5 +31,13 @@ public class LoginService {
 
         return Optional.empty();
     }
+	
+	// 아이디 찾기
+	public Optional<UserDto> findByLoginId(String userEmail, String userPhone){
+		// 0618 1739 작업중
+		//Optional<User> 
+		
+		return Optional.empty();
+	}
 
 }

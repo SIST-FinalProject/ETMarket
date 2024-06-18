@@ -1,14 +1,19 @@
 package kr.co.sist.etmarket.controller;
 
+import java.util.Map;
 import java.util.Optional;
 
+import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import jakarta.servlet.http.HttpSession;
 import kr.co.sist.etmarket.dto.UserDto;
@@ -35,11 +40,9 @@ public class LoginController {
     	return "login/loginForm";
     }
 	
-	
 	// 로그인 처리
-	@PostMapping("loginprocess")
-	public String loginprocess(@ModelAttribute UserDto userDto, Model model, HttpSession session,
-			@RequestParam(required = false) String cbsave) {
+	@PostMapping("loginProcess")
+	public String loginprocess(@ModelAttribute UserDto userDto, Model model, HttpSession session) {
 		
 		Optional<UserDto> loginUser=loginService.login(userDto);
 		
@@ -52,24 +55,25 @@ public class LoginController {
             session.setAttribute("myid", loggedIn.getUserLoginId());
 			session.setAttribute("loginok", "yes");
 			//session.setAttribute("saveok", cbsave);
-			
-			// 로그인 정보 확인용
-//			System.out.println("아이디 출력: "+loggedIn.getUserLoginId());
-//			System.out.println("이름 출력: "+loggedIn.getUserName());
-//			System.out.println("회원번호 출력: "+loggedIn.getUserId());
-			System.out.println("아이디 저장 확인: "+cbsave);
             
             return "redirect:/"; 
         } else {
         	 // 로그인 실패 
-            //model.addAttribute("loginError", "아이디 및 비밀번호가 일치하지 않습니다."); // 에러 메시지를 모델에 추가
             session.setAttribute("loginError", "아이디 및 비밀번호가 일치하지 않습니다."); // 에러 메시지를 세션에 추가
            
             return "redirect:login"; 
         }
 	}
-	
-	
+
+	// 아이디 찾기 프로세스 ajax 처리
+	@PostMapping("/findLoginIdProcess")
+	@ResponseBody
+	public String findloginid(String userEmail, String userPhone, HttpSession session) {
+		Optional<UserDto> findLoginId=loginService.findByLoginId(userEmail, userPhone);
+		return null;
+	}
+		
+		
 	// 로그아웃
 	@GetMapping("logout")
 	public String logout(HttpSession session) {
@@ -78,6 +82,22 @@ public class LoginController {
 		session.removeAttribute("myid");
 		
 		return "redirect:/";
+	}
+	
+	// 아이디 찾기 폼
+	@GetMapping("findLoginId")
+	public String findid() {
+		return "login/findLoginId";
+	}
+	
+	
+	
+	
+	// ======================================================
+	// 비밀번호 찾기
+	@GetMapping("findPw")
+	public String findpw() {
+		return "login/findPw";
 	}
 
 }

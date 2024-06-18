@@ -12,7 +12,7 @@
 <style type="text/css">
 	#btnlogin{
 		background-color: #4eb006;
-		margin-top:25px; 
+		margin-top:20px; 
 		width:300px; 
 		height: 45px;
 		color: white;
@@ -44,9 +44,9 @@
 
 <div th:replace="fragments/header :: menu2">메뉴2부분</div>
 
-	<div align="center" style="margin: 50px 0px 180px 0px;">
+	<div align="center" style="margin: 50px 0px 120px 0px;">
 	
-		<form action="loginprocess" method="post">
+		<form action="loginProcess" method="post">
 			<table style="width:300px;">
 				<tr>
 					<td style="float: left; margin-bottom: 20px;">
@@ -86,11 +86,11 @@
 				<tr>
 					<td>
 						<div class="loginsub" style="margin: 5px 0px 0px 0px;">
-							<!-- 아이디 저장이 null이면 비체크 -->
-							<label><input type="checkbox" style="accent-color:black;" id="cbsave"> 아이디저장 </label>
+							<!-- (0618 추후완성예정) 아이디 저장이 null이면 비체크 -->
+							<!-- <label><input type="checkbox" style="accent-color:black;" id="cbsave"> 아이디저장 </label> -->
 							
 							<span style="float: right;">
-								<a href="findID">아이디</a>/<a href="findPW">비밀번호찾기</a>
+								<a href="findLoginId">아이디</a>/<a href="findPw">비밀번호찾기</a>
 							</span>
 						</div>
 					</td>
@@ -98,7 +98,7 @@
 				
 				<tr>
 					<td>
-						<div style="margin-top: 30px;">
+						<div style="margin-top: 25px;">
 							<a><img alt="" src="../image/kakao_login_large_wide.png" style="width: 300px;"></a>
 							<div align="center" style="margin-top: 6px; text-decoration: underline;">
 								<a class="loginsub" href="join"><b>회원가입하기</b></a>
