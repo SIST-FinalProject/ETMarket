@@ -9,8 +9,8 @@ import jakarta.persistence.*;
 
 import kr.co.sist.etmarket.etenum.*;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
@@ -74,6 +74,10 @@ public class Item {
     @Column(name = "item_hidden")
     private ItemHidden itemHidden;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_search_id")
+    private UserSearch userSearch;
+
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ItemTag> itemTags = new ArrayList<>();
 
@@ -85,4 +89,14 @@ public class Item {
 
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ItemLike> itemLikes = new ArrayList<>();
+
+    @Override
+    public String toString() {
+        return "Item{" +
+                "itemId=" + itemId +
+                ", itemTitle='" + itemTitle + '\'' +
+                ", userSearchId=" + (userSearch != null ? userSearch.getUserSearchId() : null) +
+                '}';
+    }
+
 }

@@ -7,6 +7,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -31,6 +33,9 @@ public class UserSearch {
     @UpdateTimestamp
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private Timestamp updateDate;
+
+    @OneToMany(mappedBy = "userSearch", cascade = CascadeType.ALL, orphanRemoval = true)
+    List<Item> items = new ArrayList<Item>();
 
     @Override
     public String toString() {
