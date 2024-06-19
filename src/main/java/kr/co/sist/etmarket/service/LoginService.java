@@ -21,7 +21,7 @@ public class LoginService {
 	// 로그인
 	public Optional<UserDto> login(UserDto userDto) {
 		// user에서 userLoginId 값 가져옴
-		Optional<UserDto> findUser = userDao.findByUserLoginId(userDto.getUserLoginId());
+		Optional<UserDto> findUser = userDao.findByUser(userDto.getUserLoginId());
 		
 		// 아이디가 존재하는지 확인하고, 비밀번호가 일치하는지 확인
 		if (findUser.isPresent() && findUser.get().getUserPassword().equals(userDto.getUserPassword())) {
@@ -33,9 +33,13 @@ public class LoginService {
     }
 	
 	// 아이디 찾기
-	public Optional<UserDto> findByLoginId(String userEmail, String userPhone){
-		// 0618 1739 작업중
-		//Optional<User> 
+	public Optional<UserDto> findLoginId(String userEmail, String userPhone){
+		Optional<UserDto> findLoginId = userDao.findByUserLoginId(userEmail, userPhone);
+		
+		if(findLoginId.isPresent()) {
+			//System.out.println("로그인 아이디 서비스에서 출력:"+findLoginId);			
+			return findLoginId;
+		}		
 		
 		return Optional.empty();
 	}

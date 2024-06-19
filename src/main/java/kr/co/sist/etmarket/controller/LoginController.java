@@ -1,5 +1,6 @@
 package kr.co.sist.etmarket.controller;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
@@ -27,7 +28,7 @@ public class LoginController {
 	LoginService loginService;
 	
 	// 로그인폼 이동
-	@GetMapping("login")
+	@GetMapping("/login")
     public String goLogin(HttpSession session, Model model) {
 		
 		// 아이디 비밀번호가 일치하지 않을 경우, 세션에서 오류 메시지를 가져와 모델에 추가하고 세션에서 삭제
@@ -41,8 +42,8 @@ public class LoginController {
     }
 	
 	// 로그인 처리
-	@PostMapping("loginProcess")
-	public String loginprocess(@ModelAttribute UserDto userDto, Model model, HttpSession session) {
+	@PostMapping("/member/loginProcess")
+	public String loginProcess(@ModelAttribute UserDto userDto, Model model, HttpSession session) {
 		
 		Optional<UserDto> loginUser=loginService.login(userDto);
 		
@@ -54,28 +55,19 @@ public class LoginController {
             session.setMaxInactiveInterval(60*60*8);
             session.setAttribute("myid", loggedIn.getUserLoginId());
 			session.setAttribute("loginok", "yes");
-			//session.setAttribute("saveok", cbsave);
+			//session.setAttribute("saveok", cbsave); 추후 추가
             
             return "redirect:/"; 
         } else {
         	 // 로그인 실패 
             session.setAttribute("loginError", "아이디 및 비밀번호가 일치하지 않습니다."); // 에러 메시지를 세션에 추가
            
-            return "redirect:login"; 
+            return "redirect:/login"; 
         }
-	}
-
-	// 아이디 찾기 프로세스 ajax 처리
-	@PostMapping("/findLoginIdProcess")
-	@ResponseBody
-	public String findloginid(String userEmail, String userPhone, HttpSession session) {
-		Optional<UserDto> findLoginId=loginService.findByLoginId(userEmail, userPhone);
-		return null;
-	}
+	}	
 		
-		
-	// 로그아웃
-	@GetMapping("logout")
+	// 로그아웃 처리
+	@GetMapping("/logout")
 	public String logout(HttpSession session) {
 		// 세션 삭제
 		session.removeAttribute("loginok");
@@ -85,10 +77,65 @@ public class LoginController {
 	}
 	
 	// 아이디 찾기 폼
-	@GetMapping("findLoginId")
-	public String findid() {
-		return "login/findLoginId";
+	@GetMapping("/member/find/loginId")
+	public String goFindLoginId(HttpSession session, Model model) {
+		
+		// 아이디 비밀번호가 일치하지 않을 경우, 세션에서 오류 메시지를 가져와 모델에 추가하고 세션에서 삭제
+        String findIdPwError = (String) session.getAttribute("findIdPwError");
+        if (findIdPwError != null) {
+            model.addAttribute("findIdPwError", findIdPwError);
+            session.removeAttribute("findIdPwError");
+        }
+		
+		return "login/findLoginIdForm";
 	}
+	
+	// 아이디 찾기 프로세스 ajax 처리
+	@PostMapping("/member/find/findLoginIdProcess")
+	@ResponseBody
+	public UserDto findloginid(@RequestParam("userEmail") String userEmail, @RequestParam("userPhone") String userPhone, 
+			HttpSession session, Model model) {
+		
+	    Optional<UserDto> loginId = loginService.findLoginId(userEmail, userPhone);
+
+	    if (loginId.isPresent()) {
+	    	UserDto findLoginId = loginId.get();
+	    	model.addAttribute("userLoginId", findLoginId.getUserLoginId());
+	    	System.out.println("아이디 찾기 성공"+findLoginId.getUserLoginId());
+	        
+	    	return findLoginId;
+	    } else {
+	        // 일치하는 정보가 없을 경우
+	        session.setAttribute("findIdPwError", "입력정보와 일치하는 회원 정보가 없습니다."); // 에러 메시지를 세션에 추가
+	        System.out.println("아이디 찾기 실패: 입력정보와 일치하는 회원 정보가 없습니다.");
+	        return null;
+	    }
+	}
+//	@PostMapping("/member/find/findLoginIdProcess")
+//	@ResponseBody
+//	public ResponseEntity<Map<String, Object>> findloginid(@RequestParam("userEmail") String userEmail, @RequestParam("userPhone") String userPhone) {
+//	    Map<String, Object> response = new HashMap<>();
+//	    
+//	    System.out.println("Received userEmail: " + userEmail);
+//	    System.out.println("Received userPhone: " + userPhone);
+//
+//	    Optional<UserDto> loginId = loginService.findLoginId(userEmail, userPhone);
+//
+//	    if (loginId.isPresent()) {
+//	        UserDto findLoginId = loginId.get();
+//	        response.put("status", "success");
+//	        response.put("userLoginId", findLoginId.getUserLoginId());
+//	        System.out.println("아이디 찾기 성공: " + findLoginId.getUserLoginId());
+//	    } else {
+//	        response.put("status", "fail");
+//	        response.put("message", "입력정보와 일치하는 회원 정보가 없습니다.");
+//	        System.out.println("아이디 찾기 실패: 입력정보와 일치하는 회원 정보가 없습니다.");
+//	    }
+//
+//	    return ResponseEntity.ok(response);
+//	}
+
+
 	
 	
 	

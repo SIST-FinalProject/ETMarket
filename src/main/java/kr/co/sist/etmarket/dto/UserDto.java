@@ -2,6 +2,7 @@ package kr.co.sist.etmarket.dto;
 
 import java.sql.Timestamp;
 
+import kr.co.sist.etmarket.entity.User;
 import kr.co.sist.etmarket.etenum.UserStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,10 +26,14 @@ public class UserDto {
 	private UserStatus userStatus;
 
 	// 생성자 - 로그인
-    public UserDto(String userLoginId, String userPassword, Long userId, String userName) {
+    public UserDto(String userLoginId, String userPassword, Long userId, String userName, Timestamp userCreateDate) {
         this.userLoginId = userLoginId;
         this.userPassword = userPassword;
         this.userId = userId;
         this.userName = userName;
+        this.userCreateDate= userCreateDate;
     }
+
+
+    
 }
