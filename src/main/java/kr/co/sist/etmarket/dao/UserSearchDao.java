@@ -31,11 +31,16 @@ public interface UserSearchDao extends JpaRepository<UserSearch, java.lang.Long>
     List<Object[]> findTop8PopularContent();
 
     // 검색어 하나 가져오기
-    UserSearch findByContent(String content);
+    List<UserSearch> findByContent(String content);
 
     // 검색어에 맞는 상품 리스트 출력
     @Query(value = "SELECT i.* FROM item i LEFT JOIN user_search us USING(user_search_id) WHERE i.item_title LIKE %:content%", nativeQuery = true)
     List<Object[]> findItemsByContentAndItemTitle(@Param("content") String content);
-    
-    
+
+
+    Long findByUserSearchId(UserSearch search);
+
+//    UserSearch findByContent(String content);
+    @Query("SELECT u.userSearchId FROM UserSearch u WHERE u.content = :content")
+    List<Long> findIdsByContent(@Param("content") String content);
 }

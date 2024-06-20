@@ -1,6 +1,6 @@
 package kr.co.sist.etmarket.service;
 
-import kr.co.sist.etmarket.dao.ItemDto;
+import kr.co.sist.etmarket.dto.ItemDto;
 import kr.co.sist.etmarket.dao.UserDao;
 import kr.co.sist.etmarket.dao.UserSearchDao;
 import kr.co.sist.etmarket.dto.UserSearchDto;
@@ -30,7 +30,7 @@ public class UserSearchService {
 
     // UserSearch insert
     public void insertContent(UserSearchDto userSearchDto) {
-        UserSearch userSearch = userSearchDao.findByContent(userSearchDto.getContent());
+        UserSearch userSearch = userSearchDao.findByContent(userSearchDto.getContent()).get(0);
         User user = userDao.findById(userSearchDto.getUserId()).get();
         if (userSearch == null) {
             userSearch = new UserSearch();
@@ -76,29 +76,41 @@ public class UserSearchService {
         List<ItemDto> items = new ArrayList<>();
 
         for (Object[] ob : results) {
-            ItemDto item = new ItemDto((Integer) ob[0],
-                    (Integer) ob[1],
-                    ((Number) ob[2]).longValue(),
-                    (Timestamp) ob[3],
-                    (Timestamp) ob[4],
-                    ((Number) ob[5]).longValue(),
-                    (String) ob[6],
-                    (String) ob[7],
-                    (String) ob[8],
-                    (CategoryName) ob[9],
-                    (DealHow) ob[10],
-                    (DealStatus) ob[11],
-                    (DeliveryStatus) ob[12],
-                    (ItemHidden) ob[13],
-                    (ItemStatus) ob[14],
-                    (PriceStatus) ob[15],
-                    (Integer) ob[16],
-                    ((Number) ob[17]).longValue()
-                    );
+            ItemDto item = new ItemDto(
+//                    ob[0] != null ? (Integer) ob[0] : 0,
+                    ob[1] != null ? (Integer) ob[1] : 0, // itemPrice
+                    ob[2] != null ? ((Number) ob[2]).longValue() : 0L, // itemId
+//                    (Timestamp) ob[3],
+                    (Timestamp) ob[4], // updateDate
+                    ob[5] != null ? ((Number) ob[5]).longValue() : 0L, // userId
+                    ob[6] != null ? (String) ob[6] : "", // itemAddress
+//                    ob[7] != null ? (String) ob[7] : "",
+                    ob[8] != null ? (String) ob[8] : "", // itemTitle
+//                    (CategoryName) ob[9],
+//                    (DealHow) ob[10],
+                    ob[11] != null ? DealStatus.valueOf((String) ob[11]) : DealStatus.판매중, // 거래 여부 상태
+                    ob[12] != null ? DeliveryStatus.valueOf((String) ob[12]) : DeliveryStatus.비포함, // 배송비포함 비포함
+                    ob[13] != null ? ItemHidden.valueOf((String) ob[13]) :ItemHidden.보임 // 아이템 숨김 보임
+//                    (ItemStatus) ob[14],
+//                    (PriceStatus) ob[15],
+//                    ob[16] != null ? (Integer) ob[16] : 0,
+//                    ob[17] != null ? ((Number) ob[17]).longValue() : 0L
+            );
 
             items.add(item);
         }
         return items;
+    }
+
+    public List<UserSearch> getContent(String content) {
+        return userSearchDao.findByContent(content);
+    }
+
+    public void deleteContent(String content) {
+        List<UserSearch> results = userSearchDao.findByContent(content);
+        for (UserSearch entity : results) {
+            userSearchDao.delete(entity);
+        }
     }
 
 }

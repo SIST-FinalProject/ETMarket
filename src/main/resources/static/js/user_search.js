@@ -24,51 +24,15 @@ $(document).ready(function() {
         })
     }
 
-    // 검색어로 itemTitle 초회
-    function items(content){
-
-        $.ajax({
-            url: 'search/items',
-            type: 'GET',
-            contentType: 'application/json',
-            success: function (response) {
-                console.log("검색된 Items ", response);
-                // top8_search(response);
-            },
-            error: function (xhr, status, error) {
-                console.error("Error loading initial content:", error);
-                console.error("Status:", status);
-                console.error("XHR response text:", xhr.responseText);
-            }
-        })
-    }
-
-    // content 값 넘기기
-    function selectContent(content){
-
-        $.ajax({
-            url: 'search/insert',
-            type: 'POST',
-            contentType: 'application/json',
-            data: {"content":content},
-            success: function (response){
-
-            },
-            error: function (xhr, status, error) {
-                console.error("Error loading initial content:", error);
-                console.error("Status:", status);
-                console.error("XHR response text:", xhr.responseText);
-            }
-        })
-    }
-
     // 검색 후 해당 상품 리스트 출력
     function search() {
         let query = $('#searchInput').val();
         if (query) {
             // 여기에 검색 로직을 추가하세요.
             insertContent(query);
+            console.log("Query inserted, now fetching items...");
             // 이후 상품 출력하기
+            location.href = "list/items?content="+query;
 
         } else {
             alert('Please enter a search term.');
@@ -88,7 +52,7 @@ $(document).ready(function() {
             data: JSON.stringify(data),
             success: function (response){
                 console.log("Content inserted");
-                init();
+                // init();
             }
         })
     }
@@ -101,7 +65,7 @@ $(document).ready(function() {
         data.forEach(function (item, index){
             var str = '<div class="fcMDtU">' +
                 '<button type="button" id="content' + index + '" onclick="getContent(this)">' + item.content + '</button>' +
-                '<button type="button" class="gUWbGN"><i class="bi bi-x"></i></button>' +
+                '<button type="button" class="gUWbGN" value="'+item.content+'" onclick="deleteContent(this)" ><i class="bi bi-x"></i></button>' +
                 '</div>'
 
             container.append(str);
@@ -128,5 +92,26 @@ $(document).ready(function() {
 function getContent(contentBtn){
     let content = $(contentBtn).text();
     console.log("검색 목록 content : "+content);
+    location.href = "list/items?content="+content;
+}
+
+// 검색 데이터 delete
+function deleteContent(btn){
+    let content = $(btn).val();
+    $.ajax({
+        url: 'search/delete',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({"content": content}),
+        success: function (response){
+            console.log("Content Delete success");
+            location.reload(true);
+        },
+        error: function (xhr, status, error) {
+            console.error("Error deleting content:", error);
+            console.error("Status:", status);
+            console.error("XHR response text:", xhr.responseText);
+        }
+    })
 }
 
