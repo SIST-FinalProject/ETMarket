@@ -37,7 +37,7 @@ public class LoginService {
 		Optional<UserDto> findLoginId = userDao.findByUserLoginId(userEmail, userPhone);
 		
 		if(findLoginId.isPresent()) {
-			//System.out.println("로그인 아이디 서비스에서 출력:"+findLoginId);			
+			System.out.println("로그인 아이디 서비스에서 출력:"+findLoginId);			
 			return findLoginId;
 		}		
 		

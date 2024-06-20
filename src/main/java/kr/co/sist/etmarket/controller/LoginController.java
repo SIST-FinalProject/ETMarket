@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.mysql.cj.Session;
+
 import jakarta.servlet.http.HttpSession;
 import kr.co.sist.etmarket.dto.UserDto;
 import kr.co.sist.etmarket.entity.User;
@@ -90,27 +92,48 @@ public class LoginController {
 		return "login/findLoginIdForm";
 	}
 	
-	// 아이디 찾기 프로세스 ajax 처리
-	@PostMapping("/member/find/findLoginIdProcess")
+	@PostMapping("/member/find/loginIdProcess")
 	@ResponseBody
-	public UserDto findloginid(@RequestParam("userEmail") String userEmail, @RequestParam("userPhone") String userPhone, 
-			HttpSession session, Model model) {
-		
+	public Map<String, Object> findLoginIdProcess(@RequestParam("userEmail") String userEmail, @RequestParam("userPhone") String userPhone) {
+	    Map<String, Object> response = new HashMap<>();
+
+	    System.out.println("controller 출력 이메일: " + userEmail + " 전화번호: " + userPhone);
+
 	    Optional<UserDto> loginId = loginService.findLoginId(userEmail, userPhone);
 
+	    System.out.println("서비스에서 넘어온 값 출력: " + loginId);
+
 	    if (loginId.isPresent()) {
-	    	UserDto findLoginId = loginId.get();
-	    	model.addAttribute("userLoginId", findLoginId.getUserLoginId());
-	    	System.out.println("아이디 찾기 성공"+findLoginId.getUserLoginId());
-	        
-	    	return findLoginId;
+	        System.out.println("회원정보 존재 시 if문: " + loginId.get());
+	        response.put("status", "success");
+	        response.put("user", loginId.get());
 	    } else {
-	        // 일치하는 정보가 없을 경우
-	        session.setAttribute("findIdPwError", "입력정보와 일치하는 회원 정보가 없습니다."); // 에러 메시지를 세션에 추가
-	        System.out.println("아이디 찾기 실패: 입력정보와 일치하는 회원 정보가 없습니다.");
-	        return null;
+	        System.out.println("회원정보 없음");
+	        response.put("status", "error");
+	        response.put("message", "입력정보와 일치하는 회원 정보가 없습니다.");
 	    }
+
+	    return response;
 	}
+
+	
+//	// 아이디 찾기 프로세스 ajax 처리
+//	@PostMapping("/member/find/findLoginIdProcess")
+//	@ResponseBody
+//	public UserDto findloginid(@RequestParam("userEmail") String userEmail, @RequestParam("userPhone") String userPhone) {
+//		
+//	    Optional<UserDto> loginId = loginService.findLoginId(userEmail, userPhone);
+//	    
+//	    if (loginId.isEmpty()) {
+//	    	return null;
+//	    } else {
+//	    	UserDto findLoginId = loginId.get();
+//	    	//model.addAttribute("userLoginId", findLoginId.getUserLoginId());
+//	    	System.out.println("아이디 찾기 성공"+findLoginId.getUserLoginId());
+//	        
+//	    	return findLoginId;
+//	    }	    
+//	}
 //	@PostMapping("/member/find/findLoginIdProcess")
 //	@ResponseBody
 //	public ResponseEntity<Map<String, Object>> findloginid(@RequestParam("userEmail") String userEmail, @RequestParam("userPhone") String userPhone) {
@@ -142,7 +165,7 @@ public class LoginController {
 	
 	// ======================================================
 	// 비밀번호 찾기
-	@GetMapping("findPw")
+	@GetMapping("/member/find/password")
 	public String findpw() {
 		return "login/findPw";
 	}

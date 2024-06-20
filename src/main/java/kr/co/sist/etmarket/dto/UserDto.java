@@ -26,12 +26,11 @@ public class UserDto {
 	private UserStatus userStatus;
 
 	// 생성자 - 로그인
-    public UserDto(String userLoginId, String userPassword, Long userId, String userName, Timestamp userCreateDate) {
+    public UserDto(String userLoginId, String userPassword, Long userId, String userName) {
         this.userLoginId = userLoginId;
         this.userPassword = userPassword;
         this.userId = userId;
         this.userName = userName;
-        this.userCreateDate= userCreateDate;
     }
 
 

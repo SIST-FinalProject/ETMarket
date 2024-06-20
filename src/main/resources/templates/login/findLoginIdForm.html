@@ -32,80 +32,45 @@
         border-radius: 5px;
         font-size: 11pt !important;
     }
+    
+    .hidden {
+        display: none;
+    }
 </style>
 
 <script type="text/javascript">
     $(function(){
-    	
-    	/*
+        
         $("#btnFindLoginId").click(function(event){
-            event.preventDefault(); // 기본 폼 제출 동작을 막기 위해 추가합니다.
+            event.preventDefault();
             
             var userEmail = $("#userEmail").val();
             var userPhone = $("#userPhone").val();
+            console.log(userEmail + ", " + userPhone);
             
-            console.log("AJAX 요청 시작");
-            console.log("userEmail:", userEmail);
-            console.log("userPhone:", userPhone);
-
             $.ajax({
                 type: "post",
-                url: "/member/find/findLoginIdProcess",
-                dataType: "json",
-                contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-                data: {"userEmail": userEmail, "userPhone": userPhone},
-                success: function(res){
-                    console.log("Response received:", res);
-                    if (res.status === "success") {
-                        alert("아이디 찾기 성공! 아이디: " + res.userLoginId);
-                    } else {
-                        alert("아이디 찾기 실패: " + res.message);
+                url: "/member/find/loginIdProcess",
+                dataType: "json", // JSON 형식의 응답을 받습니다.
+                data: { "userEmail": userEmail, "userPhone": userPhone },
+                success: function(response) {
+                    if (response.status === "success") {
+                        //alert("아이디 찾기 성공: " + response.user.userLoginId);
+                        $("#formFields").addClass("hidden");
+                        $("#result").removeClass("hidden").text("아이디: " + response.user.userLoginId);
+                    } else if (response.status === "error") {
+                        $("#error").text(response.message);
                     }
                 },
-                error: function(xhr, status, error){
-                    console.error("AJAX error:", status, error);
-                    console.error("Response text:", xhr.responseText);
-                    alert("오류 발생: " + error);
-                },
-                complete: function(){
-                    console.log("AJAX 요청 완료");
+                error: function(xhr, status, error) {
+                    console.log("Error response received:", xhr);
+                    alert("서버 오류가 발생했습니다. 나중에 다시 시도해주세요.");
                 }
             });
-        });*/
-        
-        $("#btnFindLoginId").click(function(){
-        	event.preventDefault();
-        	
-        	var userEmail=$("#userEmail").val();
-        	var userPhone=$("#userPhone").val();
-        	//alert(userEmail+","+userPhone);
-        	
-        	$.ajax({
-    			type:"post",
-    			url:"/member/find/findLoginIdProcess",
-    			contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-    			dataType:"json",
-    			data:{"userEmail":userEmail,"userPhone":userPhone},
-    			success:function(res){
-    				console.log("Response received:", res);
-    				if(res!=null){
-    					console.log("Response received:", res);
-        				alert(res.userLoginId);
-    				} else{
-        				// 0619 1742 실패 시 오류 노출 안 됨 -> controller return 문제인듯?
-        				console.log("Response received:", res);
-        				alert("실패");
-    				}
-    				
-    			}
-    		})
-    		
-    	});
+        });
         
     });
 </script>
-
-
 
 </head>
 <body>
@@ -113,55 +78,57 @@
 
 <div th:replace="fragments/header :: menu2">메뉴2부분</div>
 
-	<div align="center" style="margin: 50px 0px 120px 0px;">
-	
-		<form id="findLoginIdForm">
-			<table style="width: 300px;">
-				<tr>
-					<td style="float: left; margin-bottom: 30px;">
-						<h1>아이디 찾기</h1> 
-						<font class="loginsub" style="color: gray;">
-							가입 시 입력한 이메일, 휴대폰번호를 입력해주세요.<br>개인정보보호를 위해 아이디 뒷자리는 *로 표시됩니다.
-						</font>
-					</td>
-				</tr>
+    <div align="center" style="margin: 50px 0px 120px 0px;">
+    
+        <form action="/member/find/findLoginIdProcess" method="post">
+            <table style="width: 300px;">
+                <tr>
+                    <td style="float: left; margin-bottom: 30px;">
+                        <h1>아이디 찾기</h1> 
+                        <font class="loginsub" style="color: gray;">
+                            가입 시 입력한 이메일, 휴대폰번호를 입력해주세요.<br>개인정보보호를 위해 아이디 뒷자리는 *로 표시됩니다.
+                        </font>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td>
+                        <div id="result" class="hidden"></div>
+                    </td>
+                </tr>
+        
+                <tbody id="formFields" class="ajaxbox">
+                    <tr>
+                        <td align="left">
+                            <div style="margin-bottom: 8px;">
+                                <font class="loginsub">이메일</font> <br> 
+                                <input type="text" id="userEmail" class="logininput" required="required" placeholder="가입하신 이메일">
+                            </div>
+                        </td>
+                    </tr>
 
-				<div id="ajaxbox">
-					<tr>
-						<td align="left">
-							<div style="margin-bottom: 8px;">
-								<font class="loginsub">이메일</font> <br> 
-								<input type="text" id="userEmail" class="logininput" required="required" placeholder="가입하신 이메일">
-							</div>
-						</td>
-					</tr>
+                    <tr>
+                        <td>
+                            <div style="margin-bottom: 0px; height: 70px;">
+                                <font class="loginsub">휴대폰번호</font> <br> 
+                                <input type="text" id="userPhone" class="logininput" required="required" placeholder="가입하신 휴대폰번호">
+                                
+                                <div id="error" class="error" style="color: red;"></div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
 
-					<tr>
-						<td>
-							<div style="margin-bottom: 0px; height: 70px;">
-								<font class="loginsub">휴대폰번호</font> <br> 
-								<input type="text" id="userPhone" class="logininput" required="required" placeholder="가입하신 휴대폰번호">
-								
-								<!-- 입력한 정보가 없을 경우 에러메세지 출력 -->
-								<!-- <div th:if="${findIdPwError}">
-									<font style="color: red; font-size: 10pt;" th:text="${findIdPwError}"></font>
-								</div> -->
-								<div class="error"><b></b></div>
-							</div>
-						</td>
-					</tr>
-				</div>
+                <tr>
+                    <td>
+                        <button type="submit" id="btnFindLoginId" class="loginsub">아이디 찾기</button>
+                    </td>
+                </tr>
+                
+            </table>
+        </form>
+    </div>
 
-				<tr>
-					<td>
-						<button type="submit" id="btnFindLoginId" class="loginsub">아이디 찾기</button>
-					</td>
-				</tr>
-
-			</table>
-		</form>
-	</div>
-
-	<div th:replace="fragments/footer :: company">기업설명부분</div>
+    <div th:replace="fragments/footer :: company">기업설명부분</div>
 </body>
 </html>
