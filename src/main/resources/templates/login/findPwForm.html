@@ -7,16 +7,101 @@
 <link rel="stylesheet" type="text/css" href="/css/styles.css">
 <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
 <script src="/js/menu.js"></script>
-<title>Title</title>
+<title>ET마켓</title>
 <link rel="icon" href="image/favicon.ico" type="image/x-icon">
+<style type="text/css">
+    .loginsub{
+        font-size: 10pt !important;
+    }
+
+	.logininput{
+	    width:300px;
+	    height: 38px;
+	    border: 0.7px solid #ddd;
+	    border-radius: 5px;    
+	    margin-top: 3px;
+	    text-indent: 6px;
+	}
+	
+	#btnFindLoginId{
+	    background-color: #4eb006;
+	    margin-top:20px; 
+	    width:300px; 
+	    height: 45px;
+	    color: white;
+	    border-radius: 5px;
+	    font-size: 11pt !important;
+	}
+</style>
+
+<script type="text/javascript">
+	$(function(){
+		$("#btnFindLoginId").click(function(){
+			var userLoginId=$("#userLoginId").val();
+			var userEmail=$("#userEmail").val();
+			
+			alert(userLoginId+", "+userEmail);
+		});
+	});
+</script>
 </head>
 <body>
 <div th:replace="fragments/header :: menu1">메뉴1부분</div>
 
 <div th:replace="fragments/header :: menu2">메뉴2부분</div>
 
-<div>
-    <h1>테스트</h1>
+<div align="center" style="margin: 70px 0px 150px 0px;">
+
+	<form action="/member/find/passwordProcess" method="post">
+		<table style="width: 300px;">
+			<tr>
+				<td style="float: left; margin-bottom: 30px;">
+					<h1>비밀번호 찾기</h1> 
+					<font class="loginsub" style="color: gray;">
+						가입 시 입력한 아이디, 이메일을 입력해주세요.
+					</font>
+				</td>
+			</tr>
+	
+			<tr>
+				<td align="left">
+					<div style="margin-bottom: 8px;">
+						<font class="loginsub">아이디</font> <br> 
+						<input type="text" id="userLoginId" class="logininput" required="required" placeholder="가입하신 아이디">
+					</div>
+				</td>
+			</tr>
+
+			<tr>
+				<td>
+					<div style="margin-bottom: 0px; height: 70px;">
+						<font class="loginsub">이메일</font> <br> 
+						<input type="text" id="userEmail" class="logininput" required="required" placeholder="가입하신 이메일">
+							
+						<!-- 아이디 및 비밀번호가 틀렸을 경우 에러메세지 출력 -->
+						<div th:if="${findIdPwError}">
+                           	<font style="color: red; font-size: 10pt;" th:text="${findIdPwError}"></font>
+                       	</div>
+					</div>
+				</td>
+			</tr>
+			
+			<tr>
+				<td>
+					<div id="certification">
+						
+					</div>
+				</td>
+			</tr>
+
+			<tr>
+				<td>
+					<button type="submit" id="btnFindLoginId" class="ajaxbtn">다음</button>
+				</td>
+			</tr>
+
+		</table>
+	</form>
 </div>
 
 <div th:replace="fragments/footer :: company">기업설명부분</div>

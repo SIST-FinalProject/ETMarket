@@ -25,7 +25,7 @@
 	
 	#btnFindLoginId{
 	    background-color: #4eb006;
-	    margin-top:20px; 
+	    margin-top:50px; 
 	    width:300px; 
 	    height: 45px;
 	    color: white;
@@ -45,37 +45,21 @@
 				<td style="float: left; margin-bottom: 30px;">
 					<h1>아이디 찾기</h1> 
 					<font class="loginsub" style="color: gray;">
-						가입 시 입력한 이메일, 휴대폰번호를 입력해주세요.
+						회원님의 정보와 일치하는 아이디입니다.
 					</font>
 				</td>
 			</tr>
 	
 			<tr>
-				<td align="left">
-					<div style="margin-bottom: 8px;">
-						<font class="loginsub">이메일</font> <br> 
-						<input type="text" name="userEmail" class="logininput" required="required" placeholder="가입하신 이메일">
-					</div>
+				<td>
+					<font class="loginsub">아이디</font> <br>
+					<font style="font-size: 13pt;">[[${loginId.userLoginId}]]</font>
 				</td>
 			</tr>
 
 			<tr>
 				<td>
-					<div style="margin-bottom: 0px; height: 70px;">
-						<font class="loginsub">휴대폰번호</font> <br> 
-						<input type="text" name="userPhone" class="logininput" required="required" placeholder="가입하신 휴대폰번호">
-							
-						<!-- 아이디 및 비밀번호가 틀렸을 경우 에러메세지 출력 -->
-						<div th:if="${findIdPwError}">
-                           	<font style="color: red; font-size: 10pt;" th:text="${findIdPwError}"></font>
-                       	</div>
-					</div>
-				</td>
-			</tr>
-
-			<tr>
-				<td>
-					<button type="submit" id="btnFindLoginId">아이디 찾기</button>
+					<button type="button" id="btnFindLoginId" onclick="location.href='/login'">로그인 하기</button>
 				</td>
 			</tr>
 

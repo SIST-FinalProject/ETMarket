@@ -34,8 +34,9 @@ public class LoginService {
 	
 	// 아이디 찾기
 	public Optional<UserDto> findLoginId(String userEmail, String userPhone){
-		Optional<UserDto> findLoginId = userDao.findByUserLoginId(userEmail, userPhone);
+		User findLoginId = userDao.findByUserEmailAndUserPhone();
 		
+		// 0620 1744 jpa 작업중
 		if(findLoginId.isPresent()) {
 			System.out.println("로그인 아이디 서비스에서 출력:"+findLoginId);			
 			return findLoginId;
