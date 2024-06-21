@@ -54,7 +54,7 @@
 				<td align="left">
 					<div style="margin-bottom: 8px;">
 						<font class="loginsub">이메일</font> <br> 
-						<input type="text" name="userEmail" class="logininput" required="required" placeholder="가입하신 이메일">
+						<input type="text" name="userEmail" class="logininput" required="required" placeholder="가입하신 이메일 주소">
 					</div>
 				</td>
 			</tr>
@@ -63,7 +63,7 @@
 				<td>
 					<div style="margin-bottom: 0px; height: 70px;">
 						<font class="loginsub">휴대폰번호</font> <br> 
-						<input type="text" name="userPhone" class="logininput" required="required" placeholder="가입하신 휴대폰번호">
+						<input type="text" name="userPhone" class="logininput" required="required" placeholder="휴대폰 번호를 '-' 없이 입력해주세요.">
 							
 						<!-- 아이디 및 비밀번호가 틀렸을 경우 에러메세지 출력 -->
 						<div th:if="${findIdPwError}">

@@ -36,12 +36,46 @@
 
 <script type="text/javascript">
 	$(function(){
+		
+		// 인증번호 요청 버튼 클릭 시
+		$("#btnCerti").click(function(){
+			var userLoginId=$("#userLoginId").val();
+			var userEmail=$("#userEmail").val();
+			//alert(userLoginId+", "+userEmail);
+			
+			// 아이디, 이메일 값 전달
+			$.ajax({
+				type:"post",
+				url:"/member/find/certiRequest",
+				dataType:"json",
+				data:{"userLoginId":userLoginId,"userEmail":userEmail},
+				success:function(data){
+					//alert("값 보내짐");
+					
+					
+					if(data==true){					
+						// 인증번호 입력 칸 노출
+						$("#findIdPwError").hide();
+						$("#mailNumber").show();
+						
+					} else{
+						//alert("존재하지 않음");
+						//window.location.href="/member/find/password";
+						$("#findIdPwError").show();
+					}		
+				}		
+			});		
+		});
+		
+		// 다음 버튼 클릭 시
 		$("#btnFindLoginId").click(function(){
 			var userLoginId=$("#userLoginId").val();
 			var userEmail=$("#userEmail").val();
+			var certiCode=$("#certiCode").val();
 			
-			alert(userLoginId+", "+userEmail);
+			alert(userLoginId+", "+userEmail+", "+certiCode);
 		});
+		
 	});
 </script>
 </head>
@@ -74,29 +108,35 @@
 
 			<tr>
 				<td>
-					<div style="margin-bottom: 0px; height: 70px;">
+					<div style="margin-bottom: 0px;">
 						<font class="loginsub">이메일</font> <br> 
-						<input type="text" id="userEmail" class="logininput" required="required" placeholder="가입하신 이메일">
+						
+						<div>
+							<input type="text" id="userEmail" style="width:200px; height: 38px; border: 0.7px solid #ddd; border-radius: 5px; margin-top: 3px; text-indent: 6px;" 
+							required="required" placeholder="가입하신 이메일 주소">
+							<button type="button" id="btnCerti" style="width:95px; background-color: black; height: 38px; color: white; border-radius: 5px;" 
+							class="loginsub">인증번호 요청</button>
+						</div>
+						
+						<div id="mailNumber" style="display: none;">
+                       		<input type="text" id="certiCode" class="logininput" required="required" placeholder="인증번호 입력">
+                       	</div>
 							
 						<!-- 아이디 및 비밀번호가 틀렸을 경우 에러메세지 출력 -->
-						<div th:if="${findIdPwError}">
+						<!-- <div th:if="${findIdPwError}">
                            	<font style="color: red; font-size: 10pt;" th:text="${findIdPwError}"></font>
+                       	</div> -->
+                       	<div id="findIdPwError" style="color: red; font-size: 10pt; display: none;">
+                       		입력정보와 일치하는 회원 정보가 없습니다.
                        	</div>
-					</div>
-				</td>
-			</tr>
-			
-			<tr>
-				<td>
-					<div id="certification">
-						
+                       	 
 					</div>
 				</td>
 			</tr>
 
 			<tr>
 				<td>
-					<button type="submit" id="btnFindLoginId" class="ajaxbtn">다음</button>
+					<button type="button" id="btnFindLoginId">다음</button>
 				</td>
 			</tr>
 

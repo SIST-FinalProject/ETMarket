@@ -19,30 +19,41 @@ public class LoginService {
 	UserDao userDao;
 	
 	// 로그인
-	public Optional<UserDto> login(UserDto userDto) {
+	public UserDto login(UserDto userDto) {
 		// user에서 userLoginId 값 가져옴
-		Optional<UserDto> findUser = userDao.findByUser(userDto.getUserLoginId());
+		User findUser = userDao.findByUserLoginId(userDto.getUserLoginId());
 		
 		// 아이디가 존재하는지 확인하고, 비밀번호가 일치하는지 확인
-		if (findUser.isPresent() && findUser.get().getUserPassword().equals(userDto.getUserPassword())) {
+		if (findUser!=null && findUser.getUserPassword().equals(userDto.getUserPassword())) {
 			//System.out.println("LoginService에서 유저정보 출력:"+findUser);
-			return findUser;
+			return UserDto.fromEntity(findUser);
 		}
 
-        return Optional.empty();
+        return null;
     }
 	
 	// 아이디 찾기
-	public Optional<UserDto> findLoginId(String userEmail, String userPhone){
-		User findLoginId = userDao.findByUserEmailAndUserPhone();
+	public UserDto findLoginId(String userEmail, String userPhone){
+		User findLoginId = userDao.findByUserPhoneAndUserEmail(userPhone, userEmail);
 		
-		// 0620 1744 jpa 작업중
-		if(findLoginId.isPresent()) {
-			System.out.println("로그인 아이디 서비스에서 출력:"+findLoginId);			
-			return findLoginId;
-		}		
-		
-		return Optional.empty();
+		if(findLoginId!=null) {
+			//System.out.println("로그인 아이디 서비스에서 출력:"+findLoginId);			
+			return UserDto.fromEntity(findLoginId);
+		}			
+		return null;
 	}
+	
+	// 비밀번호 찾기
+	public UserDto findPassword(String userLoginId, String userPhone) {
+		User findPassword=userDao.findByUserLoginIdAndUserEmail(userLoginId, userPhone);
+		
+		if(findPassword!=null) {
+			System.out.println("service 출력 - "+findPassword);
+			return UserDto.fromEntity(findPassword);
+		}	
+		return null;
+	}
+	
+	//
 
 }
