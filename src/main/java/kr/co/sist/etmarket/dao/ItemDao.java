@@ -1,4 +1,7 @@
 package kr.co.sist.etmarket.dao;
 
-public class ItemDao {
+import kr.co.sist.etmarket.entity.Item;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ItemDao extends JpaRepository<Item, Long> {
 }

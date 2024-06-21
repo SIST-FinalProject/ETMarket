@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class ItemTag {
 
     @Id
@@ -18,6 +19,6 @@ public class ItemTag {
     @JoinColumn(name = "item_id")
     private Item item;
 
-    private String tag;
+    private String itemTag;
 
 }

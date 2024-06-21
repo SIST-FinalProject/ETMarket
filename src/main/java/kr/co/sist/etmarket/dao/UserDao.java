@@ -14,5 +14,4 @@ public interface UserDao extends JpaRepository<User, Long> {
 	@Query("SELECT new kr.co.sist.etmarket.dto.UserDto(u.userLoginId, u.userPassword, u.userId, u.userName) FROM User u WHERE u.userLoginId = :userLoginId")
 	Optional<UserDto> findByUserLoginId(@Param("userLoginId") String userLoginId);
 
-
 }
