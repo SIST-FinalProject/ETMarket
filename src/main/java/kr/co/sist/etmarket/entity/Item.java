@@ -4,7 +4,6 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 
 import kr.co.sist.etmarket.etenum.*;
@@ -16,6 +15,7 @@ import org.hibernate.annotations.CreationTimestamp;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Item {
 
     @Id
@@ -28,12 +28,9 @@ public class Item {
 
     @Column(updatable = false)
     @CreationTimestamp
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private Timestamp itemResistDate;
 
-    @Column(name = "item_update_date")
     @CreationTimestamp
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private Timestamp itemUpdateDate;
 
     private String itemTitle;
@@ -70,6 +67,8 @@ public class Item {
     @Column(name = "item_category_name")
     private CategoryName categoryName;
 
+    private int itemCount;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "item_hidden")
     private ItemHidden itemHidden;
@@ -85,4 +84,5 @@ public class Item {
 
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ItemLike> itemLikes = new ArrayList<>();
+
 }

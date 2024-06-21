@@ -12,6 +12,7 @@ import java.sql.Timestamp;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class ItemImg {
 
     @Id
@@ -24,11 +25,11 @@ public class ItemImg {
 
     private String itemImg;
 
-    @Column(name = "resist_date", updatable = false)
+    @Column(updatable = false)
     @CreationTimestamp
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private Timestamp resistDate;
 
+    @CreationTimestamp
     private Timestamp updateDate;
 
 }
