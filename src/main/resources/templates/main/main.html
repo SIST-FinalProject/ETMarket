@@ -7,7 +7,7 @@
     <link rel="stylesheet" type="text/css" href="/css/styles.css">
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
     <script src="/js/menu.js"></script>
-    <script type="text/javascript" th:src="@{/js/user_search.js}"></script>
+    <script src="/js/user_search.js"></script>
     <title>Title</title>
     <link rel="icon" href="image/favicon.ico" type="image/x-icon">
 </head>
@@ -18,9 +18,11 @@
 
 <div>
     <h1>테스트</h1>
+    <div id="items-list">Hiiiiii</div>
 </div>
 
 <div th:replace="~{fragments/footer :: company}">기업설명부분</div>
 
+<script src="/js/user_search.js"></script>
 </body>
 </html>

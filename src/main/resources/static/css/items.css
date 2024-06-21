@@ -1,0 +1,22 @@
+*, ::before, ::after {
+    box-sizing: border-box;
+}
+.flcKpM {
+    display: flex;
+    -webkit-box-pack: center;
+    justify-content: center;
+    padding-top: 30px;
+}
+.cqcQcL {
+    width: 1024px;
+}
+.jOfwav {
+     width: 1023px;
+     margin-bottom: 1px;
+     box-shadow: rgb(238, 238, 238) 0px 1px 0px 0px;
+}
+.inline-items i,
+.inline-items div {
+    display: inline-block;
+    vertical-align: middle; /* 수직 정렬을 맞추기 위해 사용 */
+}

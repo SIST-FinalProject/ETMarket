@@ -4,13 +4,15 @@ $(document).ready(function() {
     // 페이지 로드 시 바로 호출
     init();
 
+    $('#items-list').hide();
+
     // 회원 검색 기록
     function init(){
         let userId = 1;
 
         $.ajax({
             url: 'search/init?userId='+userId,
-            type: 'GET',
+            type: 'POST',
             contentType: 'application/json',
             success: function (response) {
                 console.log("Initial search content:", response);
@@ -24,20 +26,42 @@ $(document).ready(function() {
         })
     }
 
-    // 검색 후 해당 상품 리스트 출력
+    // 검색 후......
     function search() {
         let query = $('#searchInput').val();
         if (query) {
             // 여기에 검색 로직을 추가하세요.
             insertContent(query);
             console.log("Query inserted, now fetching items...");
-            // 이후 상품 출력하기
-            location.href = "list/items?content="+query;
+            searchResult();
 
         } else {
             alert('Please enter a search term.');
         }
     }
+
+    // 검색 후 상품 리스트 가져옴
+    function searchResult() {
+        let content = $('#searchInput').val(); // content 값을 입력 필드에서 가져옴
+        $.ajax({
+            url: 'search/items',
+            type: 'GET',
+            contentType: 'application/json',
+            dataType: 'json',
+            data: {"content": content},
+            success: function (response){
+                // $('#items-list').empty();
+                console.log("Content items:", response);
+                alert("Content items fetched successfully");
+                // response 데이터 사용 로직 추가
+                $('#items-list').show();
+            },
+            error: function (xhr, status, error) {
+                console.error("Error occurred while fetching items: ", status, error);
+            }
+        });
+    }
+
 
     // 검색 데이터 insert
     function insertContent(content){
@@ -86,32 +110,33 @@ $(document).ready(function() {
         search();
     });
 
+    // 검색 데이터 클릭 이벤트
+    window.getContent = function(contentBtn){
+        let content = $(contentBtn).text();
+        console.log("검색 목록 content : " + content);
+        searchResult(content); // AJAX 요청으로 검색 결과를 가져옵니다.
+    }
+
+    // 검색 데이터 delete
+    window.deleteContent = function(btn){
+        let content = $(btn).val();
+        $.ajax({
+            url: 'search/delete',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({"content": content}),
+            success: function (response){
+                console.log("Content Delete success");
+                location.reload(true);
+            },
+            error: function (xhr, status, error) {
+                console.error("Error deleting content:", error);
+                console.error("Status:", status);
+                console.error("XHR response text:", xhr.responseText);
+            }
+        })
+    }
 
 });
-// 검색 데이터 클릭 이벤트
-function getContent(contentBtn){
-    let content = $(contentBtn).text();
-    console.log("검색 목록 content : "+content);
-    location.href = "list/items?content="+content;
-}
 
-// 검색 데이터 delete
-function deleteContent(btn){
-    let content = $(btn).val();
-    $.ajax({
-        url: 'search/delete',
-        type: 'POST',
-        contentType: 'application/json',
-        data: JSON.stringify({"content": content}),
-        success: function (response){
-            console.log("Content Delete success");
-            location.reload(true);
-        },
-        error: function (xhr, status, error) {
-            console.error("Error deleting content:", error);
-            console.error("Status:", status);
-            console.error("XHR response text:", xhr.responseText);
-        }
-    })
-}
 

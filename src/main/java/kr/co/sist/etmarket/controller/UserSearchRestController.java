@@ -9,27 +9,33 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
-@RequestMapping("/search")
 public class UserSearchRestController {
 
     @Autowired
     private UserSearchService userSearchService;
 
-    @PostMapping("/insert")
+    @PostMapping("/search/insert")
     public void insertContent(@RequestBody UserSearchDto userSearchDto) {
         System.out.println("userSearchDto = " + userSearchDto);
         userSearchService.insertContent(userSearchDto);
     }
 
-    @PostMapping("/delete")
+    @GetMapping("/search/items")
+    public List<ItemDto> findItemsByContentAndItemTitle(@RequestParam String content) {
+        return userSearchService.getItemTitle(content);
+    }
+
+
+    @PostMapping("/search/delete")
     public void deleteContent(@RequestBody UserSearchDto userSearchDto) {
         System.out.println("userSearchDto = " + userSearchDto);
         userSearchService.deleteContent(userSearchDto.getContent());
     }
 
-    @GetMapping("/init")
+    @PostMapping("/search/init")
     public List<UserSearchDto> getTop8SearchContent(@RequestParam Long userId) {
         try {
             UserSearchDto userSearchDto = new UserSearchDto();

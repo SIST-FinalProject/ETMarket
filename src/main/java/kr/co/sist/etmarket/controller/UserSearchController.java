@@ -12,19 +12,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 
 @Controller
-@RequestMapping("/list")
 public class UserSearchController {
 
     @Autowired
     private UserSearchService userSearchService;
 
 
-    @GetMapping("/items")
-    public String findItemsByContentAndItemTitle(@RequestParam String content, Model model) {
-        List<ItemDto> itemDtos = userSearchService.getItemTitle(content);
-        model.addAttribute("items", itemDtos);
-
-        return "main/main";
-    }
+//    @GetMapping("search/items")
+//    public String findItemsByContentAndItemTitle(@RequestParam String content, Model model) {
+////        List<ItemDto> itemDtos = userSearchService.getItemTitle(content);
+////        model.addAttribute("items", itemDtos);
+//
+//        return "main/main";
+//    }
 
 }
