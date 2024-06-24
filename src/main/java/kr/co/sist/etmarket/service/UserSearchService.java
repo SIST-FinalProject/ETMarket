@@ -3,6 +3,7 @@ package kr.co.sist.etmarket.service;
 import kr.co.sist.etmarket.dto.ItemDto;
 import kr.co.sist.etmarket.dao.UserDao;
 import kr.co.sist.etmarket.dao.UserSearchDao;
+import kr.co.sist.etmarket.dto.UserDto;
 import kr.co.sist.etmarket.dto.UserSearchDto;
 import kr.co.sist.etmarket.entity.User;
 import kr.co.sist.etmarket.entity.UserSearch;
@@ -16,6 +17,7 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -30,14 +32,24 @@ public class UserSearchService {
 
     // UserSearch insert
     public void insertContent(UserSearchDto userSearchDto) {
-        UserSearch userSearch = userSearchDao.findByContent(userSearchDto.getContent()).get(0);
-        User user = userDao.findById(userSearchDto.getUserId()).get();
-        if (userSearch == null) {
-            userSearch = new UserSearch();
-            userSearch.setContent(userSearchDto.getContent());
-            userSearch.setUser(user);
+        Optional<User> optionalUser = userDao.findById(userSearchDto.getUserId());
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+
+            List<UserSearch> userSearchList = userSearchDao.findByContent(userSearchDto.getContent());
+            UserSearch userSearch;
+            if (userSearchList.isEmpty()) {
+                userSearch = new UserSearch();
+                userSearch.setUser(user);
+                userSearch.setContent(userSearchDto.getContent());
+            }else {
+                userSearch = userSearchList.get(0);
+            }
+            userSearchDao.save(userSearch);
+        }else {
+            System.out.println("insert 실패");
         }
-        userSearchDao.save(userSearch);
+
     }
 
     // 인기 검색어 8개 출력
@@ -50,7 +62,8 @@ public class UserSearchService {
 
     // 유저에 대한 최근 검색 날짜 desc 8개 출력
     public List<UserSearchDto> getTop8SearchContent(UserSearchDto userSearchDto) {
-        User user = userDao.findById(userSearchDto.getUserId()).get();
+        User user = userDao.findById(userSearchDto.getUserId())
+                .orElseThrow(() -> new NoSuchElementException("User not found")); // orElseThrow : 존재하지 않으면 예외처리
         List<UserSearch> result = userSearchDao.findTop8ByUserOrderByUpdateDateDesc(user);
         return result.stream()
                 .map(userSearch -> new UserSearchDto(userSearchDto.getUserId(), userSearch.getContent(),userSearch.getUpdateDate()))
@@ -58,8 +71,11 @@ public class UserSearchService {
     }
 
     // 최근 검색어를 클릭 시 상단으로 이동시키기 위함
-    public void getUserSearchUpdate(User user, String content) {
-        Optional<UserSearch> existing = userSearchDao.findByUserAndContent(user, content);
+    public void getUserSearchUpdate(UserDto user, String content) {
+        User findUser = userDao.findById(user.getUserId())
+                .orElseThrow(() -> new NoSuchElementException("User not found"));
+        System.out.println("findUser = " + findUser);
+        Optional<UserSearch> existing = userSearchDao.findByUserAndContent(findUser, content);
         if (existing.isPresent()) { // 기존의 UserSearch 객체가 존재하는 경우
             UserSearch userSearch = existing.get(); // 기존 객체를 가져옴
             // resistDate를 현재 시간으로 업데이트
@@ -96,7 +112,7 @@ public class UserSearchService {
 //                    ob[16] != null ? (Integer) ob[16] : 0,
 //                    ob[17] != null ? ((Number) ob[17]).longValue() : 0L
             );
-
+            System.out.println("item = " + item);
             items.add(item);
         }
         return items;
@@ -111,6 +127,16 @@ public class UserSearchService {
         for (UserSearch entity : results) {
             userSearchDao.delete(entity);
         }
+
     }
+
+    public void deleteAll(UserSearchDto userSearchDto){
+        if(userSearchDao.existsById(userSearchDto.getUserId())){
+            userSearchDao.deleteAll();
+        } else {
+            System.out.println("존재하지 않은 id임");
+        }
+    }
+
 
 }

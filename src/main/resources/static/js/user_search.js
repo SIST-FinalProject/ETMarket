@@ -4,7 +4,7 @@ $(document).ready(function() {
     // 페이지 로드 시 바로 호출
     init();
 
-    $('#items-list').hide();
+    $('#items').hide();
 
     // 회원 검색 기록
     function init(){
@@ -33,7 +33,8 @@ $(document).ready(function() {
             // 여기에 검색 로직을 추가하세요.
             insertContent(query);
             console.log("Query inserted, now fetching items...");
-            searchResult();
+            searchUpdate(query);
+            searchResult(query);
 
         } else {
             alert('Please enter a search term.');
@@ -41,8 +42,8 @@ $(document).ready(function() {
     }
 
     // 검색 후 상품 리스트 가져옴
-    function searchResult() {
-        let content = $('#searchInput').val(); // content 값을 입력 필드에서 가져옴
+    function searchResult(content) {
+        alert("content : " + content);
         $.ajax({
             url: 'search/items',
             type: 'GET',
@@ -50,11 +51,52 @@ $(document).ready(function() {
             dataType: 'json',
             data: {"content": content},
             success: function (response){
-                // $('#items-list').empty();
+                // $('#items').empty();
                 console.log("Content items:", response);
                 alert("Content items fetched successfully");
                 // response 데이터 사용 로직 추가
-                $('#items-list').show();
+                $('#items').show();
+                $('.cgZVvY').text(content);
+                $('#searchInput').val(content);
+
+                let str = ""; // HTML 문자열을 저장할 변수
+                // response가 배열인지 확인
+                if (Array.isArray(response)) {
+                    $('.fVRwQs').text(response.length+"개");
+                    // 배열의 각 요소에 접근하여 처리
+                    response.forEach(function(item) {
+                        str += `<div class="sc-exkUMo bjByYJ">
+                        <a class="sc-cooIXK kApwoH"
+                           data-pid="271582489"
+                           href="/item-info">
+                            <div class="sc-fcdeBU eXGCeV">
+                                <img
+                                    alt="상품 이미지" height="194"
+                                    src="https://media.bunjang.co.kr/product/271582489_1_1718166257_w292.jpg" width="194">
+                                <div class="styled__BadgeArea-sc-3zkh6z-0 dwFxLs"></div>
+                                <div class="sc-iGPElx gIoXbd"></div>
+                            </div>
+                            <div class="sc-gmeYpB ehwgvk">
+                                <div class="sc-kZmsYB bwuELN">${item.itemTitle}</div>
+                                <div class="sc-fZwumE jwanRX">
+                                    <div class="sc-RcBXQ knGFtN">${item.itemPrice}</div>
+                                    <div class="sc-fQejPQ iTVnVG"><span>1주 전</span></div>
+                                </div>
+                            </div>
+                            <div class="sc-iSDuPN bvorOe"><i class="bi bi-geo-alt">${item.itemAddress}</i></div>
+                        </a>
+                    </div>`;
+                    });
+
+                    // .bppxQx 클래스인 div 태그 안에 HTML 문자열 삽입
+                    $('.daItnk').append(str);
+                } else {
+                    alert(content+"에 대한 결과값이 없음");
+                }
+
+                init();
+                $('.eLTnVY').hide();
+
             },
             error: function (xhr, status, error) {
                 console.error("Error occurred while fetching items: ", status, error);
@@ -62,6 +104,35 @@ $(document).ready(function() {
         });
     }
 
+    // 검색 시 이미 데이터가 존재한다면 시간만 update
+    function searchUpdate(content) {
+        let data = {
+            userId: 1, // 의미로 설정
+            content: content
+        };
+        alert("content : " + content);
+        $.ajax({
+            url: 'search/update',
+            type: 'POST',
+            contentType: 'application/json',
+            dataType: 'json',
+            data: JSON.stringify(data),
+            success: function (response){
+                // $('#searchInput').val(content);
+
+                if (response.status === "success") {
+                    alert("Content updated successfully");
+                    $('#searchInput').val(response.updatedContent);
+                } else {
+                    alert("Error: " + response.message);
+                }
+
+            },
+            error: function (xhr, status, error) {
+                console.error("Error occurred while fetching items: ", status, error);
+            }
+        });
+    }
 
     // 검색 데이터 insert
     function insertContent(content){
@@ -77,6 +148,22 @@ $(document).ready(function() {
             success: function (response){
                 console.log("Content inserted");
                 // init();
+            }
+        })
+    }
+
+    // 검색 데이터 모두 삭제
+    window.deleteAllContent = function () {
+        let userId = 1;
+
+        $.ajax({
+            url: 'search/deleteall',
+            type: 'POST',
+            contentType: 'application/json',
+            data:  JSON.stringify({"userId":userId}),
+            success: function (response){
+                alert("delete All");
+                init();
             }
         })
     }
@@ -110,11 +197,19 @@ $(document).ready(function() {
         search();
     });
 
+    // 돋보기 클릭 이벤트
+    $('.bprumR').click(function() {
+        console.log("전체 삭제");
+        // search();
+    });
+
     // 검색 데이터 클릭 이벤트
     window.getContent = function(contentBtn){
         let content = $(contentBtn).text();
         console.log("검색 목록 content : " + content);
-        searchResult(content); // AJAX 요청으로 검색 결과를 가져옵니다.
+        searchUpdate(content);
+        searchResult(content); // AJAX 요청으로 검색 결과를 가져옵니다.'
+
     }
 
     // 검색 데이터 delete
