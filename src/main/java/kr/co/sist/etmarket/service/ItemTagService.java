@@ -1,5 +1,6 @@
 package kr.co.sist.etmarket.service;
 
+import jakarta.transaction.Transactional;
 import kr.co.sist.etmarket.dao.ItemTagDao;
 import kr.co.sist.etmarket.dto.ItemTagDto;
 import kr.co.sist.etmarket.entity.Item;
@@ -12,10 +13,11 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class ItemTagService {
     private final ItemTagDao itemTagDao;
 
-    //ItemTag DB insert
+    // ItemTag DB insert
     public void insertItemTag(ItemTagDto itemTagDto, Item item) {
         // 태그 분리
         List<String> itemTagList = Arrays.asList(itemTagDto.getItemTags().split("\\s+"));
@@ -29,4 +31,27 @@ public class ItemTagService {
             itemTagDao.save(itemTag);
         }
     }
+
+    // ItemTag DB getData
+    public String getItemTagsByItemId(Long itemId) {
+        List<ItemTag> itemTagArray = itemTagDao.findByItemItemId(itemId);
+        StringBuilder itemTagsBuilder = new StringBuilder();
+
+        for (ItemTag itemTag : itemTagArray) {
+            itemTagsBuilder.append(itemTag.getItemTag()).append(" ");
+        }
+
+        if (!itemTagsBuilder.isEmpty()) {
+            // 마지막 공백 제거
+            itemTagsBuilder.setLength(itemTagsBuilder.length() - 1);
+        }
+
+        return itemTagsBuilder.toString();
+    }
+
+    // ItemTag DB Delete
+    public void deleteItemTag(Long itemId) {
+        itemTagDao.deleteByItemItemId(itemId);
+    }
+
 }

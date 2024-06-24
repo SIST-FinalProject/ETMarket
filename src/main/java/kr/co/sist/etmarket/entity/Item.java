@@ -9,13 +9,16 @@ import jakarta.persistence.*;
 import kr.co.sist.etmarket.etenum.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
+@Builder(toBuilder = true)
+@Getter
 public class Item {
 
     @Id
@@ -30,7 +33,7 @@ public class Item {
     @CreationTimestamp
     private Timestamp itemResistDate;
 
-    @CreationTimestamp
+    @UpdateTimestamp
     private Timestamp itemUpdateDate;
 
     private String itemTitle;

@@ -3,12 +3,14 @@ package kr.co.sist.etmarket.entity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Getter
 public class ItemTag {
 
     @Id

@@ -234,3 +234,102 @@ function previewImages(event) {
             console.error('파일을 읽는 중 오류가 발생했습니다:', error);
         });
 }
+
+////////////////////////////////////////////////////////////////////////////////////
+
+// 카테고리 버튼을 클릭하는 함수
+function clickCategoryButton(categoryName) {
+    // 모든 버튼을 가져옴
+    var buttons = document.querySelectorAll("button.cVEXWs");
+
+    // 각 버튼의 텍스트와 category를 비교하여 일치하면 클릭
+    buttons.forEach(function(button) {
+        if (button.textContent.trim() === categoryName) {
+            button.click();
+        }
+    });
+}
+
+clickCategoryButton(document.getElementById("categoryName").value);
+
+// 상품상태 버튼을 선택하는 함수
+function selectItemStatusButton(itemStatus) {
+    // 모든 라디오 버튼을 가져옴
+    var radios = document.querySelectorAll("input[name='itemStatusSelector']");
+
+    // 각 라디오 버튼의 value와 itemStatus를 비교하여 일치하면 선택
+    radios.forEach(function(radio) {
+        if (radio.value === itemStatus) {
+            radio.click();
+        }
+    });
+}
+
+selectItemStatusButton(document.getElementById("itemStatus").value);
+
+// 배송비포함여부 버튼을 선택하는 함수
+function selectDeliveryStatusButton(deliveryStatus) {
+    // 모든 라디오 버튼을 가져옴
+    var radios = document.querySelectorAll("input[name='deliveryStatusSelector']");
+    var itemDeliveryPriceText = document.getElementById("itemDeliveryPriceText").value;
+
+    // 각 라디오 버튼의 value와 itemStatus를 비교하여 일치하면 선택
+    radios.forEach(function(radio) {
+        if (radio.value === deliveryStatus) {
+            radio.click();
+            document.getElementById("itemDeliveryPriceText").value = itemDeliveryPriceText;
+        }
+    });
+}
+
+selectDeliveryStatusButton(document.getElementById("deliveryStatus").value);
+
+// 직거래여부 버튼을 선택하는 함수
+function selectDealHowButton(dealHow) {
+    // 모든 라디오 버튼을 가져옴
+    var radios = document.querySelectorAll("input[name='dealHowSelector']");
+
+    // 각 라디오 버튼의 value와 itemStatus를 비교하여 일치하면 선택
+    radios.forEach(function(radio) {
+        if (radio.value === dealHow) {
+            radio.click();
+        }
+    });
+}
+
+selectDealHowButton(document.getElementById("dealHow").value);
+
+// 이미지 미리보기 제거 함수
+function removeImage(event, index) {
+    const liToRemove = document.querySelectorAll('.eYzyqx')[index];
+    const button = event.target;
+    const imgId = button.value;
+    let deleteItemIds = document.querySelector("input[name=itemDeleteImgIds]").value;
+    let count = document.querySelector("input[name=itemImgUploadCount]").value;
+
+    if (count == 1) {
+        alert("최소 1개의 이미지가 필요합니다.");
+    } else {
+        liToRemove.remove();
+
+        deleteItemIds = deleteItemIds + " " + imgId;
+         deleteItemIds = deleteItemIds.trim();
+        document.querySelector("input[name=itemDeleteImgIds]").value = deleteItemIds;
+
+        count--;
+        document.querySelector("input[name=itemImgUploadCount]").value = count;
+
+        // li 제거 후 나머지 요소들의 인덱스를 업데이트
+        updateRemoveImageButtons();
+
+        document.querySelector('div.imMXYo').style.display = 'flex';
+    }
+}
+
+// 이미지 미리보기 제거후 인덱스를 다시 할당하는 함수
+function updateRemoveImageButtons() {
+    const buttons = document.querySelectorAll('.cRcpOX');
+    buttons.forEach((button, index) => {
+        button.setAttribute('onclick', 'removeImage(event, ' + index + ')');
+    });
+}
