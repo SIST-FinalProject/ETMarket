@@ -1,13 +1,12 @@
 package kr.co.sist.etmarket.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter @Setter
 public class ItemTag {
 
     @Id
@@ -18,6 +17,6 @@ public class ItemTag {
     @JoinColumn(name = "item_id")
     private Item item;
 
-    private String tag;
+    private String itemTag;
 
 }

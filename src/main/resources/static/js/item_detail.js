@@ -133,6 +133,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const wishedHeartImg = '/image/wished_icon.png';
         const unwishedHeartImg = '/image/unwished_icon.png';
 
+
         //if 찜x 상태면 찜db추가, 하트 이미지 변경, 배경색 변경
 
         // //else(찜 상태)면 찜db제거, 하트 이미지 변경, 배경색 변경

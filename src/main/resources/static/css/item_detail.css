@@ -636,6 +636,8 @@ a {
     width: 100%;
     height: 100%;
     position: relative;
+    overflow: hidden;
+
 }
 .product-image {
     width: 100%;
@@ -643,6 +645,8 @@ a {
     opacity: 0;
     transition: opacity 0.2s ease-in-out 0s;
     object-fit: cover;
+    min-width: 100%;
+    min-height: 100%;
 }
 .product-image-temp {
     width: 100%;
@@ -760,7 +764,7 @@ a {
 .modal-content-wrapper {
     position: relative;
     width: 1426px;
-    height: 733px;
+    height: 810px;
     margin: auto;
 }
 .modal-content {
@@ -791,7 +795,7 @@ a {
 .modal-image-box {
     position: absolute;
     width: 1426px;
-    height: 733px;
+    height: 685px;
     display: flex;
     justify-content: center;
     align-items: center;

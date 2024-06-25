@@ -8,14 +8,13 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 
 import kr.co.sist.etmarket.etenum.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter @Setter
 public class Item {
 
     @Id

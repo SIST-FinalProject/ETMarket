@@ -32,8 +32,8 @@
                 <img src="/image/category_select_icon.png" width="6" height="10" alt="카테고리 선택 아이콘">
                 <div class="category-container">
                     <div class="category-box">
-                        <div class="selected-category" th:inline="text">
-                            [[${categoryName}]]
+                        <div class="selected-category">
+                            생활/주방
                             <img src="/image/category_dropdown.png" width="10" height="6" alt="카테고리 화살표">
                         </div>
                         <div class="category-list">
@@ -56,7 +56,9 @@
             <div class="product-image-wrapper">
                 <div class="product-image-box">
                     <div class="product-image-list">
-                        <img th:each="imgSrc : ${itemDetailDto.getItemImgDtoList()}" th:src="${imgSrc.getItemImgUrl()}" alt="" class="product-image">
+                        <img src="/image/tempimage.png" alt="" class="product-image">
+                        <img src="/image/tempimage.png" alt="" class="product-image">
+                        <img src="/image/logo_up.png" alt="" class="product-image">
                     </div>
                     <div class="product-image-temp"></div>
                     <button direction="prev" class="prev-button">
@@ -77,7 +79,7 @@
                         <button class="exit-modal">&times;</button>
                         <div class="modal-content-wrapper">
                             <div class="modal-content">
-                                <div class="modal-header" th:text="${itemDetailDto.getItemTitle()}">item title</div>
+                                <div class="modal-header">미즈노 모렐리아 네오3 베타 인 제펜(280)</div>
                                 <div class="modal-body">
                                     <div class="modal-image-box">
                                         <img src="" alt="" class="modal-image">
@@ -94,26 +96,24 @@
             <div class="product-details">
                 <div class="tsc">
                     <div class="title-container">
-                        <h1 class="product-title" th:text="${itemDetailDto.getItemTitle()}">item title</h1>
-                        <div class="product-price" th:inline="text">
-                            [[${itemDetailDto.getItemPrice()}]]<span>원</span>
-                        </div>
+                        <h1 class="product-title">미즈노 모렐리아 네오3 베타 인 제펜(280)</h1>
+                        <div class="product-price">270,000<span>원</span></div>
                     </div>
                     <div class="sub-info">
                         <div class="box-container">
                             <div class="wish-box">
                                 <img src="/image/wish_icon.png" width="16" height="16" alt="상품 상태 아이콘">
-                                <div class="wish-count" th:text="${itemDetailDto.getWishCount()}">wishcount</div>
+                                <div class="wish-count">5</div>
                                 <span class="span-border"></span>
                             </div>
                             <div class="count-box">
                                 <img src="/image/count_icon.png" width="21" height="13" alt="상품 상태 아이콘">
-                                <div class="view-count" th:text="${itemDetailDto.getViewCount()}">viewcount</div>
+                                <div class="view-count">76</div>
                                 <span class="span-border"></span>
                             </div>
                             <div class="postdate-box">
                                 <img src="/image/update_icon.png" width="16" height="16" alt="상품 상태 아이콘">
-                                <div class="post-date" th:text="${updateTime}">updatetime</div>
+                                <div class="post-date">4일 전</div>
                             </div>
                         </div>
                         <button class="report-box">
@@ -127,8 +127,8 @@
                                 <span>•</span>
                                 <span>상품상태</span>
                             </div>
-                            <div class="item-status" th:text="${itemStatus}">
-                                itemstatus
+                            <div class="item-status">
+                                새 상품
                             </div>
                         </div>
                         <div class="delivery-fee-box">
@@ -136,11 +136,8 @@
                                 <span>•</span>
                                 <span>배송비</span>
                             </div>
-                            <div class="delivery-fee" th:if="${itemDetailDto.getItemDeliveryPrice() == 0}">
+                            <div class="delivery-fee">
                                 무료배송
-                            </div>
-                            <div class="delivery-fee" th:unless="${itemDetailDto.getItemDeliveryPrice() == 0 }" th:text="${itemDetailDto.getItemDeliveryPrice()} + '원'">
-
                             </div>
                         </div>
                         <div class="location-box">
@@ -148,8 +145,8 @@
                                 <span>•</span>
                                 <span>직거래지역</span>
                             </div>
-                            <div class="location-info" th:text="${itemDetailDto.getItemAddress()}">
-                                itemaddress
+                            <div class="location-info">
+                                서울특별시 노원구 상계6.7동
                             </div>
                         </div>
                     </div>
@@ -159,8 +156,7 @@
                         <button class="like">
                             <img src="/image/unwished_icon.png" width="16" height="16" alt="상품 상태 아이콘">
                             <span>찜</span>
-                            <span th:if="${itemDetailDto.getWishCount() == 0}">0</span>
-                            <span th:unless="${itemDetailDto.getWishCount() == 0}" th:text="${itemDetailDto.getWishCount()}">wishcount</span>
+                            <span>2</span>
                         </button>
                     </div>
                     <button class="chat">
@@ -177,28 +173,31 @@
                         <div class="info-menu-title">상품정보</div>
                         <div class="item-description">
                             <div class="description-content">
-                                <p style="width: 663px;" th:text="${itemDetailDto.getItemContent()}">itemdescription
+                                <p style="width: 663px;">미즈노 모렐리아 네오3 베타 인 제팬 축구화 새 제품 판매합니다! 한번도 신은적 없고 풀박에 축구화쌕도 있고 그냥 새제품입니다! 사이즈는 280이구요 정가 가격은 339,000원인데 270,000원에 판매합니다!! 다른분이 체가기 전에 얼른 사가세요!! 직거래도 가능합니다! 고민은 상품을 놓칠뿐….
                                 </p>
                             </div>
                             <div class="item-detail-info">
                                 <div class="info-card">
                                     <div class="item-info-title"><img src="/image/report_icon.png" width="16" height="18" alt="직거래 아이콘">직거래지역</div>
                                     <div class="item-info-value">
-                                        <div><span th:text="${itemDetailDto.getItemAddress()}">address</span></div>
+                                        <div><span>서울특별시 서대문구 연희동</span></div>
                                     </div>
                                 </div>
                                 <div class="info-card">
                                     <div class="item-info-title"><img src="/image/report_icon.png" width="16" height="18" alt="카테고리 아이콘">카테고리</div>
                                     <div class="item-info-value">
                                         <div class="category-info">
-                                            <a href="#" th:text="${categoryName}">categoryName</a>
+                                            <a href="#">신발</a>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="info-card">
                                     <div class="item-info-title"><img src="/image/report_icon.png" width="15" height="18" alt="상품태그 아이콘">상품태그</div>
                                     <div class="item-info-value">
-                                        <a class="item-tag-link" th:each="tag : ${itemDetailDto.getDetailTagDtoList()}" th:text="'#'+${tag.getTagName()}"></a>
+                                        <a class="item-tag-link">#축구화</a>
+                                        <a class="item-tag-link">#축구화280</a>
+                                        <a class="item-tag-link">#미즈노축구화</a>
+                                        <a class="item-tag-link">#미즈노모렐리아네오</a>
                                     </div>
 
                                 </div>
@@ -206,17 +205,29 @@
                         </div>
                     </div>
                     <div class="similar-item-container">
-                        <h3>비슷한 상품 보기</h3>
+                        <h3>비슷한 새 상품 보기</h3>
                         <ul class="similar-item-ul">
-                            <li class="similar-item" th:each="similarItem : ${similarItemList}">
-                                <a th:href="@{/items/{itemId}(itemId=${similarItem.getItemId()})}" class="similar-item-link">
-                                    <img th:src="${similarItem.getImgUrl()}" alt="" class="similar-item-img">
+                            <li class="similar-item">
+                                <a href="#" class="similar-item-link">
+                                    <img src="/image/logo_up.png" alt="" class="similar-item-img">
                                     <div class="similar-item-info">
-                                        <span class="similar-item-price" th:text="${similarItem.getItemPrice()} + '원'">price</span>
-                                        <span class="similar-item-name" th:text="${similarItem.getItemTitle()}" >itemTitle</span>
-                                        <span class="similar-item-seller" th:text="${similarItem.getSellerName()}">sellername</span>
+                                        <span class="similar-item-price">57,800원</span>
+                                        <span class="similar-item-name">미즈노 풋살화 모렐리아 살라 Q1GB230383</span>
+                                        <span class="similar-item-seller">그뭐였지</span>
                                     </div>
                                 </a>
+
+                            </li>
+                            <li class="similar-item">
+                                <a href="#" class="similar-item-link">
+                                    <img src="/image/logo_up.png" alt="" class="similar-item-img">
+                                    <div class="similar-item-info">
+                                        <span class="similar-item-price">52,500원</span>
+                                        <span class="similar-item-name">[미즈노] 미즈노 풋살화 모렐리아 살라 클럽 TF 블랙골드 Q1GB230382</span>
+                                        <span class="similar-item-seller">상점608514612_1호</span>
+                                    </div>
+                                </a>
+
                             </li>
                         </ul>
                     </div>
