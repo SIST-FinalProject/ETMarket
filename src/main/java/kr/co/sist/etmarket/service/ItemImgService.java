@@ -72,7 +72,7 @@ public class ItemImgService {
 
     // ItemImg DB Update
     public void updateItemImg(ArrayList<MultipartFile> itemImgUpload,ItemImgDto itemImgDto , int itemImgCount, Item item) {
-        if (itemImgUpload.get(0).getSize() > 0) {
+        if (itemImgUpload.isEmpty() || itemImgUpload.get(0).getSize() > 0) {
             List<ItemImgDto> itemImgDtos = getItemImgDataByItemId(item.getItemId());
 
             for (ItemImgDto itemImgDto2 : itemImgDtos) {

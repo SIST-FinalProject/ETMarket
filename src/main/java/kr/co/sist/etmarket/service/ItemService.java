@@ -41,7 +41,7 @@ public class ItemService {
         } else {
             itemDto.setItemAddress(itemDto.getRoadAddress() + " (" + itemDto.getDetailAddress() + ")");
         }
-        itemDto.setDealStatus(DealStatus.예약중);
+        itemDto.setDealStatus(DealStatus.판매중);
         itemDto.setItemDeliveryPrice(Integer.parseInt(itemDto.getItemDeliveryPriceText().replace(",","")));
         if (itemDto.isPriceStatusCheck()) {
             itemDto.setPriceStatus(PriceStatus.가능);
