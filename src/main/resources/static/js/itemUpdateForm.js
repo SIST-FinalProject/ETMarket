@@ -175,6 +175,8 @@ function previewImages(event) {
         item.remove(); // 요소를 제거하거나 다른 초기화 작업을 수행할 수 있습니다.
     });
 
+    document.querySelector("input[name='itemDeleteImgIds']").value = "";
+
     const files = event.target.files;
 
     // 파일을 읽고 결과를 반환하는 Promise를 생성합니다.
@@ -234,8 +236,6 @@ function previewImages(event) {
             console.error('파일을 읽는 중 오류가 발생했습니다:', error);
         });
 }
-
-////////////////////////////////////////////////////////////////////////////////////
 
 // 카테고리 버튼을 클릭하는 함수
 function clickCategoryButton(categoryName) {

@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -42,7 +43,7 @@ public class ItemImgService {
         }
     }
 
-    // ItemImg DB getData
+    // ItemImg DB getData(itemId)
     public List<ItemImgDto> getItemImgDataByItemId(Long itemId) {
         List<ItemImg> itemImgs = itemImgDao.findByItemItemId(itemId);
         List<ItemImgDto> itemImgDtos = new ArrayList<>();
@@ -56,5 +57,52 @@ public class ItemImgService {
         }
 
         return itemImgDtos;
+    }
+
+    // ItemImg DB getData(itemImgId)
+    public ItemImgDto getItemImgDataByItemImgId(Long itemImgId) {
+        ItemImg itemImg = itemImgDao.findByItemImgId(itemImgId);
+
+        ItemImgDto itemImgDto = new ItemImgDto();
+        itemImgDto.setItemImgId(itemImg.getItemImgId());
+        itemImgDto.setItemImg(itemImg.getItemImg());
+
+        return itemImgDto;
+    }
+
+    // ItemImg DB Update
+    public void updateItemImg(ArrayList<MultipartFile> itemImgUpload,ItemImgDto itemImgDto , int itemImgCount, Item item) {
+        if (itemImgUpload.get(0).getSize() > 0) {
+            List<ItemImgDto> itemImgDtos = getItemImgDataByItemId(item.getItemId());
+
+            for (ItemImgDto itemImgDto2 : itemImgDtos) {
+                s3Uploader.deleteFile(getPath(itemImgDto2.getItemImg()));
+                itemImgDao.deleteByItemImgId(itemImgDto2.getItemImgId());
+            }
+
+            insertItemImg(itemImgUpload, item);
+
+        } else if (itemImgDto.getItemImgUploadCount() != itemImgCount) {
+            List<String> itemDeleteImgIdList = Arrays.asList(itemImgDto.getItemDeleteImgIds().split("\\s+"));
+
+            for (String itemDeleteImgId : itemDeleteImgIdList) {
+                Long imgId = Long.parseLong(itemDeleteImgId);
+
+                ItemImgDto itemImgDto2 = getItemImgDataByItemImgId(imgId);
+
+                s3Uploader.deleteFile(getPath(itemImgDto2.getItemImg()));
+
+                itemImgDao.deleteByItemImgId(imgId);
+            }
+        }
+    }
+
+    // delete를 위한 이미지명 변환
+    public String getPath(String itemImgName) {
+        String target = "itemImg/";
+        int index = itemImgName.indexOf(target);
+
+        return itemImgName.substring(index);
+
     }
 }

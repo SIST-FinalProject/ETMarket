@@ -15,4 +15,6 @@ public class ItemImgDto {
     private String itemImg;
 
     private String itemDeleteImgIds;
+
+    private int itemImgUploadCount;
 }

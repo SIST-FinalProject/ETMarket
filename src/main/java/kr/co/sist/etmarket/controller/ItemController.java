@@ -7,6 +7,7 @@ import kr.co.sist.etmarket.entity.Item;
 import kr.co.sist.etmarket.service.ItemImgService;
 import kr.co.sist.etmarket.service.ItemService;
 import kr.co.sist.etmarket.service.ItemTagService;
+import kr.co.sist.etmarket.service.S3Uploader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -72,6 +74,9 @@ public class ItemController {
 
             itemTagService.insertItemTag(itemTagDto, item);
         }
+
+        int itemImgCount = itemImgService.getItemImgDataByItemId(itemDto.getItemId()).size();
+        itemImgService.updateItemImg(itemImgUpload, itemImgDto, itemImgCount, item);
 
         return "redirect:insertForm";
     }
