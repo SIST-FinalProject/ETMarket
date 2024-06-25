@@ -21,6 +21,7 @@ public class ItemTagService {
     public void insertItemTag(ItemTagDto itemTagDto, Item item) {
         // 태그 분리
         List<String> itemTagList = Arrays.asList(itemTagDto.getItemTags().split("\\s+"));
+        itemTagList.removeIf(String::isEmpty);
 
         for(String tag:itemTagList) {
             ItemTag itemTag = ItemTag.builder()
