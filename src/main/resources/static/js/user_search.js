@@ -88,8 +88,8 @@ $(document).ready(function() {
                     </div>`;
                     });
 
-                    // .bppxQx 클래스인 div 태그 안에 HTML 문자열 삽입
-                    $('.daItnk').append(str);
+                    $('.daItnk').empty(); // 비우고
+                    $('.daItnk').append(str); // .bppxQx 클래스인 div 태그 안에 HTML 문자열 삽입
                 } else {
                     alert(content+"에 대한 결과값이 없음");
                 }

@@ -4,6 +4,8 @@ package kr.co.sist.etmarket.dao;
 import kr.co.sist.etmarket.entity.Item;
 import kr.co.sist.etmarket.entity.User;
 import kr.co.sist.etmarket.entity.UserSearch;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -11,7 +13,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 import java.util.Optional;
 
-public interface UserSearchDao extends JpaRepository<UserSearch, java.lang.Long> {
+public interface UserSearchDao extends JpaRepository<UserSearch, Long> {
 
     // 유저에 대한 최근 검색 날짜 desc 8개 출력
     List<UserSearch> findTop8ByUserOrderByUpdateDateDesc(User user);

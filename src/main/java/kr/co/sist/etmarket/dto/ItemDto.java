@@ -1,5 +1,6 @@
 package kr.co.sist.etmarket.dto;
 
+import kr.co.sist.etmarket.entity.Item;
 import kr.co.sist.etmarket.etenum.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -80,4 +81,17 @@ public class ItemDto {
         this.deliveryStatus = deliveryStatus;
         this.itemHidden = itemHidden;
     }
+
+    public ItemDto(Item item) {
+        this.itemPrice = item.getItemPrice();
+        this.itemId = item.getItemId();
+        this.itemUpdateDate = item.getItemUpdateDate();
+        this.userId = item.getUser().getUserId();
+        this.itemAddress = item.getItemAddress();
+        this.itemTitle = item.getItemTitle();
+        this.dealStatus = item.getDealStatus();
+        this.deliveryStatus = item.getDeliveryStatus();
+        this.itemHidden = item.getItemHidden();
+    }
+
 }
