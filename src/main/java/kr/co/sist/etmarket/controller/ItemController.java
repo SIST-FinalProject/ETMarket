@@ -29,7 +29,9 @@ public class ItemController {
     private final ItemImgService itemImgService;
 
     @GetMapping("/item/insertForm")
-    public String insertForm(){
+    public String insertForm(@RequestParam Long userId, Model model){
+        model.addAttribute("userId", userId);
+
         return "item/itemInsertForm";
     }
 
@@ -45,11 +47,11 @@ public class ItemController {
 
         itemImgService.insertItemImg(itemImgUpload, item);
 
-        return "redirect:insertForm";
+        return "redirect:/";
     }
 
     @GetMapping("/item/updateForm")
-    public String updateForm(Long userId, Long itemId, Model model) {
+    public String updateForm(@RequestParam Long itemId, Model model) {
         ItemDto itemDto = itemService.getDataItem(itemId);
         List<ItemImgDto> itemImgDtos = itemImgService.getItemImgDataByItemId(itemId);
         String itemTags = itemTagService.getItemTagsByItemId(itemId);
@@ -78,6 +80,6 @@ public class ItemController {
         int itemImgCount = itemImgService.getItemImgDataByItemId(itemDto.getItemId()).size();
         itemImgService.updateItemImg(itemImgUpload, itemImgDto, itemImgCount, item);
 
-        return "redirect:insertForm";
+        return "redirect:/";
     }
 }

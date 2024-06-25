@@ -17,7 +17,7 @@
 
     <div class="hmUNzn">
         <form class="flimjd" id="itemInsertForm" action="insert" method="post" enctype="multipart/form-data">
-            <input type="hidden" name="userId" value="1">
+            <input type="hidden" name="userId" th:value="${userId}">
             <h2 class="fGSdXi">상품정보</h2>
             <ul class="hcyuoc">
                 <li class="iZffvT">
@@ -205,13 +205,10 @@
                 <li class="iZffvT">
                     <div class="kBWTWP">주소</div>
                     <div class="nqDMw">
-                        <input type="text" name="postcode" class="noClickInput" id="sample4_postcode" placeholder="우편번호" requiredInput style="width: 197px; pointer-events: none;">
-                        <input type="button" onclick="sample4_execDaumPostcode()" value="우편번호 찾기" style="width: 150px;"><br>
-                        <input type="text" name="roadAddress" class="feIrCR noClickInput" id="sample4_roadAddress" placeholder="도로명주소">
-                        <input type="text" name="jibunAddress" class="feIrCR noClickInput" id="sample4_jibunAddress" placeholder="지번주소">
-                        <span id="guide" style="color:#999;display:none"></span>
+                        <input type="text" name="roadAddress" class="feIrCR noClickInput" id="sample4_roadAddress" placeholder="도로명주소" requiredInput>
                         <input type="text" name="detailAddress" class="feIrCR" id="sample4_detailAddress" placeholder="상세주소">
-                        <input type="text" name="extraAddress" class="feIrCR noClickInput" id="sample4_extraAddress" placeholder="참고항목">
+                        <input type="button" onclick="sample4_execDaumPostcode()" value="주소검색" style="width: 100px;">
+                        <span id="guide" style="color:#999;display:none"></span>
                         <span class="errorMessage">필수 입력 항목입니다.</span>
                     </div>
                 </li>
