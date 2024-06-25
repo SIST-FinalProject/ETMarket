@@ -39,19 +39,18 @@
 		
 		// 인증번호 요청 버튼 클릭 시
 		$("#btnCerti").click(function(){
-			var userLoginId=$("#userLoginId").val();
-			var userEmail=$("#userEmail").val();
+			userLoginId=$("#userLoginId").val();
+			userEmail=$("#userEmail").val();
 			//alert(userLoginId+", "+userEmail);
 			
 			// 아이디, 이메일 값 전달
 			$.ajax({
 				type:"post",
-				url:"/member/find/certiRequest",
+				url:"/member/find/verifyRequest",
 				dataType:"json",
 				data:{"userLoginId":userLoginId,"userEmail":userEmail},
 				success:function(data){
 					//alert("값 보내짐");
-					
 					
 					if(data==true){					
 						// 인증번호 입력 칸 노출
@@ -69,11 +68,22 @@
 		
 		// 다음 버튼 클릭 시
 		$("#btnFindLoginId").click(function(){
-			var userLoginId=$("#userLoginId").val();
-			var userEmail=$("#userEmail").val();
-			var certiCode=$("#certiCode").val();
 			
-			alert(userLoginId+", "+userEmail+", "+certiCode);
+			var verifyCode=$("#verifyCode").val();
+			
+			//alert(userLoginId+", "+userEmail+", "+verifyCode);
+			
+			// 아이디, 이메일 값 전달
+			$.ajax({
+				type:"post",
+				url:"/member/find/verifyRequest",
+				dataType:"json",
+				data:{"userLoginId":userLoginId,"userEmail":userEmail,"verifyCode":verifyCode},
+				success:function(data){
+					alert("값 보내짐");
+	
+				}		
+			});	
 		});
 		
 	});
@@ -119,7 +129,7 @@
 						</div>
 						
 						<div id="mailNumber" style="display: none;">
-                       		<input type="text" id="certiCode" class="logininput" required="required" placeholder="인증번호 입력">
+                       		<input type="text" id="verifyCode" class="logininput" required="required" placeholder="인증번호 입력">
                        	</div>
 							
 						<!-- 아이디 및 비밀번호가 틀렸을 경우 에러메세지 출력 -->

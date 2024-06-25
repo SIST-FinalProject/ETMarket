@@ -1,22 +1,40 @@
 package kr.co.sist.etmarket.service;
 
-import java.util.Optional;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.time.Duration;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ModelAttribute;
 
 import kr.co.sist.etmarket.dao.UserDao;
 import kr.co.sist.etmarket.dto.UserDto;
 import kr.co.sist.etmarket.entity.User;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class LoginService {
 	
+	private static final String AUTH_CODE_PREFIX = "verifyCode ";
+	
 	@Autowired
 	UserDao userDao;
+	
+	@Autowired
+	MailService mailService;
+	
+	@Autowired
+	RedisService redisService;
+	
+	@Value("${spring.mail.auth-code-expiration-millis}")
+    private long authCodeExpirationMillis;
+	
 	
 	// 로그인
 	public UserDto login(UserDto userDto) {
@@ -44,16 +62,52 @@ public class LoginService {
 	}
 	
 	// 비밀번호 찾기
-	public UserDto findPassword(String userLoginId, String userPhone) {
-		User findPassword=userDao.findByUserLoginIdAndUserEmail(userLoginId, userPhone);
+	public UserDto findPassword(String userLoginId, String userEmail) {
+		User findPassword=userDao.findByUserLoginIdAndUserEmail(userLoginId, userEmail);
 		
 		if(findPassword!=null) {
-			System.out.println("service 출력 - "+findPassword);
+			//System.out.println("LoginService 출력 - "+findPassword);
 			return UserDto.fromEntity(findPassword);
 		}	
 		return null;
 	}
 	
-	//
+	// 인증코드 생성
+//	private String createCode() {
+//		int lenth=6;
+//		try {
+//            Random random = SecureRandom.getInstanceStrong();
+//            StringBuilder builder = new StringBuilder();
+//            for (int i = 0; i < lenth; i++) {
+//                builder.append(random.nextInt(10));
+//            }
+//            return builder.toString();
+//        } catch (NoSuchAlgorithmException e) {
+//            log.debug("MemberService.createCode() exception occur");
+//            throw new BusinessLogicException(ExceptionCode.NO_SUCH_ALGORITHM);
+//        }
+//	}
+	
+	// 인증코드 이메일로 발송 - redis에 인증코드 저장
+	public void sendCodeToEmail(String userEmail) {
+        String title = "Travel with me 이메일 인증 번호";
+        //String verifyCode = this.createCode();
+        Random random=new Random();
+        String verifyCode=String.valueOf(random.nextInt(888888)+111111);
+        
+        mailService.sendEmail(userEmail, title, verifyCode);
+        
+        // 이메일 인증 요청 시 인증 번호 Redis에 저장 ( key = "verifyCode " + Email / value = verifyCode )
+        redisService.setValues(AUTH_CODE_PREFIX + userEmail,
+        		verifyCode, Duration.ofMillis(this.authCodeExpirationMillis));
+    }
+	
+	// 인증코드 검증
+	public boolean verifiedCode(String userEmail, String verifyCode) {
+        String redisAuthCode = redisService.getValues(AUTH_CODE_PREFIX + userEmail);
+        boolean authResult = redisService.checkExistsValue(redisAuthCode) && redisAuthCode.equals(verifyCode);
+
+        return redisAuthCode.equals(verifyCode);
+    }
 
 }

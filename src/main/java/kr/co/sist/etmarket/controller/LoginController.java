@@ -94,7 +94,8 @@ public class LoginController {
 	
 	// 아이디 찾기 처리
 	@PostMapping("/member/find/loginIdProcess")
-	public String findLoginIdProcess(@RequestParam("userEmail") String userEmail, @RequestParam("userPhone") String userPhone,
+	public String findLoginIdProcess(@RequestParam("userEmail") String userEmail, 
+			@RequestParam("userPhone") String userPhone,
 			Model model, HttpSession session) {
 		//System.out.println("이메일: "+userEmail+", 전화번호: "+userPhone);
 		
@@ -121,29 +122,37 @@ public class LoginController {
 		return "login/findPwForm";
 	} 
 	
-	// 비밀번호 찾기 - 아이디&이메일 유무 체크
-	@PostMapping("/member/find/certiRequest")
+	// 비밀번호 찾기 - 아이디&이메일 유무 체크 후 인증번호 보냄
+	@PostMapping("/member/find/verifyRequest")
 	@ResponseBody
-	public Boolean certiRequest(@RequestParam("userLoginId") String userLoginId, @RequestParam("userEmail") String userEmail,
+	public Boolean verifyRequest(@RequestParam("userLoginId") String userLoginId, 
+			@RequestParam("userEmail") String userEmail,
 			Model model, HttpSession session) {
-		System.out.println("controller에서 비밀번호 찾기 유무체크: "+userLoginId+", "+userEmail);
+		//System.out.println("controller에서 비밀번호 찾기 유무체크: "+userLoginId+", "+userEmail);
 		
 		boolean chk=false;
 		
-		UserDto password=loginService.findPassword(userLoginId, userEmail);
-		System.out.println("서비스에서 넘어온 값 출력: " + password);
+		UserDto passwordUser=loginService.findPassword(userLoginId, userEmail);
+		//System.out.println("로그인서비스에서 넘어온 값 출력: " + password);
 		
-		if(password!=null) {
-			System.out.println("true");
+		if(passwordUser!=null) {
+			//System.out.println("true");
 			chk=true;
+			
+			// 인증번호 보냄
+			System.out.println("인증번호 보낸ㅁ");
+			loginService.sendCodeToEmail(userEmail);
+			
 		} else {
-			System.out.println("false");
+			//System.out.println("false");
 			chk=false;
 		}	
 	    return chk; 
 	}
 	
-	// 비밀번호 찾기 - 인증번호
-	
+	// 비밀번호 찾기 - 인증번호 확인
+	//@PostMapping("/member/find/verifyRequest")
+
+
 
 }
