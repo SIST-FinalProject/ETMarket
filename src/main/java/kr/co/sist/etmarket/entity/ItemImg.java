@@ -4,14 +4,17 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Timestamp;
 
 @Entity
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class ItemImg {
 
     @Id
@@ -30,5 +33,4 @@ public class ItemImg {
     private Timestamp resistDate;
 
     private Timestamp updateDate;
-
 }

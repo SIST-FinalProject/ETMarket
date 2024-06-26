@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class ItemLike {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

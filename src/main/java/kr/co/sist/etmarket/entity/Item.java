@@ -10,12 +10,15 @@ import jakarta.persistence.*;
 import kr.co.sist.etmarket.etenum.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
+@Data
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Item {
 
     @Id
