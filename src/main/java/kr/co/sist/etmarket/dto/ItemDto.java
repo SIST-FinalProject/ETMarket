@@ -1,54 +1,60 @@
 package kr.co.sist.etmarket.dto;
 
 import kr.co.sist.etmarket.entity.Item;
+
 import kr.co.sist.etmarket.etenum.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import java.sql.Timestamp;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class ItemDto {
-
-    private int itemDeliveryPrice;
-
-    private int itemPrice;
-
     private Long itemId;
-
-    private Timestamp itemResistDate;
-
-    private Timestamp itemUpdateDate;
 
     private Long userId;
 
-    private String itemAddress;
+    private String itemTitle;
 
     private String itemContent;
 
-    private String itemTitle;
+    private  String itemPriceText;
 
-    private CategoryName categoryName;
+    private int itemPrice;
 
-    private DealHow dealHow;
+    private String roadAddress;
 
-    private DealStatus dealStatus;
+    private String detailAddress;
 
-    private DeliveryStatus deliveryStatus;
-
-    private ItemHidden itemHidden;
+    private String itemAddress;
 
     private ItemStatus itemStatus;
 
+    private DealStatus dealStatus;
+
+    private DealHow dealHow;
+
+    private DeliveryStatus deliveryStatus;
+
+    private  String itemDeliveryPriceText;
+
+    private int itemDeliveryPrice;
+
+    private boolean priceStatusCheck;
+
     private PriceStatus priceStatus;
+
+    private CategoryName categoryName;
+
+    private  String itemCountText;
 
     private int itemCount;
 
-    private Long userSearchId;
-
-
-    public ItemDto(Integer integer, Integer integer1, long l, Timestamp timestamp, Timestamp timestamp1, long l1, String s, String s1, String s2, CategoryName categoryName, DealHow dealHow, DealStatus dealStatus, DeliveryStatus deliveryStatus, ItemHidden itemHidden, ItemStatus itemStatus, PriceStatus priceStatus, Integer integer2, long l2) {
+    private ItemHidden itemHidden;
+  
+  public ItemDto(Integer integer, Integer integer1, long l, Timestamp timestamp, Timestamp timestamp1, long l1, String s, String s1, String s2, CategoryName categoryName, DealHow dealHow, DealStatus dealStatus, DeliveryStatus deliveryStatus, ItemHidden itemHidden, ItemStatus itemStatus, PriceStatus priceStatus, Integer integer2, long l2) {
         itemDeliveryPrice = integer;
         itemPrice = integer1;
         itemId = l;
@@ -92,6 +98,4 @@ public class ItemDto {
         this.dealStatus = item.getDealStatus();
         this.deliveryStatus = item.getDeliveryStatus();
         this.itemHidden = item.getItemHidden();
-    }
-
 }

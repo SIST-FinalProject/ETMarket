@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import kr.co.sist.etmarket.etenum.UserStatus;
 import lombok.*;
+import lombok.Getter;
 import org.hibernate.annotations.CreationTimestamp;
 
 @Entity

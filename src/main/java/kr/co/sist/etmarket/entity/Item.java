@@ -10,14 +10,17 @@ import jakarta.persistence.*;
 
 import kr.co.sist.etmarket.etenum.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder(toBuilder = true)
 @Getter
 public class Item {
 
@@ -35,8 +38,7 @@ public class Item {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private Timestamp itemResistDate;
 
-    @Column(name = "item_update_date")
-    @CreationTimestamp
+    @UpdateTimestamp
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private Timestamp itemUpdateDate;
 
@@ -74,6 +76,8 @@ public class Item {
     @Column(name = "item_category_name")
     private CategoryName categoryName;
 
+    private int itemCount;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "item_hidden")
     private ItemHidden itemHidden;
@@ -82,15 +86,19 @@ public class Item {
     @JoinColumn(name = "user_search_id")
     private UserSearch userSearch;
 
+    @Builder.Default
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ItemTag> itemTags = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ItemImg> itemImgs = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ItemCheck> itemChecks = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ItemLike> itemLikes = new ArrayList<>();
 

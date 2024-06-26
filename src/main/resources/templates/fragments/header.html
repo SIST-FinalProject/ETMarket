@@ -13,8 +13,13 @@
                 <i class="bi bi-star-fill" style="color: rgb(233 180 87);"></i>즐겨찾기
             </button>
         </div>
-        <div>
-            <button class="dDTfxq">로그인</button>
+       
+       <!-- 로그인 시 로그아웃 버튼 출력, 비로그인 시 로그인 버튼 출력 -->
+        <div th:if="${session.loginok == null}">
+            <button class="dDTfxq" onclick="location.href='login'">로그인</button>
+        </div>
+        <div th:if="${session.loginok != null}">
+        	<button class="dDTfxq" onclick="location.href='logout'">로그아웃</button>
         </div>
     </div>
 </div>
@@ -24,7 +29,7 @@
     <div class="ciqSeg">
         <div class="kPWKwK">
             <!--로고-->
-            <a class="bNjUuQ">
+            <a class="bNjUuQ" href="/">
                 <img alt="ET 로고" src="/image/logo_up.png" width="136" height="40">
             </a>
             <!--검색창-->
