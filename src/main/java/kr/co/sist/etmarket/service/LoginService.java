@@ -19,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class LoginService {
 	
-	private static final String AUTH_CODE_PREFIX = "verifyCode ";
+	private static final String AUTH_CODE_PREFIX = "verifyCode_";
 	
 	@Autowired
 	UserDao userDao;

@@ -38,6 +38,7 @@
 <body>
 <div th:replace="fragments/header :: menu1">메뉴1부분</div>
 <div th:replace="fragments/header :: menu2">메뉴2부분</div>
+
 <div align="center" style="margin: 70px 0px 150px 0px;">
 
 	<form action="/member/find/loginIdProcess" method="post">
@@ -54,17 +55,12 @@
 			<tr>
 				<td>
 					<font class="loginsub">아이디</font> <br>
-					<font style="font-size: 13pt;">[[${loginId.userLoginId}]]</font> <br>
+					<div th:text="${userLoginId}"></div>
 					
 				</td>
 			</tr>
 			
-			<tr>
-				<td>
-					<font class="loginsub">가입일</font> <br>
-					<div style="font-size: 13pt;" th:text="${#dates.format(loginId.userCreateDate, 'yyyy-MM-dd')}"/>
-				</td>
-			</tr>
+			
 
 			<tr>
 				<td>

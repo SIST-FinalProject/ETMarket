@@ -40,7 +40,7 @@ public class LoginController {
 		UserDto loginUser=loginService.login(userDto);
 		
 		if (loginUser!=null) {
-			 // 로그인 성공
+			 // 로그인 성공 (세션 생성)
 			UserDto loggedIn = loginUser; // UserDto에(loggedIn) 로그인된 계정 정보 추가
             model.addAttribute("user", loginUser); // userDto 객체를 모델에 추가
             
@@ -142,12 +142,43 @@ public class LoginController {
 	
 	// 비밀번호 찾기 - 인증번호 확인
 	@PostMapping("/member/find/verifyCheck")
-	public ResponseEntity<Boolean> verifyCheck(@RequestParam("userEmail") String userEmail, 
+	public ResponseEntity<Boolean> verifyCheck(@RequestParam("userLoginId") String userLoginId, 
+			@RequestParam("userEmail") String userEmail, 
 			@RequestParam("verifyCode") String verifyCode) {
 		System.out.println("인증번호 확인중 "+loginService.verifiedCode(userEmail, verifyCode));
 		return ResponseEntity.ok().body(loginService.verifiedCode(userEmail, verifyCode));
+		
+		// 0626 1729 아이디or이메일값 비밀번호 재설정 페이지에 넘기기
+		
+//		boolean test=loginService.verifiedCode(userEmail, verifyCode);
+//		
+//		if(loginService.verifiedCode(userEmail, verifyCode) == true ) {
+//			System.out.println("코드 일치");
+//			
+//			model.addAttribute("userLoginId", userLoginId);
+//			model.addAttribute("userEmail", userEmail);
+//			
+//			return "login/findPw_Success";
+//		} else {
+//			System.out.println("코드 불 일 치");
+//			return null;
+//		}	
+//		
+	}
+	
+	// 비밀번호 재설정
+	@GetMapping("/member/find/passwordReset")
+	@ResponseBody
+	public String passwordReset(@RequestParam("userLoginId") String userLoginId, 
+			@RequestParam("userEmail") String userEmail,Model model) {
+		
+		model.addAttribute("userLoginId", userLoginId);
+		model.addAttribute("userEmail", userEmail);
+		
+		return "login/findPw_Success";
 	}
 
+	
 
 
 }
