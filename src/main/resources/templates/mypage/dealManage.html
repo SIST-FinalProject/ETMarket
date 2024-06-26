@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/css/styles.css">
+    <link rel="stylesheet" type="text/css" href="/css/mypage.css">
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <script src="/js/menu.js"></script>
+    <title>상품 관리</title>
+    <link rel="icon" href="/image/favicon.ico" type="image/x-icon">
+</head>
+
+<body>
+<div th:replace="~{fragments/header :: menu1}">메뉴1부분</div>
+<div th:replace="~{fragments/header :: menu2}">메뉴2부분</div>
+
+<div class="sc-dTsoBL qMyCA">
+    <div class="sc-btewqU IQTNO">
+        <nav class="sc-hAnkBK bvTSLH">
+            <div class="sc-bJTOcE bwpcVz">
+                <a class="sc-DNdyV ihLswr" th:href="@{/deal/manage}">상품등록</a>
+            </div>
+            <div class="sc-bJTOcE cxNxJu">
+                <a class="sc-DNdyV ihLswr" th:href="@{/deal/manage}">상품관리</a>
+            </div>
+            <div class="sc-bJTOcE bwpcVz">
+                <a th:href="@{/deal/manage}" target="_blank" rel="noopener noreferrer" class="sc-geAPOV fEXFkE">구매/판매 내역</a>
+            </div>
+        </nav>
+    </div>
+
+    <div class="sc-kWHCRG iWvVoD">
+        <main class="sc-AUpyg iPTxLm">
+            <header class="sc-ijnzTp iWlavc">
+                <form class="sc-fUdGnz fUdmwl" style="margin-right: 1rem;" method="GET" action="/deal/manage">
+                    <input type="text" name="keyword" placeholder="상품명을 입력해주세요." value="" />
+                    <input type="hidden" name="dealStatus" th:value="${dealStatus}" />
+                    <button type="submit" class="sc-dzOgQY bXZIiF"></button>
+                </form>
+                <div class="sc-jOBXIr gbcRtW">
+                    <div class="css-2b097c-container">
+                        <div class="sc-jOVcOr hWDzUk">
+                            <div class="css-1hwfws3">
+                                <div class="css-1uccc91-singleValue">10개씩</div>
+                                <input id="react-select-13-input" readonly tabindex="0" aria-autocomplete="list" class="css-62g3xt-dummyInput" value="">
+                            </div>
+                            <div class="sc-gCwZxT byUzHg"></div>
+                        </div>
+                    </div>
+                </div>
+                <div style="display: flex; align-items: center; margin-left: auto;">
+                    <div id="select-3">
+                        <div id="option-list-3" style="display: flex; column-gap: 24px;">
+                            <a class="item_status"  th:href="@{/deal/manage}">전체</a>
+                            <a class="item_status" th:classappend="${dealStatus == '판매중' ? 'selected' : ''}" th:href="@{/deal/manage(dealStatus='판매중')}">판매중</a>
+                            <a class="item_status" th:classappend="${dealStatus == '예약중' ? 'selected' : ''}" th:href="@{/deal/manage(dealStatus='예약중')}">예약중</a>
+                            <a class="item_status" th:classappend="${dealStatus == '거래완료' ? 'selected' : ''}" th:href="@{/deal/manage(dealStatus='거래완료')}">거래완료</a>
+                        </div>
+                    </div>
+                    <div style="width: 1px; height: 16px; margin-left: 20px; margin-right: 20px; background-color: rgb(204, 204, 204);"></div>
+                    <div id="select-4">
+                        <div id="option-list-4" style="display: flex; align-items: center; column-gap: 24px;">
+                            <a data-selected="false" style="font-weight: 500; line-height: normal; cursor: pointer; color: rgb(127, 127, 127);"
+                               th:href="@{/deal/manage(hidden=${'숨김'})}">숨김</a>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <section class="sc-38383725-1 TZQfU">
+                <div class="sc-20ef24f2-0 jwboJy">
+                    <div th:each="dto, dtoIndex : ${list}">
+                        <div th:if="${dto.itemHidden != '숨김'}" >
+                        <article class="sc-cd837f27-0 cpZssi">
+                            <hr class="sc-kAyceB cdAyDo bun-ui-divider">
+                            <section class="sc-cd837f27-2 gyvxQm">
+                                <section class="sc-cd837f27-7 DJdJS">
+                                    <!-- dtoIndex.index를 사용하여 itemImgList에서 해당 상품의 이미지를 가져옴 -->
+                                    <div th:if="${dtoIndex != null}">
+                                        <div th:if="${dtoIndex.index >= 0 and dtoIndex.index < #lists.size(itemImgList) and itemImgList[dtoIndex.index]?.itemImg != null}">
+                                        <img th:src="${itemImgList[dtoIndex.index].itemImg}" alt="상품 사진" loading="lazy">
+                                        </div>
+                                        <div th:if="${dtoIndex.index < 0 or dtoIndex.index >= #lists.size(itemImgList) or itemImgList[dtoIndex.index].itemImg == null}">
+                                            <i class="bi bi-card-image"></i>
+                                        </div>
+                                    </div>
+                                    <div th:if="${dtoIndex == null}">
+                                        <i class="bi bi-card-image"></i>
+                                    </div>
+                                    <section>
+                                        <header class="sc-cd837f27-4 hmyVuO" th:text="${dto.itemId}"></header>
+                                        <header class="sc-cd837f27-4 hmyVuO" th:text="${dto.itemTitle}">상품 제목</header>
+                                        <div class="sc-cd837f27-5 bxbsbo">
+                                       <p class="sc-cd837f27-5 bxb" th:text="${dto.itemAddress} + ' · ' ">상품 주소</p>
+                                            <!--<p class="sc-cd837f27-5 bxb" th:text="${dto.shortAddress} + ' · ' ">상품 주소</p>-->
+                                        <p class="sc-cd837f27-5 itemResistDate"  th:text="${dto.itemResistDate}">상품 등록 시간</p>
+                                        </div>
+
+                                       <!-- <button class="status-button button-${dto.itemId}" th:text="${dto.dealStatus}">거래 상태</button>-->
+
+
+                                            <!--<div class="status-button-container" id="status-button-${dto.itemId}" style="display: none;">
+                                                <button class="status-button button-${dto.itemId}" th:text="${dto.dealStatus.name()}">거래 상태</button>
+                                            </div>-->
+
+
+                                        <div class="status-button-container" data-itemid="[[${dto.itemId}]]">
+                                            <button class="status-button button-[[${dto.itemId}]]" th:text="${dto.dealStatus}">거래 상태</button>
+                                        </div>
+
+                                        <p class="sc-cd837f27-6 QHfXe" th:text="${#numbers.formatInteger(dto.itemPrice, 3, 'COMMA') + '원'}">상품 가격</p>
+                                        <th:block th:if="${likesByItemId[dto.itemId] != null and likesByItemId[dto.itemId] > 0}">
+                                            <i class="bi bi-heart likes" th:text="${likesByItemId[dto.itemId]}" >찜 개수</i>
+                                        </th:block>
+                                    </section>
+
+                                    <div class="css-2b097c-container">
+                                        <div class="dropdown">
+                                            <select class="dropdown-select" th:id="'dropdown-' + ${dto.itemId}" th:data-itemid="${dto.itemId}" onchange="updateItemStatus(this)">
+                                                <option value="판매중" th:selected="${#strings.equals(dto.dealStatus.name(), '판매중')}">판매중</option>
+                                                <option value="예약중" th:selected="${#strings.equals(dto.dealStatus.name(), '예약중')}">예약중</option>
+                                                <option value="삭제" th:selected="${#strings.equals(dto.dealStatus.name(), '삭제')}">삭제</option>
+                                                <option value="거래완료" th:selected="${#strings.equals(dto.dealStatus.name(), '거래완료')}">거래완료</option>
+                                            </select>
+
+
+                                            <i id="arrow-icon" class="bi bi-chevron-down"></i>
+                                        </div>
+                                        <div class="sc-gCwZxT byUzHg"></div>
+                                    </div>
+                                </section>
+                            </section>
+                            <footer class="sc-cd837f27-3 bjPSeA transaction-card-footer">
+                                <button type="button" class="sc-gEvEer upButton bun-ui-button" style="margin-bottom: 0.5rem;"
+                                        th:data-itemid="${dto.itemId}" th:data-userid="${dto.itemId}">끌어올리기</button>
+                                <button class="sc-gEvEer fbpoRr bun-ui-button" style="color: rgb(2, 122, 255); margin-bottom: 0.5rem;">
+                                    <a th:href="@{'//' + ${dto.itemId} }">게시글 수정</a>
+                                </button>
+                                <button class="sc-gEvEer hideButton bun-ui-button"
+                                        th:data-itemid="${dto.itemId}"
+                                        th:classappend="${dto.itemHidden == '숨김' ? ' unhide' : ''}"
+                                        th:text="${dto.itemHidden == '숨김' ? '숨기기 해제' : '숨기기'}"
+                                        onclick="toggleHiddenStatus([[${dto.itemId}]], '[[${dto.itemHidden}]]')"></button>
+
+                            </footer>
+                        </article>
+                    </div>
+                </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="sc-SFOxd jqAsZn">
+            <div class="pagination-container">
+                <a class="pagination-arrow" th:if="${nowPage > 1}"
+                   th:href="@{/deal/manage(page=${nowPage - 2}, dealStatus=${dealStatus}, keyword=${keyword})}">
+                    <i class="bi bi-chevron-left"></i>
+                </a>
+                <th:block th:each="page : ${#numbers.sequence(startPage, endPage)}">
+                    <a class="pagination-link" th:if="${page != nowPage}"
+                       th:href="@{/deal/manage(page=${page - 1}, dealStatus=${dealStatus}, keyword=${keyword})}"
+                       th:text="${page}"></a>
+                    <strong class="pagination-current" th:if="${page == nowPage}" th:text="${page}"></strong>
+                </th:block>
+                <a class="pagination-arrow"
+                   th:href="@{/deal/manage(page=${nowPage}, dealStatus=${dealStatus}, keyword=${keyword})}">
+                    <i class="bi bi-chevron-right"></i>
+                </a>
+            </div>
+        </footer>
+    </div>
+    <div th:replace="~{fragments/footer :: company}">기업설명부분</div>
+</div>
+
+<script>
+
+   document.addEventListener('DOMContentLoaded', function() {
+       const itemResistDateElements = document.querySelectorAll('.itemResistDate');
+       itemResistDateElements.forEach(itemResistDateElement => {
+           let itemResistDate = itemResistDateElement.textContent;
+
+           // 문자열을 ISO 8601 형식으로 변환
+           itemResistDate = itemResistDate.replace(/\s+/g, 'T').split('.')[0];
+
+           itemResistDateElement.textContent = timeForToday(itemResistDate);
+       });
+   });
+
+   function timeForToday(value) {
+       const today = new Date();
+       const timeValue = new Date(value);
+
+       const betweenTime = Math.floor((today.getTime() - timeValue.getTime()) / 1000 / 60);
+       if (betweenTime < 1) return '방금 전';
+       if (betweenTime < 60) {
+           return `${betweenTime}분 전`;
+       }
+
+       const betweenTimeHour = Math.floor(betweenTime / 60);
+       if (betweenTimeHour < 24) {
+           return `${betweenTimeHour}시간 전`;
+       }
+
+       const betweenTimeDay = Math.floor(betweenTime / 60 / 24);
+       if (betweenTimeDay < 365) {
+           return `${betweenTimeDay}일 전`;
+       }
+
+       return `${Math.floor(betweenTimeDay / 365)}년 전`;
+   }
+
+
+
+
+
+  /* document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.dropdown-select').forEach(select => {
+            const selectedValue = select.value;
+            const itemId = select.getAttribute('data-itemid');
+            const buttonContainer = document.getElementById(`status-button-${itemId}`);
+            const button = document.getElementById(`button-${itemId}`);
+            console.log(`Initial load - Item ID: ${itemId}, Selected Value: ${selectedValue}`);
+
+            if (buttonContainer && button) {
+                if (selectedValue === '예약중' || selectedValue === '거래완료') {
+                    buttonContainer.style.display = 'block';
+                    button.textContent = selectedValue;
+                    button.className = selectedValue === '예약중' ? 'green-button' : 'black-button';
+                    console.log(`Button displayed - Item ID: ${itemId}, Button Text: ${button.textContent}`);
+                } else {
+                    buttonContainer.style.display = 'none';
+                }
+            }
+        });
+    });
+
+
+    function updateItemStatus(selectElement) {
+        const selectedValue = selectElement.value;
+        const itemId = selectElement.getAttribute('data-itemid');
+        const buttonContainer = document.getElementById(`status-button-${itemId}`);
+        const button = document.getElementById(`button-${itemId}`);
+        console.log(`Status updated - Item ID: ${itemId}, Selected Value: ${selectedValue}`);
+        if (buttonContainer && button) {
+            if (selectedValue === '예약중' || selectedValue === '거래완료') {
+                buttonContainer.style.display = 'block';
+                button.textContent = selectedValue;
+                button.className = selectedValue === '예약중' ? 'green-button' : 'black-button';
+                console.log(`Button displayed - Item ID: ${itemId}, Button Text: ${button.textContent}`);
+            } else {
+                buttonContainer.style.display = 'none';
+            }
+        } else {
+            console.error(`Button container or button not found for Item ID: ${itemId}`);
+        }
+
+        fetch(`/item-status/update`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ itemId: itemId, dealStatus: selectedValue })
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (!data.success) {
+                    console.error('Update failed:', data.message);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+    }
+*/
+
+
+
+
+   /*document.addEventListener('DOMContentLoaded', function() {
+       document.querySelectorAll('.dropdown-select').forEach(select => {
+           const itemId = select.getAttribute('data-itemid');
+           const buttonContainer = document.getElementById(`status-button-${itemId}`);
+           const button = document.getElementById(`button-${itemId}`);
+           console.log(`Initial load - Item ID: ${itemId}`);
+
+           if (buttonContainer && button) {
+               updateButtonVisibility(itemId); // 초기화 시 버튼 상태 업데이트
+           }
+       });
+   });
+
+   function updateItemStatus(selectElement) {
+       const selectedValue = selectElement.value;
+       const itemId = selectElement.getAttribute('data-itemid');
+       console.log(`Status updated - Item ID: ${itemId}, Selected Value: ${selectedValue}`);
+
+       fetch(`/item-status/update`, {
+           method: 'POST',
+           headers: {
+               'Content-Type': 'application/json'
+           },
+           body: JSON.stringify({ itemId: itemId, dealStatus: selectedValue })
+       })
+           .then(response => response.json())
+           .then(data => {
+               if (!data.success) {
+                   console.error('Update failed:', data.message);
+               } else {
+                   updateButtonVisibility(itemId); // 성공 시 버튼 상태 업데이트
+               }
+           })
+           .catch(error => console.error('Error:', error));
+   }
+
+   function updateButtonVisibility(itemId) {
+       const selectedValue = document.querySelector(`.dropdown-select[data-itemid="${itemId}"]`);
+       if (selectedValue) {
+           const status = selectedValue.value;
+           const buttonContainer = document.getElementById(`status-button-${itemId}`);
+           const button = document.getElementById(`button-${itemId}`);
+
+           if (buttonContainer && button) {
+               if (status === '예약중' || status === '거래완료') {
+                   buttonContainer.style.display = 'block';
+                   button.textContent = status;
+                   button.className = status === '예약중' ? 'green-button' : 'black-button';
+               } else {
+                   buttonContainer.style.display = 'none';
+               }
+           }
+       } else {
+           console.error(`Dropdown with data-itemid="${itemId}" not found.`);
+       }
+   }
+
+*/
+
+
+
+
+   document.addEventListener('DOMContentLoaded', function() {
+       document.querySelectorAll('.dropdown-select').forEach(select => {
+           const itemId = select.getAttribute('data-itemid');
+           updateButtonVisibility(itemId); // 초기화 시 버튼 상태 업데이트
+       });
+   });
+
+   function updateItemStatus(selectElement) {
+       const selectedValue = selectElement.value;
+       const itemId = selectElement.getAttribute('data-itemid');
+       console.log(`Status updated - Item ID: ${itemId}, Selected Value: ${selectedValue}`);
+
+       fetch(`/item-status/update`, {
+           method: 'POST',
+           headers: {
+               'Content-Type': 'application/json'
+           },
+           body: JSON.stringify({ itemId: itemId, dealStatus: selectedValue })
+       })
+           .then(response => response.json())
+           .then(data => {
+               if (!data.success) {
+                   console.error('Update failed:', data.message);
+               } else {
+                   updateButtonVisibility(itemId); // 성공 시 버튼 상태 업데이트
+               }
+           })
+           .catch(error => console.error('Error:', error));
+   }
+
+   function updateButtonVisibility(itemId) {
+       const selectElement = document.querySelector(`.dropdown-select[data-itemid="${itemId}"]`);
+       if (selectElement) {
+           const status = selectElement.value;
+           const buttonContainer = document.querySelector(`.status-button-container[data-itemid="${itemId}"]`);
+           const button = document.querySelector(`.status-button.button-${itemId}`);
+
+           if (buttonContainer && button) {
+               if (status === '예약중' || status === '거래완료') {
+                   buttonContainer.style.display = 'block';
+                   button.textContent = status;
+                   button.className = `status-button ${status === '예약중' ? 'green-button' : 'black-button'}`;
+               } else {
+                   buttonContainer.style.display = 'none';
+               }
+           }
+       } else {
+           console.error(`Dropdown with data-itemid="${itemId}" not found.`);
+       }
+   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   document.addEventListener('DOMContentLoaded', function() {
+       const upButtons = document.querySelectorAll('.upButton');
+
+       upButtons.forEach(button => {
+           button.addEventListener('click', function() {
+               const itemId = button.getAttribute('data-itemid');
+               const userId = button.getAttribute('data-userid');
+
+               fetch('/items/up', {
+                   method: 'POST',
+                   headers: {
+                       'Content-Type': 'application/json'
+                   },
+                   body: JSON.stringify({ itemId: itemId, userId: userId })
+               })
+                   .then(response => {
+                       if (response.ok) {
+                           return response.json();
+                       } else {
+                           throw new Error('끌어올리기에 실패했습니다.');
+                       }
+                   })
+                   .then(data => {
+                       if (data.remainingUpCount > 0) {
+                           alert(`하루에 남은 끌어올리기 횟수는 ${data.remainingUpCount}번입니다.`);
+                       } else {
+                           alert('하루에 더 이상 끌어올리기를 할 수 없습니다.');
+                       }
+                   })
+                   .catch(error => {
+                       console.error('Error:', error);
+                       alert(`클릭된 버튼의 itemId: ${itemId}, userId: ${userId}`);
+                       /*alert('오류가 발생했습니다.');*/
+                   });
+           });
+       });
+   });
+
+
+
+
+
+  document.addEventListener('DOMContentLoaded', function() {
+       document.querySelectorAll('.hideButton').forEach(function(button) {
+           button.addEventListener('click', function() {
+               var itemId = this.getAttribute('data-itemid');
+               var currentStatus = this.textContent === '숨기기' ? '보임' : '숨김';
+               toggleHiddenStatus(itemId, currentStatus);
+           });
+       });
+   });
+
+   function toggleHiddenStatus(itemId, currentStatus) {
+       var newStatus = currentStatus === '숨김' ? '보임' : '숨김';
+       var confirmationMessage = newStatus === '숨김' ? "게시물을 숨기겠습니까?" : "게시물을 다시 보이겠습니까?";
+
+       if (confirm(confirmationMessage)) {
+           fetch('/updateHiddenStatus', {
+               method: 'POST',
+               headers: {
+                   'Content-Type': 'application/x-www-form-urlencoded',
+               },
+               body: `itemId=${itemId}&hidden=${newStatus}`
+           })
+               .then(response => response.json())
+               .then(data => {
+                   alert(data.message);
+                   location.reload(); // 페이지를 새로고침하여 버튼 상태를 업데이트
+               })
+               .catch(error => {
+                   console.error('Error:', error);
+                   alert('상태 업데이트에 실패했습니다.');
+               });
+       }
+   }
+
+
+
+
+
+</script>
+</body>
+</html>
