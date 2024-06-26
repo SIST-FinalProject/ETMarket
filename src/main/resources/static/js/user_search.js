@@ -80,7 +80,7 @@ $(document).ready(function() {
                                 <div class="sc-kZmsYB bwuELN">${item.itemTitle}</div>
                                 <div class="sc-fZwumE jwanRX">
                                     <div class="sc-RcBXQ knGFtN">${item.itemPrice}</div>
-                                    <div class="sc-fQejPQ iTVnVG"><span>1주 전</span></div>
+                                    <div class="sc-fQejPQ iTVnVG"><span>${timeAgo(item.itemUpdateDate)}</span></div>
                                 </div>
                             </div>
                             <div class="sc-iSDuPN bvorOe"><i class="bi bi-geo-alt">${item.itemAddress}</i></div>
@@ -232,6 +232,25 @@ $(document).ready(function() {
         })
     }
 
+    // 날짜 차이를 계산하여 사람이 읽을 수 있는 형식으로 반환하는 함수
+    const timeAgo = function(date) {
+        const now = new Date();
+        const updatedDate = new Date(date);
+        const diffInSeconds = Math.floor((now - updatedDate) / 1000);
+        const diffInMinutes = Math.floor(diffInSeconds / 60);
+        const diffInHours = Math.floor(diffInMinutes / 60);
+        const diffInDays = Math.floor(diffInHours / 24);
+
+        if (diffInSeconds < 60) {
+            return `${diffInSeconds}초 전`;
+        } else if (diffInMinutes < 60) {
+            return `${diffInMinutes}분 전`;
+        } else if (diffInHours < 24) {
+            return `${diffInHours}시간 전`;
+        } else {
+            return `${diffInDays}일 전`;
+        }
+    };
 });
 
 

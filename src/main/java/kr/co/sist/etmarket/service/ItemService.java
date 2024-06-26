@@ -17,13 +17,12 @@ public class ItemService {
     @Autowired
     private ItemDao itemDao;
 
-//    public Page<Item> getAllItems(int page, int size) {
+    public Slice<Item> getItemSlice(Pageable pageable) {
+        return itemDao.findAllOrderByItemUpdateDateDesc(pageable);
+    }
+//    public Slice<Item> getItemSlice(int page, int size) {
 //        Pageable pageable = PageRequest.of(page, size);
 //        return itemDao.findAllOrderByItemUpdateDateDesc(pageable);
 //    }
-    public Slice<Item> getItemSlice(int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
-        return itemDao.findAllOrderByItemUpdateDateDesc(pageable);
-    }
 
 }

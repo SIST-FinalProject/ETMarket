@@ -48,39 +48,57 @@ div {
 }
 
 /* 배너 스타일 하다가 그만 둠>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>..*/
-li {
-    list-style: none;
-}
 .kind_wrap {
-    border:2px solid black;
-    width:100%;
-    max-width:800px;
-    margin:0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     position: relative;
-}
-.kind_wrap > .kind_slider {
+    width: 100%;
+    max-width: 1024px;
+    margin: 0 auto;
     overflow: hidden;
 }
-.kind_wrap > .kind_slider .slider {
-    position: relative;
-    transition: 0.5s;
+
+.kind_slider {
+    display: flex;
+    transition: transform 0.5s ease;
 }
-.kind_wrap > .kind_slider .slider li {
-    float:left;
+
+.kind_slider div {
+    min-width: 100%;
+    box-sizing: border-box;
 }
-.kind_wrap > .kind_slider img {
-    vertical-align: top;
+
+.kind_slider img {
+    width: 100%;
+    height: auto;
+    display: block;
 }
-.kind_wrap .arrow > a.prev {
+
+.arrow a {
     position: absolute;
-    left:-50px;
-    top:100px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border-radius: 50%;
+    text-decoration: none;
+    font-size: 24px;
 }
-.kind_wrap .arrow > a.next {
-    position: absolute;
-    right:-50px;
-    top:100px;
+
+.arrow .prev {
+    left: 10px;
 }
+
+.arrow .next {
+    right: 10px;
+}
+
 /* 배너 스타일 하다가 그만 둠>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>..*/
 
 .cdQPxm {
