@@ -33,6 +33,11 @@ $(document).ready(function() {
     // 페이지에 항목들을 추가하는 함수
     const addItemsToPage = function(items) {
         items.forEach(item => {
+            // 조건에 맞으면 해당 항목을 무시하고 넘어감
+            if (item.dealStatus === '거래완료' || item.itemHidden === '숨김') {
+                return;
+            }
+
             // 첫 번째 이미지를 가져옴
             const firstImage = item.itemImgs.length > 0 ? item.itemImgs[0].itemImg : '/image/non_img.png';
 
