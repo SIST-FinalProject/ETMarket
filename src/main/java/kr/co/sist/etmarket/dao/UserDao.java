@@ -19,5 +19,4 @@ public interface UserDao extends JpaRepository<User, Long> {
 	// 비밀번호 찾기
 	User findByUserLoginIdAndUserEmail(String userLoginId, String userEmail);
 
-
 }
