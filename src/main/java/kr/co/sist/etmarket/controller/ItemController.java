@@ -1,5 +1,6 @@
 package kr.co.sist.etmarket.controller;
 
+import jakarta.servlet.http.HttpSession;
 import kr.co.sist.etmarket.dto.ItemDto;
 import kr.co.sist.etmarket.dto.ItemImgDto;
 import kr.co.sist.etmarket.dto.ItemTagDto;
@@ -28,10 +29,18 @@ public class ItemController {
 
     // insertForm 이동
     @GetMapping("/item/insertForm")
-    public String insertForm(@RequestParam Long userId, Model model){
-        model.addAttribute("userId", userId);
+    public String insertForm(HttpSession session, Model model){
+        Long userId = (Long) session.getAttribute("myUserId");
 
-        return "item/itemInsertForm";
+        if (userId != null) {
+            model.addAttribute("userId", userId);
+
+            return "item/itemInsertForm";
+        } else {
+            model.addAttribute("approach","insert");
+
+            return "item/wrongApproach";
+        }
     }
 
     // Item, ItemTag, ItemImg DB Insert, S3 Image Upload
@@ -52,17 +61,26 @@ public class ItemController {
 
     // updateForm 이동
     @GetMapping("/item/updateForm")
-    public String updateForm(@RequestParam Long itemId, Model model) {
+    public String updateForm(@RequestParam Long itemId, HttpSession session, Model model) {
+        Long userId = (Long) session.getAttribute("myUserId");
+
         ItemDto itemDto = itemService.getDataItem(itemId);
-        List<ItemImgDto> itemImgDtos = itemImgService.getItemImgDataByItemId(itemId);
-        String itemTags = itemTagService.getItemTagsByItemId(itemId);
 
-        model.addAttribute("itemDto", itemDto);
-        model.addAttribute("itemImgDtos", itemImgDtos);
-        model.addAttribute("itemImgCount", itemImgDtos.size());
-        model.addAttribute("itemTags", itemTags);
+        if (userId != null && userId.equals(itemDto.getUserId())) {
+            List<ItemImgDto> itemImgDtos = itemImgService.getItemImgDataByItemId(itemId);
+            String itemTags = itemTagService.getItemTagsByItemId(itemId);
 
-        return "item/itemUpdateForm";
+            model.addAttribute("itemDto", itemDto);
+            model.addAttribute("itemImgDtos", itemImgDtos);
+            model.addAttribute("itemImgCount", itemImgDtos.size());
+            model.addAttribute("itemTags", itemTags);
+
+            return "item/itemUpdateForm";
+        } else {
+            model.addAttribute("approach","update");
+
+            return "item/wrongApproach";
+        }
     }
 
     // Item, ItemTag, ItemImg DB Update, S3 Image Delete or Upload
@@ -77,6 +95,8 @@ public class ItemController {
             itemTagService.deleteItemTag(itemDto.getItemId());
 
             itemTagService.insertItemTag(itemTagDto, item);
+        } else {
+            itemTagService.deleteItemTag(itemDto.getItemId());
         }
 
         int itemImgCount = itemImgService.getItemImgDataByItemId(itemDto.getItemId()).size();
@@ -87,11 +107,21 @@ public class ItemController {
 
     // Item DB Delete, S3 Image Delete
     @GetMapping("/item/delete")
-    public String delete(@RequestParam Long itemId){
-        itemImgService.deleteItemImgS3(itemId);
+    public String delete(@RequestParam Long itemId, HttpSession session, Model model){
+        Long userId = (Long) session.getAttribute("myUserId");
 
-        itemService.deleteItem(itemId);
+        ItemDto itemDto = itemService.getDataItem(itemId);
 
-        return "redirect:/";
+        if (userId != null && userId.equals(itemDto.getUserId())) {
+            itemImgService.deleteItemImgS3(itemId);
+
+            itemService.deleteItem(itemId);
+
+            return "redirect:/";
+        } else {
+            model.addAttribute("approach","delete");
+
+            return "item/wrongApproach";
+        }
     }
 }
