@@ -6,10 +6,16 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
+import kr.co.sist.etmarket.dto.UserDto;
 import kr.co.sist.etmarket.etenum.UserStatus;
 import lombok.*;
 import lombok.Getter;
 import org.hibernate.annotations.CreationTimestamp;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @AllArgsConstructor
@@ -70,14 +76,5 @@ public class User {
 
     @OneToMany(mappedBy = "target", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Rating> target = new ArrayList<>();
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "userId=" + userId +
-                ", username='" + userName + '\'' +
-                ", createdDate=" + userCreateDate +
-                '}';
-    }
 
 }

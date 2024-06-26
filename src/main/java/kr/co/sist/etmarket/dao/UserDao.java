@@ -11,7 +11,12 @@ import kr.co.sist.etmarket.entity.User;
 
 public interface UserDao extends JpaRepository<User, Long> {
 	// 로그인
-	@Query("SELECT new kr.co.sist.etmarket.dto.UserDto(u.userLoginId, u.userPassword, u.userId, u.userName) FROM User u WHERE u.userLoginId = :userLoginId")
-	Optional<UserDto> findByUserLoginId(@Param("userLoginId") String userLoginId);
+	User findByUserLoginId(String userLoginId);
+
+	// 아이디 찾기
+	User findByUserPhoneAndUserEmail(String userPhone, String userEmail);
+	
+	// 비밀번호 찾기
+	User findByUserLoginIdAndUserEmail(String userLoginId, String userEmail);
 
 }
