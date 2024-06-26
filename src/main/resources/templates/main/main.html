@@ -19,8 +19,10 @@
     <h1>테스트</h1>
     
     <!-- 세션로그인 확인용 -->
-    <div th:if="${session.myid!=null}">
-		세션로그인 아이디: [[${session.myid}]] 님 로그인
+    <div th:if="${session.myUserLoginId != null}">
+		세션로그인 아이디: [[${session.myUserLoginId}]] 님 <br>
+		세션로그인 회원번호: [[${session.myUserId}]] 로그인
+		
 	</div>
 	
 </div>

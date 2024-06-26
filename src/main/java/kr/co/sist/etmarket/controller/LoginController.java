@@ -1,10 +1,5 @@
 package kr.co.sist.etmarket.controller;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-
-import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -12,15 +7,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.mysql.cj.Session;
-
 import jakarta.servlet.http.HttpSession;
 import kr.co.sist.etmarket.dto.UserDto;
-import kr.co.sist.etmarket.entity.User;
 import kr.co.sist.etmarket.service.LoginService;
 
 @Controller
@@ -33,13 +24,12 @@ public class LoginController {
 	@GetMapping("/login")
     public String goLogin(HttpSession session, Model model) {
 		
-		// 아이디 비밀번호가 일치하지 않을 경우, 세션에서 오류 메시지를 가져와 모델에 추가하고 세션에서 삭제
+		// 아이디&비밀번호가 일치하지 않을 경우, 세션에서 오류 메시지를 가져와 모델에 추가하고 세션에서 삭제
         String loginError = (String) session.getAttribute("loginError");
         if (loginError != null) {
             model.addAttribute("loginError", loginError);
             session.removeAttribute("loginError");
         }
-        
     	return "login/loginForm";
     }
 	
@@ -55,9 +45,9 @@ public class LoginController {
             model.addAttribute("user", loginUser); // userDto 객체를 모델에 추가
             
             session.setMaxInactiveInterval(60*60*8);
-            session.setAttribute("myid", loggedIn.getUserLoginId());
+            session.setAttribute("myUserLoginId", loggedIn.getUserLoginId()); // 로그인 아이디
+            session.setAttribute("myUserId", loggedIn.getUserId()); // 회원번호
 			session.setAttribute("loginok", "yes");
-			//session.setAttribute("saveok", cbsave); 추후 추가
             
             return "redirect:/"; 
         } else {
@@ -68,12 +58,12 @@ public class LoginController {
         }
 	}	
 		
-	// 로그아웃 처리
+	// 로그아웃 처리 (세션 삭제)
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {
-		// 세션 삭제
 		session.removeAttribute("loginok");
-		session.removeAttribute("myid");
+		session.removeAttribute("myUserLoginId");
+		session.removeAttribute("myUserId");
 		
 		return "redirect:/";
 	}
@@ -82,7 +72,7 @@ public class LoginController {
 	@GetMapping("/member/find/loginId")
 	public String goFindLoginId(HttpSession session, Model model) {
 		
-		// 이메일 전화번호가 일치하지 않을 경우, 세션에서 오류 메시지를 가져와 모델에 추가하고 세션에서 삭제
+		// 이메일&전화번호가 일치하지 않을 경우, 세션에서 오류 메시지를 가져와 모델에 추가하고 세션에서 삭제
         String findIdPwError = (String) session.getAttribute("findIdPwError");
         if (findIdPwError != null) {
             model.addAttribute("findIdPwError", findIdPwError);
@@ -122,7 +112,7 @@ public class LoginController {
 		return "login/findPwForm";
 	} 
 	
-	// 비밀번호 찾기 - 아이디&이메일 유무 체크 후 인증번호 보냄
+	// 비밀번호 찾기 - 아이디&이메일 체크 후 인증번호 보냄
 	@PostMapping("/member/find/verifyRequest")
 	@ResponseBody
 	public Boolean verifyRequest(@RequestParam("userLoginId") String userLoginId, 
@@ -135,14 +125,14 @@ public class LoginController {
 		UserDto passwordUser=loginService.findPassword(userLoginId, userEmail);
 		//System.out.println("로그인서비스에서 넘어온 값 출력: " + password);
 		
+		// 회원이 존재하면 인증번호 전송
 		if(passwordUser!=null) {
 			//System.out.println("true");
 			chk=true;
 			
 			// 인증번호 보냄
-			System.out.println("인증번호 보낸ㅁ");
+			//System.out.println("LoginController 인증번호 보냄");
 			loginService.sendCodeToEmail(userEmail);
-			
 		} else {
 			//System.out.println("false");
 			chk=false;
@@ -151,7 +141,12 @@ public class LoginController {
 	}
 	
 	// 비밀번호 찾기 - 인증번호 확인
-	//@PostMapping("/member/find/verifyRequest")
+	@PostMapping("/member/find/verifyCheck")
+	public ResponseEntity<Boolean> verifyCheck(@RequestParam("userEmail") String userEmail, 
+			@RequestParam("verifyCode") String verifyCode) {
+		System.out.println("인증번호 확인중 "+loginService.verifiedCode(userEmail, verifyCode));
+		return ResponseEntity.ok().body(loginService.verifiedCode(userEmail, verifyCode));
+	}
 
 
 

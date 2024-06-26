@@ -73,16 +73,22 @@
 			
 			//alert(userLoginId+", "+userEmail+", "+verifyCode);
 			
-			// 아이디, 이메일 값 전달
+			// 이메일, 인증번호 값 전달
 			$.ajax({
 				type:"post",
-				url:"/member/find/verifyRequest",
+				url:"/member/find/verifyCheck",
 				dataType:"json",
 				data:{"userLoginId":userLoginId,"userEmail":userEmail,"verifyCode":verifyCode},
-				success:function(data){
-					alert("값 보내짐");
-	
-				}		
+				success:function(data){	
+					if(data==true){
+						alert("성공");
+						
+					}else{
+						//alert("실패");
+						$("#verifyCodeError").show();
+					}
+				}	
+				
 			});	
 		});
 		
@@ -138,6 +144,9 @@
                        	</div> -->
                        	<div id="findIdPwError" style="color: red; font-size: 10pt; display: none;">
                        		입력정보와 일치하는 회원 정보가 없습니다.
+                       	</div>
+                       	<div id="verifyCodeError" style="color: red; font-size: 10pt; display: none;">
+                       		인증번호가 일치하지 않습니다.
                        	</div>
                        	 
 					</div>

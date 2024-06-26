@@ -24,14 +24,6 @@ public class UserDto {
 	private Timestamp userCreateDate;
 	private String userJoinType;
 	private UserStatus userStatus;
-
-	// 생성자 - 로그인
-//    public UserDto(String userLoginId, String userPassword, Long userId, String userName) {
-//        this.userLoginId = userLoginId;
-//        this.userPassword = userPassword;
-//        this.userId = userId;
-//        this.userName = userName;
-//    }
     
     // User 엔티티를 UserDto로 변환하는 메소드
     public static UserDto fromEntity(User user) {
