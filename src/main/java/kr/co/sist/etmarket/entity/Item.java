@@ -4,6 +4,8 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import kr.co.sist.etmarket.etenum.*;
@@ -11,6 +13,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -25,15 +28,18 @@ public class Item {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long itemId;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
     @Column(updatable = false)
     @CreationTimestamp
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private Timestamp itemResistDate;
 
     @UpdateTimestamp
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private Timestamp itemUpdateDate;
 
     private String itemTitle;
@@ -76,6 +82,10 @@ public class Item {
     @Column(name = "item_hidden")
     private ItemHidden itemHidden;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_search_id")
+    private UserSearch userSearch;
+
     @Builder.Default
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ItemTag> itemTags = new ArrayList<>();
@@ -91,5 +101,14 @@ public class Item {
     @Builder.Default
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ItemLike> itemLikes = new ArrayList<>();
+
+    @Override
+    public String toString() {
+        return "Item{" +
+                "itemId=" + itemId +
+                ", itemTitle='" + itemTitle + '\'' +
+                ", userSearchId=" + (userSearch != null ? userSearch.getUserSearchId() : null) +
+                '}';
+    }
 
 }

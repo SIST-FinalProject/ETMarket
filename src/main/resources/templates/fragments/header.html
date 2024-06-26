@@ -35,8 +35,8 @@
             <!--검색창-->
             <div class="keyjxL">
                 <div class="voMyM">
-                    <input type="text" placeholder="상품명" class="cLfdog">
-                    <a><i class="bi bi-search" style="cursor: pointer;"></i></a>
+                    <input type="text" placeholder="상품명" class="cLfdog" id="searchInput">
+                    <a><i class="bi bi-search" style="cursor: pointer;" id="searchButton"></i></a>
                 </div>
                 <!--검책창>최근검색어/인기검색어-->
                 <div class="eLTnVY">
@@ -91,7 +91,7 @@
                     <!--닫기/검색어 전체삭제-->
                     <div class="bNSExK">
                         <a class="iotYfC">닫기</a>
-                        <a class="bprumR">
+                        <a class="bprumR" onclick="deleteAllContent()">
                             <i class="bi bi-trash"></i>검색어 전체삭제
                         </a>
                     </div>

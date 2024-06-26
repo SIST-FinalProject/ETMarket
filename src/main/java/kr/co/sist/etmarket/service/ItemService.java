@@ -11,6 +11,10 @@ import kr.co.sist.etmarket.etenum.DealStatus;
 import kr.co.sist.etmarket.etenum.ItemHidden;
 import kr.co.sist.etmarket.etenum.PriceStatus;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
 import java.text.DecimalFormat;
@@ -163,5 +167,13 @@ public class ItemService {
                 .itemHidden(itemDto.getItemHidden())
                 .build();
     }
+  
+      public Slice<Item> getItemSlice(Pageable pageable) {
+            return itemDao.findAllOrderByItemUpdateDateDesc(pageable);
+        }
+    //    public Slice<Item> getItemSlice(int page, int size) {
+    //        Pageable pageable = PageRequest.of(page, size);
+    //        return itemDao.findAllOrderByItemUpdateDateDesc(pageable);
+    //    }
 
 }
