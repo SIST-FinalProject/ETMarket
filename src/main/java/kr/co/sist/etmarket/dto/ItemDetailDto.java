@@ -14,6 +14,7 @@ import java.util.List;
 public class ItemDetailDto {
 
     private Long itemId; //상품번호
+    private Long sellerId; // 판매자 id
     private CategoryName categoryName; //카테고리
     private String itemTitle; //상품명
     private String itemContent; //상품 상세설명
