@@ -4,7 +4,6 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ModelAttribute;
 
 import kr.co.sist.etmarket.dao.UserDao;
 import kr.co.sist.etmarket.dto.UserDto;

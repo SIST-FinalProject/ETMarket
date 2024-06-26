@@ -11,7 +11,6 @@ import lombok.Getter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 @Entity

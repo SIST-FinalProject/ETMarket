@@ -33,7 +33,7 @@ public class ItemTagService {
         }
     }
 
-    // ItemTag DB getData
+    // ItemTag DB getData(itemId)
     public String getItemTagsByItemId(Long itemId) {
         List<ItemTag> itemTagArray = itemTagDao.findByItemItemId(itemId);
         StringBuilder itemTagsBuilder = new StringBuilder();
@@ -50,7 +50,7 @@ public class ItemTagService {
         return itemTagsBuilder.toString();
     }
 
-    // ItemTag DB Delete
+    // ItemTag DB Delete(itemId)
     public void deleteItemTag(Long itemId) {
         itemTagDao.deleteByItemItemId(itemId);
     }

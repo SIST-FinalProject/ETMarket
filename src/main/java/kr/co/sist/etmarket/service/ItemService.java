@@ -72,7 +72,7 @@ public class ItemService {
                 .build();
     }
 
-    // Item DB getData
+    // Item DB getData(itemId)
     public ItemDto getDataItem(Long itemId) {
         Item item = itemDao.findByItemId(itemId);
 
@@ -162,6 +162,11 @@ public class ItemService {
                 .itemCount(itemDto.getItemCount())
                 .itemHidden(itemDto.getItemHidden())
                 .build();
+    }
+
+    // Item DB Delete(itemId)
+    public void deleteItem(Long itemId) {
+        itemDao.deleteByItemId(itemId);
     }
 
 }
