@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface ItemDao extends JpaRepository<Item, Long> {
 
-   Page<Item> findByUserId(Long userId, Pageable pageable);
+   /*Page<Item> findByUserId(Long userId, Pageable pageable);*/
 
    Page<Item> findByItemTitleContaining(String keyword, Pageable pageable);
 

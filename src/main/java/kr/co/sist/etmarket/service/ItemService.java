@@ -19,13 +19,13 @@ public class ItemService {
 
     private final ItemDao itemDao;
 
-    public Page<Item> findByUserId(Long userId, Pageable pageable) {
+    /*public Page<Item> findByUserId(Long userId, Pageable pageable) {
         return itemDao.findByUserId(userId, pageable);
-    }
-
-    /*public Page<Item> itemList(Pageable pageable){
-        return itemDao.findAll(pageable);
     }*/
+
+    public Page<Item> itemList(Pageable pageable){
+        return itemDao.findAll(pageable);
+    }
 
     public Page<Item> itemSearchList(String keyword, Pageable pageable){
         return itemDao.findByItemTitleContaining(keyword, pageable);
