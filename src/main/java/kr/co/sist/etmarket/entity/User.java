@@ -73,6 +73,4 @@ public class User {
     @OneToMany(mappedBy = "target", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Rating> target = new ArrayList<>();
 
-
-
 }
