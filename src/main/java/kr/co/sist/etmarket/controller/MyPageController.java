@@ -1,6 +1,5 @@
 package kr.co.sist.etmarket.controller;
 
-import kr.co.sist.etmarket.dto.ItemDto;
 import kr.co.sist.etmarket.dto.ItemImgDto;
 import kr.co.sist.etmarket.dto.ItemLikeDto;
 import kr.co.sist.etmarket.entity.Item;
@@ -21,7 +20,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.*;
 import java.util.stream.Collectors;
