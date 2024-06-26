@@ -1,11 +1,15 @@
 package kr.co.sist.etmarket.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import kr.co.sist.etmarket.entity.Item;
 
+import kr.co.sist.etmarket.entity.UserSearch;
 import kr.co.sist.etmarket.etenum.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import java.sql.Timestamp;
 
 @Data
@@ -53,8 +57,14 @@ public class ItemDto {
     private int itemCount;
 
     private ItemHidden itemHidden;
-  
-  public ItemDto(Integer integer, Integer integer1, long l, Timestamp timestamp, Timestamp timestamp1, long l1, String s, String s1, String s2, CategoryName categoryName, DealHow dealHow, DealStatus dealStatus, DeliveryStatus deliveryStatus, ItemHidden itemHidden, ItemStatus itemStatus, PriceStatus priceStatus, Integer integer2, long l2) {
+
+    private Timestamp itemResistDate;
+
+    private Timestamp itemUpdateDate;
+
+    private Long userSearchId;
+
+    public ItemDto(Integer integer, Integer integer1, long l, Timestamp timestamp, Timestamp timestamp1, long l1, String s, String s1, String s2, CategoryName categoryName, DealHow dealHow, DealStatus dealStatus, DeliveryStatus deliveryStatus, ItemHidden itemHidden, ItemStatus itemStatus, PriceStatus priceStatus, Integer integer2, long l2) {
         itemDeliveryPrice = integer;
         itemPrice = integer1;
         itemId = l;
@@ -98,4 +108,6 @@ public class ItemDto {
         this.dealStatus = item.getDealStatus();
         this.deliveryStatus = item.getDeliveryStatus();
         this.itemHidden = item.getItemHidden();
+    }
+
 }
