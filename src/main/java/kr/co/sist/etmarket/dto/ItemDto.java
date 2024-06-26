@@ -1,14 +1,11 @@
 package kr.co.sist.etmarket.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import kr.co.sist.etmarket.entity.Item;
 
-import kr.co.sist.etmarket.entity.UserSearch;
 import kr.co.sist.etmarket.etenum.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import java.sql.Timestamp;
 
