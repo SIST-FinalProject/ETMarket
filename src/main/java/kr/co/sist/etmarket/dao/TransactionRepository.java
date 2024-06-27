@@ -9,4 +9,7 @@ public interface TransactionRepository extends JpaRepository<Deal, Long> {
 
     @Query("select count(d) from Deal d where d.buyer.userId = :sellerId or d.seller.userId = :sellerId")
     int countBySellerId(@Param("sellerId") Long sellerId);
+
+    @Query("select count(d) from Deal d where d.seller.userId = :sellerId")
+    int countSellCountBySellerId(@Param("sellerId") Long sellerId);
 }
