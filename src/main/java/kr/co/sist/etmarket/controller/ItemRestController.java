@@ -22,7 +22,7 @@ public class ItemRestController {
 
     @GetMapping("/items")
     public Slice<Item> getAllItems(@RequestParam(defaultValue = "0") int page,
-                                                  @RequestParam(defaultValue = "10") int size) {
+                                   @RequestParam(defaultValue = "10") int size) {
         Pageable pageable = PageRequest.of(page, size);
         return itemService.getItemSlice(pageable);
     }

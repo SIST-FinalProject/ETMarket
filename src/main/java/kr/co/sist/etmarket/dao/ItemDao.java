@@ -15,7 +15,7 @@ public interface ItemDao extends JpaRepository<Item, Long> {
 //    @Query("SELECT i FROM Item i ORDER BY i.itemUpdateDate DESC")
 //    Page<Item> findAllOrderByItemUpdateDateDesc(Pageable pageable);
 
-    @Query("SELECT i FROM Item i ORDER BY i.itemUpdateDate DESC")
+    @Query("SELECT i FROM Item i ORDER BY i.itemUpdateDate DESC") // join을 하지 않고 item 엔티티를 직접 조회하기에 연관된 다른 엔티티들도 같이 조회 가능
     Slice<Item> findAllOrderByItemUpdateDateDesc(Pageable pageable);
   
   // itemId값에 따른 getData

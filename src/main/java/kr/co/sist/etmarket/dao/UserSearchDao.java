@@ -36,8 +36,12 @@ public interface UserSearchDao extends JpaRepository<UserSearch, Long> {
     List<UserSearch> findByContent(String content);
 
     // 검색어에 맞는 상품 리스트 출력
-    @Query(value = "SELECT i.* FROM item i LEFT JOIN user_search us USING(user_search_id) WHERE i.item_title LIKE %:content%", nativeQuery = true)
-    List<Object[]> findItemsByContentAndItemTitle(@Param("content") String content);
+//    @Query(value = "SELECT i.* FROM item i LEFT JOIN user_search us USING(user_search_id) WHERE i.item_title LIKE %:content%", nativeQuery = true)
+    @Query("SELECT DISTINCT i FROM Item i LEFT JOIN FETCH i.itemImgs LEFT JOIN i.userSearch us " +
+            "WHERE i.itemTitle LIKE %:content% AND NOT (i.itemHidden = '숨김' OR i.dealStatus = '거래완료') " +
+            "ORDER BY i.itemUpdateDate DESC")
+    Page<Item> findItemsByContentAndItemTitle(@Param("content") String content, Pageable pageable);
+
 
 
     Long findByUserSearchId(UserSearch search);

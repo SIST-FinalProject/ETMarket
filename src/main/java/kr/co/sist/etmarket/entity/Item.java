@@ -113,8 +113,25 @@ public class Item {
         return "Item{" +
                 "itemId=" + itemId +
                 ", itemTitle='" + itemTitle + '\'' +
+                ", itemContent='" + itemContent + '\'' +
+                ", itemPrice=" + itemPrice +
+                ", itemAddress='" + itemAddress + '\'' +
+                ", itemStatus=" + itemStatus +
+                ", dealStatus=" + dealStatus +
+                ", dealHow=" + dealHow +
+                ", deliveryStatus=" + deliveryStatus +
+                ", itemDeliveryPrice=" + itemDeliveryPrice +
+                ", priceStatus=" + priceStatus +
+                ", categoryName=" + categoryName +
+                ", itemCount=" + itemCount +
+                ", itemHidden=" + itemHidden +
+                ", itemResistDate=" + itemResistDate +
+                ", itemUpdateDate=" + itemUpdateDate +
                 ", userSearchId=" + (userSearch != null ? userSearch.getUserSearchId() : null) +
+                ", itemTags=" + itemTags.size() +
+                ", itemImgs=" + itemImgs.size() +
+                ", itemChecks=" + itemChecks.size() +
+                ", itemLikes=" + itemLikes.size() +
                 '}';
     }
-
 }
