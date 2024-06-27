@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import java.sql.Timestamp;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 public class CommonService {
@@ -60,4 +61,10 @@ public class CommonService {
     }
 
 
+    public int calPercentScore(Double avgScore, int reviewCount) {
+
+        double percentageScore = (avgScore / 5) * 100;
+
+        return (int) percentageScore;
+    }
 }

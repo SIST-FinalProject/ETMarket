@@ -1,6 +1,5 @@
 package kr.co.sist.etmarket.dao;
 
-import kr.co.sist.etmarket.entity.ItemCheck;
 import kr.co.sist.etmarket.entity.ItemLike;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

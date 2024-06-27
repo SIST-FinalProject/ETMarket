@@ -13,10 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 @RequiredArgsConstructor
 public class SellerController {
 
-    private final ItemDetailService itemDetailService;
     private final SellerDetailService sellerDetailService;
-
-
 
 
     @GetMapping("/seller/{sellerId}/items")
@@ -32,6 +29,10 @@ public class SellerController {
 
     @GetMapping("/seller/{sellerId}/reviews")
     public String sellerReviews(@PathVariable Long sellerId, Model model) {
+
+        SellerDetailDto sellerDetailDto = sellerDetailService.getSellerDetailWithReviews(sellerId);
+
+        model.addAttribute("sellerDetailDto", sellerDetailDto);
 
         return "seller/seller_detail_review";
     }

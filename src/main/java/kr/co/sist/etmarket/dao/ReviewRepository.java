@@ -15,6 +15,8 @@ public interface ReviewRepository extends JpaRepository<Rating, Long> {
 
     List<Rating> findByTarget_UserIdOrderByRatingDateDesc(Long userId, Pageable pageable);
 
+    List<Rating> findByTarget_UserIdOrderByRatingDateDesc(Long userId);
+
     @Query("SELECT AVG(r.rating) FROM Rating r WHERE r.target.userId = :userId")
     Optional<Double> findByAverageReviewScoreByUserId(@Param("userId") Long userId);
 }

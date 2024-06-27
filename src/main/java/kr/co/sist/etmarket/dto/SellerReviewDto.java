@@ -13,7 +13,7 @@ public class SellerReviewDto {
     private String reviewerImgUrl; // 리뷰어 프사 이미지
     private Double reviewScore; // 리뷰 점수(소수)
     private Long reviewItemId; // 리뷰 상품 id
-    private String reviewItem; // 리뷰 상품 제목
+    private String reviewItemName; // 리뷰 상품 제목
     private String reviewComment; // 리뷰 내용
     private String reviewDate; // 리뷰 날짜(2일전, 1시간전 등)
 

@@ -116,5 +116,48 @@ public class SellerDetailService {
                 commonService.convertTime(item.getItemUpdateDate()),item.getDealStatus(),item.getDeliveryStatus());
     }
 
+    private SellerReviewDto convertSellerReviewDto(Rating review) {
 
+        return new SellerReviewDto(review.getReviewer().getUserId(),
+                review.getReviewer().getUserName(),
+                review.getReviewer().getUserImg(),
+                review.getRating(),
+                review.getDeal().getItem().getItemId(),
+                review.getDeal().getItem().getItemTitle(),
+                review.getComment(),
+                commonService.convertTime(review.getRatingDate())
+        );
+
+    }
+
+    public SellerDetailDto getSellerDetailWithReviews(Long sellerId) {
+
+        User seller = sellerDetailRepository.findById(sellerId).orElseThrow(() -> new NoSuchElementException("id값에 해당하는 유저가 없습니다"));
+
+        SellerDetailDto sellerDetailDto = new SellerDetailDto();
+
+        sellerDetailDto.setSellerId(seller.getUserId());
+        sellerDetailDto.setSellerName(seller.getUserName());
+        sellerDetailDto.setSellerImgUrl(seller.getUserImg());
+        sellerDetailDto.setTransactionCount(transactionRepository.countBySellerId(seller.getUserId()));
+        sellerDetailDto.setTotalItemCount(itemDetailRepository.countByUser_UserIdAndItemHidden(seller.getUserId(), ItemHidden.보임));
+        sellerDetailDto.setReviewCount(reviewRepository.countByTarget_UserId(seller.getUserId()));
+        Optional<Double> avgReviewScore = reviewRepository.findByAverageReviewScoreByUserId(seller.getUserId());
+        if (avgReviewScore.isPresent()) {
+            sellerDetailDto.setAvgReviewScore(Math.floor(avgReviewScore.get() * 10) / 10.0);
+            sellerDetailDto.setReviewScorePercentage(commonService.calPercentScore(avgReviewScore.get(),sellerDetailDto.getReviewCount()));
+        } else {
+            sellerDetailDto.setAvgReviewScore(0.0);
+            sellerDetailDto.setReviewScorePercentage(0);
+        }
+        sellerDetailDto.setSalesStartDate(commonService.convertTime(seller.getUserCreateDate()));
+
+        List<Rating> reviewList = reviewRepository.findByTarget_UserIdOrderByRatingDateDesc(seller.getUserId());
+        sellerDetailDto.setReviewDtoList(reviewList.stream()
+                .map(this::convertSellerReviewDto)
+                .collect(Collectors.toList()));
+
+        return sellerDetailDto;
+
+    }
 }

@@ -368,6 +368,10 @@ a {
     font-weight: 500;
     color: rgb(127, 127, 127);
 }
+.no-review {
+    color: rgb(136, 136, 136);
+    margin: 30px 0px 100px;
+}
 
 .b4 {
     padding: 20px;

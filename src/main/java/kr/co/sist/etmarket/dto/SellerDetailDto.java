@@ -16,6 +16,7 @@ public class SellerDetailDto {
     private int transactionCount; // 상품판매 횟수
     private int reviewCount; // 리뷰 개수
     private double avgReviewScore; // 평균 리뷰 점수
+    private int reviewScorePercentage; // 평균 리뷰점수 퍼센트
     private String salesStartDate; // 판매 시작일
     private List<SellerItemDto> sellerItemDtoList = new ArrayList<>();
     private List<SellerReviewDto> reviewDtoList = new ArrayList<>();

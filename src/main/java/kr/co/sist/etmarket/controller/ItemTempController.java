@@ -64,21 +64,4 @@ public class ItemTempController {
         return "item/item_detail";
     }
 
-
-
-
-    @GetMapping("/detail")
-    public String itemDetailTest() {
-
-        return "item/item_detail_backup";
-    }
-
-    @GetMapping("/seller/item")
-    public String sellerItemList() {
-        return "seller/seller_detail_item_backup";
-    }
-    @GetMapping("/seller/review")
-    public String sellerReviewList() {
-        return "seller/seller_detail_review_backup";
-    }
 }
