@@ -31,7 +31,7 @@ public class ItemDetailDto {
     private Timestamp itemResistDate; // 등록날짜
     private Timestamp itemUpdateDate; // 수정날짜
     private List<DetailTagDto> detailTagDtoList = new ArrayList<>(); // 상품태그 리스트
-    private List<ItemImgDto> itemImgDtoList = new ArrayList<>(); //상품 이미지 리스트
+    private List<ItemDetailImgDto> itemImgDtoList = new ArrayList<>(); //상품 이미지 리스트
 
 
 }

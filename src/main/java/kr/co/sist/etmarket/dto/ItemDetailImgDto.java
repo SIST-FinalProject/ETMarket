@@ -8,7 +8,7 @@ import java.sql.Timestamp;
 
 @AllArgsConstructor
 @Getter @Setter
-public class ItemImgDto {
+public class ItemDetailImgDto {
 
     private Long itemImgId;
     private String itemImgUrl;
