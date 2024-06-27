@@ -62,23 +62,6 @@ public class SellerDetailService {
         return simpleSellerDto;
     }
 
-    private SimpleItemDto convertToSimpleItem(Item item) {
-        DecimalFormat formatter = new DecimalFormat("#,###");
-
-        return new SimpleItemDto(item.getItemId(), item.getItemImgs().get(0).getItemImg(),formatter.format(item.getItemPrice()));
-    }
-
-    private ReviewDto convertToReviewDto(Rating review) {
-
-        return new ReviewDto(review.getReviewer().getUserId(),
-                review.getReviewer().getUserName(),
-                review.getReviewer().getUserImg(),
-                review.getRating(),
-                review.getDeal().getItem().getItemId(),
-                review.getComment(),
-                commonService.convertTime(review.getRatingDate()));
-    }
-
     public SellerDetailDto getSellerDetailWithItems(Long sellerId) {
 
         User seller = sellerDetailRepository.findById(sellerId).orElseThrow(() -> new NoSuchElementException("id값에 해당하는 유저가 없습니다"));
@@ -108,6 +91,54 @@ public class SellerDetailService {
 
     }
 
+    public SellerDetailDto getSellerDetailWithReviews(Long sellerId) {
+
+        User seller = sellerDetailRepository.findById(sellerId).orElseThrow(() -> new NoSuchElementException("id값에 해당하는 유저가 없습니다"));
+
+        SellerDetailDto sellerDetailDto = new SellerDetailDto();
+
+        sellerDetailDto.setSellerId(seller.getUserId());
+        sellerDetailDto.setSellerName(seller.getUserName());
+        sellerDetailDto.setSellerImgUrl(seller.getUserImg());
+        sellerDetailDto.setTransactionCount(transactionRepository.countBySellerId(seller.getUserId()));
+        sellerDetailDto.setTotalItemCount(itemDetailRepository.countByUser_UserIdAndItemHidden(seller.getUserId(), ItemHidden.보임));
+        sellerDetailDto.setReviewCount(reviewRepository.countByTarget_UserId(seller.getUserId()));
+        Optional<Double> avgReviewScore = reviewRepository.findByAverageReviewScoreByUserId(seller.getUserId());
+        if (avgReviewScore.isPresent()) {
+            sellerDetailDto.setAvgReviewScore(Math.floor(avgReviewScore.get() * 10) / 10.0);
+            sellerDetailDto.setReviewScorePercentage(commonService.calPercentScore(avgReviewScore.get()));
+        } else {
+            sellerDetailDto.setAvgReviewScore(0.0);
+            sellerDetailDto.setReviewScorePercentage(0);
+        }
+        sellerDetailDto.setSalesStartDate(commonService.convertTime(seller.getUserCreateDate()));
+
+        List<Rating> reviewList = reviewRepository.findByTarget_UserIdOrderByRatingDateDesc(seller.getUserId());
+        sellerDetailDto.setReviewDtoList(reviewList.stream()
+                .map(this::convertSellerReviewDto)
+                .collect(Collectors.toList()));
+
+        return sellerDetailDto;
+
+    }
+
+    private SimpleItemDto convertToSimpleItem(Item item) {
+        DecimalFormat formatter = new DecimalFormat("#,###");
+
+        return new SimpleItemDto(item.getItemId(), item.getItemImgs().get(0).getItemImg(),formatter.format(item.getItemPrice()));
+    }
+
+    private ReviewDto convertToReviewDto(Rating review) {
+
+        return new ReviewDto(review.getReviewer().getUserId(),
+                review.getReviewer().getUserName(),
+                review.getReviewer().getUserImg(),
+                review.getRating(),
+                review.getDeal().getItem().getItemId(),
+                review.getComment(),
+                commonService.convertTime(review.getRatingDate()));
+    }
+
     private SellerItemDto convertSellerItemDto(Item item) {
         DecimalFormat formatter = new DecimalFormat("#,###");
 
@@ -127,37 +158,6 @@ public class SellerDetailService {
                 review.getComment(),
                 commonService.convertTime(review.getRatingDate())
         );
-
-    }
-
-    public SellerDetailDto getSellerDetailWithReviews(Long sellerId) {
-
-        User seller = sellerDetailRepository.findById(sellerId).orElseThrow(() -> new NoSuchElementException("id값에 해당하는 유저가 없습니다"));
-
-        SellerDetailDto sellerDetailDto = new SellerDetailDto();
-
-        sellerDetailDto.setSellerId(seller.getUserId());
-        sellerDetailDto.setSellerName(seller.getUserName());
-        sellerDetailDto.setSellerImgUrl(seller.getUserImg());
-        sellerDetailDto.setTransactionCount(transactionRepository.countBySellerId(seller.getUserId()));
-        sellerDetailDto.setTotalItemCount(itemDetailRepository.countByUser_UserIdAndItemHidden(seller.getUserId(), ItemHidden.보임));
-        sellerDetailDto.setReviewCount(reviewRepository.countByTarget_UserId(seller.getUserId()));
-        Optional<Double> avgReviewScore = reviewRepository.findByAverageReviewScoreByUserId(seller.getUserId());
-        if (avgReviewScore.isPresent()) {
-            sellerDetailDto.setAvgReviewScore(Math.floor(avgReviewScore.get() * 10) / 10.0);
-            sellerDetailDto.setReviewScorePercentage(commonService.calPercentScore(avgReviewScore.get(),sellerDetailDto.getReviewCount()));
-        } else {
-            sellerDetailDto.setAvgReviewScore(0.0);
-            sellerDetailDto.setReviewScorePercentage(0);
-        }
-        sellerDetailDto.setSalesStartDate(commonService.convertTime(seller.getUserCreateDate()));
-
-        List<Rating> reviewList = reviewRepository.findByTarget_UserIdOrderByRatingDateDesc(seller.getUserId());
-        sellerDetailDto.setReviewDtoList(reviewList.stream()
-                .map(this::convertSellerReviewDto)
-                .collect(Collectors.toList()));
-
-        return sellerDetailDto;
 
     }
 }

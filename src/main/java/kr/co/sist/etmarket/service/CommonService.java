@@ -61,7 +61,7 @@ public class CommonService {
     }
 
 
-    public int calPercentScore(Double avgScore, int reviewCount) {
+    public int calPercentScore(Double avgScore) {
 
         double percentageScore = (avgScore / 5) * 100;
 

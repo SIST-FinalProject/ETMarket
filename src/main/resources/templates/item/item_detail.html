@@ -266,7 +266,7 @@
                             </div>
                             <div class="seller-review-container">
                                 <div class="seller-review-title">
-                                    상점후기
+                                    판매자 후기
                                     <span class="seller-review-count" th:text="${sellerDto.getReviewCount()}">reviewcount</span>
                                 </div>
                                 <div th:each="review : ${sellerDto.getRevieweDtoList()}" class="seller-review-list">
@@ -298,7 +298,7 @@
                                     </div>
                                 </div>
                                 <div class="seller-review-button-wrapper">
-                                    <a th:href="@{/seller/{sellerId}/reviews(sellerId=${sellerDto.getSellerId()})}" class="seller-review-button">상점후기 더보기></a>
+                                    <a th:href="@{/seller/{sellerId}/reviews(sellerId=${sellerDto.getSellerId()})}" class="seller-review-button">판매자 후기 더보기 ></a>
                                 </div>
                             </div>
                         </div>

@@ -112,7 +112,7 @@
                             상품
                             <span class="category-count" th:text="${sellerDetailDto.getTotalItemCount()}">itemcount</span>
                         </div>
-                        <div class="category-dropdown-box">
+<!--                        <div class="category-dropdown-box">
                             <div class="category-dropdown">
                                 <div class="dropdown-title">
                                     전체
@@ -129,7 +129,7 @@
                                     <a href="#" class="dropdown-category">기타</a>
                                 </div>
                             </div>
-                        </div>
+                        </div>-->
                     </div>
                     <div th:if="${sellerDetailDto.getSellerItemDtoList().size() == 0}" class="no-product" th:text="'등록된'+' 상품이 '+'없습니다'"></div>
                     <div th:if="${sellerDetailDto.getSellerItemDtoList().size() != 0}" class="product-sort-section">
