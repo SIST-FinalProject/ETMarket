@@ -93,5 +93,10 @@ public class LoginService {
         
         return redisAuthCode.equals(verifyCode);
     }
+	
+	// 비밀번호 수정
+	public void updateUserPassword(String userLoginId, String userEmail, String userPassword) {
+		userDao.updateUserPassword(userLoginId, userEmail, userPassword);
+	}
 
 }
