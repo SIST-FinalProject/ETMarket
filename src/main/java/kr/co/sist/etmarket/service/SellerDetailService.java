@@ -4,18 +4,13 @@ import kr.co.sist.etmarket.dao.ItemDetailRepository;
 import kr.co.sist.etmarket.dao.ReviewRepository;
 import kr.co.sist.etmarket.dao.SellerDetailRepository;
 import kr.co.sist.etmarket.dao.TransactionRepository;
-import kr.co.sist.etmarket.dto.ItemImgDto;
-import kr.co.sist.etmarket.dto.RevieweDto;
-import kr.co.sist.etmarket.dto.SimpleItemDto;
-import kr.co.sist.etmarket.dto.SimpleSellerDto;
+import kr.co.sist.etmarket.dto.*;
 import kr.co.sist.etmarket.entity.Item;
-import kr.co.sist.etmarket.entity.ItemImg;
 import kr.co.sist.etmarket.entity.Rating;
 import kr.co.sist.etmarket.entity.User;
 import kr.co.sist.etmarket.etenum.DealStatus;
 import kr.co.sist.etmarket.etenum.ItemHidden;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -24,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.text.DecimalFormat;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -72,9 +68,9 @@ public class SellerDetailService {
         return new SimpleItemDto(item.getItemId(), item.getItemImgs().get(0).getItemImg(),formatter.format(item.getItemPrice()));
     }
 
-    private RevieweDto convertToReviewDto(Rating review) {
+    private ReviewDto convertToReviewDto(Rating review) {
 
-        return new RevieweDto(review.getReviewer().getUserId(),
+        return new ReviewDto(review.getReviewer().getUserId(),
                 review.getReviewer().getUserName(),
                 review.getReviewer().getUserImg(),
                 review.getRating(),
@@ -82,4 +78,43 @@ public class SellerDetailService {
                 review.getComment(),
                 commonService.convertTime(review.getRatingDate()));
     }
+
+    public SellerDetailDto getSellerDetailWithItems(Long sellerId) {
+
+        User seller = sellerDetailRepository.findById(sellerId).orElseThrow(() -> new NoSuchElementException("id값에 해당하는 유저가 없습니다"));
+
+        SellerDetailDto sellerDetailDto = new SellerDetailDto();
+
+        sellerDetailDto.setSellerId(seller.getUserId());
+        sellerDetailDto.setSellerName(seller.getUserName());
+        sellerDetailDto.setSellerImgUrl(seller.getUserImg());
+        sellerDetailDto.setTransactionCount(transactionRepository.countBySellerId(seller.getUserId()));
+        sellerDetailDto.setTotalItemCount(itemDetailRepository.countByUser_UserIdAndItemHidden(seller.getUserId(), ItemHidden.보임));
+        sellerDetailDto.setReviewCount(reviewRepository.countByTarget_UserId(seller.getUserId()));
+        Optional<Double> avgReviewScore = reviewRepository.findByAverageReviewScoreByUserId(seller.getUserId());
+        if (avgReviewScore.isPresent()) {
+            sellerDetailDto.setAvgReviewScore(avgReviewScore.get());
+        } else {
+            sellerDetailDto.setAvgReviewScore(0.0);
+        }
+        sellerDetailDto.setSalesStartDate(commonService.convertTime(seller.getUserCreateDate()));
+
+        List<Item> itemList = itemDetailRepository.findByUser_UserIdAndItemHiddenOrderByItemUpdateDateDesc(seller.getUserId(), ItemHidden.보임);
+        sellerDetailDto.setSellerItemDtoList(itemList.stream()
+                .map(this::convertSellerItemDto)
+                .collect(Collectors.toList()));
+
+        return sellerDetailDto;
+
+    }
+
+    private SellerItemDto convertSellerItemDto(Item item) {
+        DecimalFormat formatter = new DecimalFormat("#,###");
+
+        return new SellerItemDto(item.getItemId(), item.getItemImgs().get(0).getItemImg(),item.getItemTitle(),
+                formatter.format(item.getItemPrice()), commonService.trimAddress(item.getItemAddress()),
+                commonService.convertTime(item.getItemUpdateDate()),item.getDealStatus(),item.getDeliveryStatus());
+    }
+
+
 }

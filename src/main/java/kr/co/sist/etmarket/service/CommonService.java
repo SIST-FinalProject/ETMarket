@@ -45,4 +45,19 @@ public class CommonService {
             return years + "년 전";
         }
     }
+
+    public String trimAddress(String inputAddress) {
+        if (inputAddress == null || inputAddress.isEmpty()) {
+            return inputAddress;
+        }
+
+        int index = inputAddress.indexOf('(');
+        if (index != -1) {
+            inputAddress = inputAddress.substring(0, index);
+        }
+
+        return inputAddress.trim();
+    }
+
+
 }

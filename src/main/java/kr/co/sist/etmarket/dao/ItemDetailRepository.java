@@ -26,4 +26,8 @@ public interface ItemDetailRepository extends JpaRepository<Item, Long> {
     List<Item> findRandomItemsByUserAndStatus(@Param("userId") Long userId, @Param("dealStatus") DealStatus dealStatus, @Param("itemHidden") ItemHidden itemHidden,
                                               @Param("itemId") Long itemId, Pageable pageable);
 
+    int countByUser_UserIdAndItemHidden(Long userId, ItemHidden itemHidden);
+
+    List<Item> findByUser_UserIdAndItemHiddenOrderByItemUpdateDateDesc(Long userId, ItemHidden itemHidden);
+
 }

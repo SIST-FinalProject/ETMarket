@@ -16,6 +16,6 @@ public class SimpleSellerDto {
     private int transactionCount;
     private int reviewCount;
     private List<SimpleItemDto> simpleItemDtoList = new ArrayList<>();
-    private List<RevieweDto> revieweDtoList = new ArrayList<>();
+    private List<ReviewDto> revieweDtoList = new ArrayList<>();
 
 }

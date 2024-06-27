@@ -58,9 +58,10 @@
                     <div class="product-image-list">
                         <img th:each="imgSrc : ${itemDetailDto.getItemImgDtoList()}" th:src="${imgSrc.getItemImgUrl()}" alt="" class="product-image">
                     </div>
-                    <div class="product-image-temp"></div>
+                    <div th:if="${itemDetailDto.getDealStatus().name() eq '예약중'}" class="product-image-temp" th:text="예약중"></div>
+                    <div th:if="${itemDetailDto.getDealStatus().name() eq '거래완료'}" class="product-image-temp" th:text="판매완료"></div>
                     <button direction="prev" class="prev-button">
-                        <img src="/image/prev_icon.png" width="12" height="22" alt="이전 이미지 버튼">
+                        <img src="/image/prev_icon.png" width="12" height="22" alt="이전 이미지 버튼">s
                     </button>
                     <button direction="next" class="next-button">
                         <img src="/image/next_icon.png" width="12" height="22" alt="이전 이미지 버튼">
@@ -156,11 +157,17 @@
                 </div>
                 <div class="actions">
                     <div class="like-box">
-                        <button class="like">
+                        <button th:if="${isWishItem == true}" class="like" th:attr="data-item-id=${itemDetailDto.getItemId()}, data-user-id=${uid}">
+                            <img src="/image/wished_icon.png" width="16" height="16" alt="상품 상태 아이콘">
+                            <span>찜</span>
+                            <span th:if="${itemDetailDto.getWishCount() == 0}" class="like-count">0</span>
+                            <span th:unless="${itemDetailDto.getWishCount() == 0}" th:text="${itemDetailDto.getWishCount()}" class="like-count">wishcount</span>
+                        </button>
+                        <button th:unless="${isWishItem == true}" class="unlike" th:attr="data-item-id=${itemDetailDto.getItemId()}, data-user-id=${uid}">
                             <img src="/image/unwished_icon.png" width="16" height="16" alt="상품 상태 아이콘">
                             <span>찜</span>
-                            <span th:if="${itemDetailDto.getWishCount() == 0}">0</span>
-                            <span th:unless="${itemDetailDto.getWishCount() == 0}" th:text="${itemDetailDto.getWishCount()}">wishcount</span>
+                            <span th:if="${itemDetailDto.getWishCount() == 0}" class="like-count">0</span>
+                            <span th:unless="${itemDetailDto.getWishCount() == 0}" th:text="${itemDetailDto.getWishCount()}" class="like-count">wishcount</span>
                         </button>
                     </div>
                     <button class="chat">
@@ -232,7 +239,7 @@
                             <div class="seller-profile">
                                 <a th:href="@{/seller/{sellerId}/items(sellerId=${sellerDto.getSellerId()})}" class="seller-profile-image">
                                     <img th:if="${sellerDto.getSellerImgUrl() != null}" th:src="${sellerDto.getSellerImgUrl()}" width="48" height="48" alt="판매자 프로필 이미지">
-                                    <img th:if="${sellerDto.getSellerImgUrl() == null}" src="/image/tempimage.png" width="48" height="48" alt="기본 프로필 이미지">
+                                    <img th:if="${sellerDto.getSellerImgUrl() == null}" src="/image/basic_profile_image.png" width="48" height="48" alt="기본 프로필 이미지">
                                 </a>
                                 <div class="seller-name">
                                     <a th:href="@{/seller/{sellerId}/items(sellerId=${sellerDto.getSellerId()})}" class="seller-name-link" th:text="${sellerDto.getSellerName()}">sellername</a>
@@ -266,11 +273,11 @@
                                     <div class="seller-review-box">
                                         <a th:href="@{/seller/{sellerId}/items(sellerId=${review.getReviewerId()})}" class="reviewer-profile-image">
                                             <img th:if="${review.getReviewerImgUrl() != null}" th:src="${review.getReviewerImgUrl()}" width="32" height="32" alt="리뷰어 프로필 이미지">
-                                            <img th:if="${review.getReviewerImgUrl() == null}" src="/image/tempimage.png" width="32" height="32" alt="리뷰어 프로필 이미지">
+                                            <img th:if="${review.getReviewerImgUrl() == null}" src="/image/basic_profile_image.png" width="32" height="32" alt="리뷰어 프로필 이미지">
                                         </a>
                                         <div class="review-info-wrapper">
                                             <div class="reviewer-name-date">
-                                                <a th:href="@{/seller/{sellerId}/products(sellerId=${review.getReviewerId()})}" class="reviewer-name" th:text="${review.getReviewerName()}">name</a>
+                                                <a th:href="@{/seller/{sellerId}/items(sellerId=${review.getReviewerId()})}" class="reviewer-name" th:text="${review.getReviewerName()}">name</a>
                                                 <div class="review-date" th:text="${review.getReviewDate()}">date</div>
 
                                             </div>

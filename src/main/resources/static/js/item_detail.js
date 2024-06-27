@@ -126,28 +126,44 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    likeBox.addEventListener('click', () => {
-
-        const wishedColor = 'rgb(51,51,51)';
-        const unwishedColor = 'rgb(204,204,204)';
-        const wishedHeartImg = '/image/wished_icon.png';
-        const unwishedHeartImg = '/image/unwished_icon.png';
-
-
-        //if 찜x 상태면 찜db추가, 하트 이미지 변경, 배경색 변경
-
-        // //else(찜 상태)면 찜db제거, 하트 이미지 변경, 배경색 변경
-        if (likeImg.src === 'http://localhost:8080/image/unwished_icon.png') {
-            likeButton.style.backgroundColor = wishedColor;
-            likeImg.src = wishedHeartImg;
-        } else {
-            likeButton.style.backgroundColor = unwishedColor;
-            likeImg.src = unwishedHeartImg;
-        }
-
-    });
-
-
 
     updateSlider();
 });
+
+$(document).ready(function() {
+    $('.like, .unlike').click(function() {
+        var button = $(this);
+        var itemId = button.data('item-id');
+        var userId = button.data('user-id');
+
+        $.ajax({
+            url: '/check-login-status',
+            type: 'GET',
+            success: function (response) {
+                if (!response.isLoggedin) {
+                    alert("로그인이 필요합니다");
+                    window.location.href = '/login?redirect=' + encodeURIComponent(window.location.href);
+                } else {
+                    $.ajax({
+                        url: '/toggle-wish',
+                        type: 'POST',
+                        data: JSON.stringify({ itemId: itemId, userId: userId}),
+                        contentType: 'application/json',
+                        success: function(response) {
+                            if (response.isWished) {
+                                button.removeClass('unlike').addClass('like');
+                                button.find('img').attr('src', '/image/wished_icon.png');
+                            } else {
+                                button.removeClass('like').addClass('unlike');
+                                button.find('img').attr('src', '/image/unwished_icon.png');
+                            }
+                            $('.wish-count').text(response.wishCount);
+                            button.find('span.like-count').text(response.wishCount);
+                        }
+                    });
+                }
+            },
+        });
+    });
+});
+
