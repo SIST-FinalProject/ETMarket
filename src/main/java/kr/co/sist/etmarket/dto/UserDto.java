@@ -39,10 +39,12 @@ public class UserDto {
 
     private UserStatus userStatus;
 
+    @Builder.Default
     private List<ItemDto> items = new ArrayList<>();
 
 //    private List<ItemLike> itemLikes = new ArrayList<>();
 
+    @Builder.Default
     private List<UserSearchDto> userSearches = new ArrayList<>();
 
 //    private List<Deal> sellers = new ArrayList<>();

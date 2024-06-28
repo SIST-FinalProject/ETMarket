@@ -97,12 +97,21 @@ public class ItemImgService {
         }
     }
 
-    // delete를 위한 이미지명 변환
+    // Delete를 위한 이미지명 변환
     public String getPath(String itemImgName) {
         String target = "itemImg/";
         int index = itemImgName.indexOf(target);
 
         return itemImgName.substring(index);
 
+    }
+
+    // ItemImg S3 Delete(itemId)
+    public void deleteItemImgS3(Long itemId){
+        List<ItemImgDto> itemImgDtos = getItemImgDataByItemId(itemId);
+
+        for (ItemImgDto itemImgDto : itemImgDtos) {
+            s3Uploader.deleteFile(getPath(itemImgDto.getItemImg()));
+        }
     }
 }

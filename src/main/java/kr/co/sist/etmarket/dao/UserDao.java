@@ -1,6 +1,5 @@
 package kr.co.sist.etmarket.dao;
 
-import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -9,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 
 import jakarta.transaction.Transactional;
 import kr.co.sist.etmarket.dto.UserDto;
+
 import kr.co.sist.etmarket.entity.User;
 
 public interface UserDao extends JpaRepository<User, Long> {
