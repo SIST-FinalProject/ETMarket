@@ -1,6 +1,7 @@
 package kr.co.sist.etmarket.controller;
 
 import kr.co.sist.etmarket.dto.ItemDto;
+import kr.co.sist.etmarket.entity.ItemTag;
 import kr.co.sist.etmarket.service.UserSearchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class UserSearchController {
@@ -25,7 +27,6 @@ public class UserSearchController {
                                                  @RequestParam(defaultValue = "10") int size,
                                                  Model model) {
         Page<ItemDto> itemDtos = userSearchService.getItemTitle(content, page, size);
-
 
         int totalPages = itemDtos.getTotalPages(); // 총 페이지 수
         int currentPage = page; // 현재 페이지 (0부터 시작)

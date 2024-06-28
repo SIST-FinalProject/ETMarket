@@ -120,7 +120,7 @@ public class UserSearchService {
                 item.getItemUpdateDate(),
                 item.getUserSearch() != null ? item.getUserSearch().getUserSearchId() : null,
                 item.getItemImgs(), // Include the item images list
-                item.getItemTags().size(),
+                item.getItemTags(),
                 item.getItemChecks().size(),
                 item.getItemLikes().size()
         );

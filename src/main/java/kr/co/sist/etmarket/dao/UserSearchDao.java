@@ -37,7 +37,11 @@ public interface UserSearchDao extends JpaRepository<UserSearch, Long> {
 
     // 검색어에 맞는 상품 리스트 출력
 //    @Query(value = "SELECT i.* FROM item i LEFT JOIN user_search us USING(user_search_id) WHERE i.item_title LIKE %:content%", nativeQuery = true)
-    @Query("SELECT DISTINCT i FROM Item i LEFT JOIN FETCH i.itemImgs LEFT JOIN i.userSearch us " +
+    //------------------------ 잠시 LAZY 테스트
+//    @Query("SELECT DISTINCT i FROM Item i LEFT JOIN FETCH i.itemImgs LEFT JOIN i.userSearch us " +
+//            "WHERE i.itemTitle LIKE %:content% AND NOT (i.itemHidden = '숨김' OR i.dealStatus = '거래완료') " +
+//            "ORDER BY i.itemUpdateDate DESC") =======> img랑 tag는 조회 시 같이 조회되는 것이 나을 거 같아 없앰
+    @Query("SELECT DISTINCT i FROM Item i " +
             "WHERE i.itemTitle LIKE %:content% AND NOT (i.itemHidden = '숨김' OR i.dealStatus = '거래완료') " +
             "ORDER BY i.itemUpdateDate DESC")
     Page<Item> findItemsByContentAndItemTitle(@Param("content") String content, Pageable pageable);

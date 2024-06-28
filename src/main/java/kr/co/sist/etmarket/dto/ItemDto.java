@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import kr.co.sist.etmarket.entity.Item;
 
 import kr.co.sist.etmarket.entity.ItemImg;
+import kr.co.sist.etmarket.entity.ItemTag;
 import kr.co.sist.etmarket.entity.UserSearch;
 import kr.co.sist.etmarket.etenum.*;
 import lombok.AllArgsConstructor;
@@ -70,7 +71,8 @@ public class ItemDto {
     private Long userSearchId;
 
     private List<ItemImg> itemImgs; // 변경된 부분
-    private int itemTagsSize;
+    private List<ItemTag> itemTags;
+    private List<String> itemTagStrings;
     private int itemChecksSize;
     private int itemLikesSize;
 
@@ -124,7 +126,7 @@ public class ItemDto {
                    ItemStatus itemStatus, DealStatus dealStatus, DealHow dealHow, DeliveryStatus deliveryStatus,
                    int itemDeliveryPrice, PriceStatus priceStatus, CategoryName categoryName, int itemCount,
                    ItemHidden itemHidden, Timestamp itemResistDate, Timestamp itemUpdateDate, Long userSearchId,
-                   List<ItemImg> itemImgs, int itemTagsSize, int itemChecksSize, int itemLikesSize) {
+                   List<ItemImg> itemImgs, List<ItemTag> itemTags, int itemChecksSize, int itemLikesSize) {
         this.itemId = itemId;
         this.itemTitle = itemTitle;
         this.itemContent = itemContent;
@@ -143,7 +145,7 @@ public class ItemDto {
         this.itemUpdateDate = itemUpdateDate;
         this.userSearchId = userSearchId;
         this.itemImgs = itemImgs; // 변경된 부분
-        this.itemTagsSize = itemTagsSize;
+        this.itemTags = itemTags;
         this.itemChecksSize = itemChecksSize;
         this.itemLikesSize = itemLikesSize;
     }
