@@ -27,4 +27,7 @@ public interface UserDao extends JpaRepository<User, Long> {
 	@Transactional
 	public void updateUserPassword(@Param("userLoginId") String userLoginId, @Param("userEmail") String userEmail, @Param("userPassword") String userPassword);
 
+	// 회원가입
+	User save(UserDto userDto);
+	
 }

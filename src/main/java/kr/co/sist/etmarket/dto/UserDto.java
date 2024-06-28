@@ -54,20 +54,42 @@ public class UserDto {
 //    private List<Rating> target = new ArrayList<>();
   
   
-  // User 엔티티를 UserDto로 변환하는 메소드
-    public static UserDto fromEntity(User user) {
-        return UserDto.builder()
-                .userId(user.getUserId())
-                .userLoginId(user.getUserLoginId())
-                .userPassword(user.getUserPassword())
-                .userName(user.getUserName())
-                .userPhone(user.getUserPhone())
-                .userEmail(user.getUserEmail())
-                .userImg(user.getUserImg())
-                .userCreateDate(user.getUserCreateDate())
-                .userJoinType(user.getUserJoinType())
-                .userStatus(user.getUserStatus())
-                .build();
-    }
+	// User 엔티티를 UserDto로 변환하는 메소드
+	public static UserDto fromEntity(User user) {
+		return UserDto.builder()
+				.userId(user.getUserId())
+				.userLoginId(user.getUserLoginId())
+				.userPassword(user.getUserPassword())
+				.userName(user.getUserName())
+				.userPhone(user.getUserPhone())
+				.userEmail(user.getUserEmail())
+				.userImg(user.getUserImg())
+				.userCreateDate(user.getUserCreateDate())
+				.userJoinType(user.getUserJoinType())
+				.userStatus(user.getUserStatus()).build();
+	}
+
+	// UserDto를 User 엔티티로 변환하는 메소드
+	public User toEntity() {
+		return new User(
+				this.userId, 
+				this.userLoginId, 
+				this.userPassword, 
+				this.userName, 
+				this.userPhone, 
+				this.userEmail,
+				this.userImg, 
+				this.userCreateDate, 
+				this.userJoinType, 
+				this.userSocialToken, 
+				this.userStatus,
+				new ArrayList<>(), // items
+				new ArrayList<>(), // itemLikes
+				new ArrayList<>(), // userSearches
+				new ArrayList<>(), // sellers
+				new ArrayList<>(), // buyers
+				new ArrayList<>() // target
+		);
+	}
     
 }

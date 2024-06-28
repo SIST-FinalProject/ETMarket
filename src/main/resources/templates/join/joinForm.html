@@ -10,14 +10,14 @@
 <title>ET마켓</title>
 <link rel="icon" href="image/favicon.ico" type="image/x-icon">
 <style type="text/css">
-	body{
+	body {
 		background-color: #F9F9F9;
 		display: flex;
 		justify-content: center;
 		align-items: center;
 	}
 	
-	.joinForm{
+	.joinForm {
 		width: 450px;
 		height: 100v;
 		background: white;
@@ -26,37 +26,37 @@
 		box-shadow: 2px 3px 5px 0px #ddd;
 	}
 	
-	.loginsub{
-        font-size: 10pt !important;
-    }
-
-	.logininput{
-	    width:290px;
-	    height: 36px;
-	    border: 0.7px solid #ddd;
-	    border-radius: 5px;    
-	    margin-top: 3px;
-	    text-indent: 6px;
+	.loginsub {
+		font-size: 10pt !important;
 	}
 	
-	#btnJoin{
-	    background-color: #4eb006;
-	    margin-top:40px; 
-	    width:280px; 
-	    height: 45px;
-	    color: white;
-	    border-radius: 5px;
-	    font-size: 11pt !important;
+	.logininput {
+		width: 290px;
+		height: 36px;
+		border: 0.7px solid #ddd;
+		border-radius: 5px;
+		margin-top: 3px;
+		text-indent: 6px;
 	}
 	
-	.joinpart{
+	#btnJoin {
+		background-color: #4eb006;
+		margin-top: 40px;
+		width: 280px;
+		height: 45px;
+		color: white;
+		border-radius: 5px;
+		font-size: 11pt !important;
+	}
+	
+	.joinpart {
 		margin-top: 20px;
 	}
 </style>
 
 <script type="text/javascript">
-	$(function(){
-		
+	$(function() {
+
 	});
 </script>
 </head>
@@ -98,7 +98,7 @@
 					<td align="left">							
 						<div class="joinpart">
 							<font class="loginsub">비밀번호</font> <br>
-							<input type="text" name="userPassword" class="logininput" required="required"> <br>
+							<input type="password" name="userPassword" class="logininput" required="required"> <br>
 							<font style="color: gray; font-size: 9pt;">
 								영문 대소문자/숫자/특수문자 중 2가지 이상 조합, 8~16자
 							</font>	
@@ -110,7 +110,7 @@
 					<td align="left">							
 						<div class="joinpart">
 							<font class="loginsub">비밀번호 확인</font> <br>
-							<input type="text" name="userPasswordChk" class="logininput" required="required">
+							<input type="password" name="userPasswordChk" class="logininput" required="required">
 						</div>
 						
 						<!-- 비밀번호 불일치 시 에러 -->
