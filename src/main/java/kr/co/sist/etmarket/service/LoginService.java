@@ -19,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class LoginService {
 	
-	private static final String AUTH_CODE_PREFIX = "verifyCode ";
+	private static final String AUTH_CODE_PREFIX = "verifyCode_";
 	
 	@Autowired
 	UserDao userDao;
@@ -79,7 +79,7 @@ public class LoginService {
         
         mailService.sendEmail(userEmail, title, code);
         
-        // 이메일 인증 요청 시 인증 번호 Redis에 저장 ( key = "verifyCode " + Email / value = verifyCode )
+        // 이메일 인증 요청 시 인증 번호 Redis에 저장 ( key = "verifyCode_" + Email / value = verifyCode )
         redisService.setValues(AUTH_CODE_PREFIX + userEmail,
         		code, Duration.ofMillis(this.authCodeExpirationMillis));
     }
@@ -93,5 +93,10 @@ public class LoginService {
         
         return redisAuthCode.equals(verifyCode);
     }
+	
+	// 비밀번호 수정
+	public void updateUserPassword(String userLoginId, String userEmail, String userPassword) {
+		userDao.updateUserPassword(userLoginId, userEmail, userPassword);
+	}
 
 }
