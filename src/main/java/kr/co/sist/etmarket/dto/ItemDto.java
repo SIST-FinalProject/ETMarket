@@ -32,15 +32,5 @@ public class ItemDto {
     private CategoryName categoryName;
     private ItemHidden itemHidden;
 
-    public String getShortAddress() {
-        if (itemAddress != null) {
-            String[] addressParts = itemAddress.split(" ");
-            if (addressParts.length >= 2) {
-                return addressParts[0] + " " + addressParts[1];
-            }
-        }
-        return "";
-    }
-
 
 }

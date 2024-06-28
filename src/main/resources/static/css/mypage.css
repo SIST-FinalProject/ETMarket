@@ -528,19 +528,39 @@ button, input[type="text"], input[type="tel"], input[type="number"] {
     right: 0;
 }
 
- .green-button {
+/* .button-예약중 {
      background-color: green;
      color: white;
      font-weight: bolder;
      border-radius: 2px;
  }
 
-.black-button {
+.button-거래완료 {
     background-color: black;
     color: white;
     font-weight: bolder;
     border-radius: 2px;
+}*/
+
+
+.status-button {
+    background-color: #ccc;
+    color: #fff;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px; /* 버튼 사이의 간격 설정 */
 }
+
+.button-green {
+    background-color: green;
+}
+
+.button-black {
+    background-color: black;
+}
+
 
 .item_status{
     font-weight: 500;
@@ -552,6 +572,21 @@ button, input[type="text"], input[type="tel"], input[type="number"] {
 .item_status.selected {
     color: red;
     font-weight: bolder;
+}
+
+.title-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.title-container header {
+    flex-grow: 1;
+}
+
+.title-container i {
+    margin-left: 100px;
+    cursor:pointer;
 }
 
 
