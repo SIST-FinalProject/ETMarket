@@ -115,11 +115,10 @@
                        		<input type="text" name="verifyCode" id="verifyCode" class="logininput" required="required" placeholder="인증번호 입력">
                        	</div>
 							
-						<!-- 아이디 및 비밀번호가 틀렸을 경우 에러메세지 출력 -->
+						<!-- 에러메세지 출력 -->
                        	<div id="findIdPwError" style="color: red; font-size: 10pt; display: none;">
                        		입력정보와 일치하는 회원 정보가 없습니다.
-                       	</div>
-                       	
+                       	</div>	
                        	<div th:if="${passwordError}" id="passwordError">
                          	<font style="color: red; font-size: 10pt;" th:text="${passwordError}"></font>
                        	</div>

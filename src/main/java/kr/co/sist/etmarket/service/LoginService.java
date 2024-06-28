@@ -79,7 +79,7 @@ public class LoginService {
         
         mailService.sendEmail(userEmail, title, code);
         
-        // 이메일 인증 요청 시 인증 번호 Redis에 저장 ( key = "verifyCode " + Email / value = verifyCode )
+        // 이메일 인증 요청 시 인증 번호 Redis에 저장 ( key = "verifyCode_" + Email / value = verifyCode )
         redisService.setValues(AUTH_CODE_PREFIX + userEmail,
         		code, Duration.ofMillis(this.authCodeExpirationMillis));
     }
