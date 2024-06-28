@@ -72,7 +72,6 @@ public class ItemDto {
 
     private List<ItemImg> itemImgs; // 변경된 부분
     private List<ItemTag> itemTags;
-    private List<String> itemTagStrings;
     private int itemChecksSize;
     private int itemLikesSize;
 

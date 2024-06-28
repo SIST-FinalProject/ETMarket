@@ -2,6 +2,7 @@ package kr.co.sist.etmarket.controller;
 
 import kr.co.sist.etmarket.dto.ItemDto;
 import kr.co.sist.etmarket.entity.ItemTag;
+import kr.co.sist.etmarket.etenum.CategoryName;
 import kr.co.sist.etmarket.service.UserSearchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -28,6 +29,21 @@ public class UserSearchController {
                                                  Model model) {
         Page<ItemDto> itemDtos = userSearchService.getItemTitle(content, page, size);
 
+        // CategoryName enum 값을 리스트로 추출
+        List<CategoryName> categoryNamesEnum = itemDtos.stream()
+                .map(ItemDto::getCategoryName)
+                .distinct() // 중복된 값을 제거
+                .collect(Collectors.toList());
+
+        // CategoryName enum 값을 String 리스트로 변환
+        List<String> categoryNames = categoryNamesEnum.stream()
+                .map(Enum::name)
+                .collect(Collectors.toList());
+
+        for (String categoryName : categoryNames) {
+            System.out.println("Category: " + categoryName);
+        }
+
         int totalPages = itemDtos.getTotalPages(); // 총 페이지 수
         int currentPage = page; // 현재 페이지 (0부터 시작)
         int maxDisplayedPages = 5; // 한 번에 표시할 최대 페이지 번호 수
@@ -51,6 +67,8 @@ public class UserSearchController {
         model.addAttribute("startPage", startPage); // 표시할 시작 페이지
         model.addAttribute("endPage", endPage); // 표시할 끝 페이지
         model.addAttribute("size", size); // 페이지당 아이템 수
+        model.addAttribute("categoryNames", categoryNames); // 카테고리 중복 제거 후 넘김
+        
 
         return "search/search";
     }

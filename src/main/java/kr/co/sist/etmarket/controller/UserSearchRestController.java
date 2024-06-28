@@ -30,7 +30,7 @@ public class UserSearchRestController {
         userSearchService.insertContent(userSearchDto);
     }
 
-    @GetMapping("/search/items")
+    @GetMapping("/api/search/items")
     public Page<ItemDto> findItemsByContentAndItemTitle(@RequestParam String content,
                                                         @RequestParam(defaultValue = "0") int page,
                                                         @RequestParam(defaultValue = "10") int size) {

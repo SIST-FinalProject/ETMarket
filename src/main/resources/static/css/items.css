@@ -53,6 +53,8 @@ div {
 .hDhAKY {
     display: flex;
     height: 34px;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
 }
 .gVIXdM {
     display: flex;
@@ -64,6 +66,7 @@ div {
     padding: 0px 13px;
     font-size: 12px;
     margin-right: 13px;
+    margin-bottom: 10px;
 }
 a {
     color: rgb(33, 33, 33);

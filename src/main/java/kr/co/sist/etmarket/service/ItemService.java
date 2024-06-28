@@ -7,6 +7,7 @@ import kr.co.sist.etmarket.dao.UserDao;
 import kr.co.sist.etmarket.dto.ItemDto;
 import kr.co.sist.etmarket.entity.Item;
 import kr.co.sist.etmarket.entity.User;
+import kr.co.sist.etmarket.etenum.CategoryName;
 import kr.co.sist.etmarket.etenum.DealStatus;
 import kr.co.sist.etmarket.etenum.ItemHidden;
 import kr.co.sist.etmarket.etenum.PriceStatus;
@@ -168,12 +169,45 @@ public class ItemService {
                 .build();
     }
   
-      public Slice<Item> getItemSlice(Pageable pageable) {
+    public Slice<Item> getItemSlice(Pageable pageable) {
             return itemDao.findAllOrderByItemUpdateDateDesc(pageable);
-        }
+    }
     //    public Slice<Item> getItemSlice(int page, int size) {
     //        Pageable pageable = PageRequest.of(page, size);
     //        return itemDao.findAllOrderByItemUpdateDateDesc(pageable);
     //    }
+
+    public Page<ItemDto> getCategoryList(CategoryName category, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Item> items = itemDao.findItemsByCategoryName(category, pageable);
+
+        return items.map(this::createItemDto);
+    }
+
+    private ItemDto createItemDto(Item item) {
+        return new ItemDto(
+                item.getItemId(),
+                item.getItemTitle(),
+                item.getItemContent(),
+                item.getItemPrice(),
+                item.getItemAddress(),
+                item.getItemStatus(),
+                item.getDealStatus(),
+                item.getDealHow(),
+                item.getDeliveryStatus(),
+                item.getItemDeliveryPrice(),
+                item.getPriceStatus(),
+                item.getCategoryName(),
+                item.getItemCount(),
+                item.getItemHidden(),
+                item.getItemResistDate(),
+                item.getItemUpdateDate(),
+                item.getUserSearch() != null ? item.getUserSearch().getUserSearchId() : null,
+                item.getItemImgs(), // Include the item images list
+                item.getItemTags(),
+                item.getItemChecks().size(),
+                item.getItemLikes().size()
+        );
+    }
 
 }
