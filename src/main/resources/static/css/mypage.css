@@ -407,12 +407,6 @@ button, input[type="text"], input[type="tel"], input[type="number"] {
     margin-top: 4px;
 }
 
-.QHfXe {
-    font-size: 20px;
-    font-weight: bolder;
-    line-height: 120%;
-}
-
 .bjPSeA {
     display: flex;
     align-items: baseline;
@@ -528,40 +522,6 @@ button, input[type="text"], input[type="tel"], input[type="number"] {
     right: 0;
 }
 
-/* .button-예약중 {
-     background-color: green;
-     color: white;
-     font-weight: bolder;
-     border-radius: 2px;
- }
-
-.button-거래완료 {
-    background-color: black;
-    color: white;
-    font-weight: bolder;
-    border-radius: 2px;
-}*/
-
-
-.status-button {
-    background-color: #ccc;
-    color: #fff;
-    padding: 8px 16px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-top: 10px; /* 버튼 사이의 간격 설정 */
-}
-
-.button-green {
-    background-color: green;
-}
-
-.button-black {
-    background-color: black;
-}
-
-
 .item_status{
     font-weight: 500;
     line-height: normal;
@@ -588,6 +548,63 @@ button, input[type="text"], input[type="tel"], input[type="number"] {
     margin-left: 100px;
     cursor:pointer;
 }
+
+
+.item-info {
+    display: flex;
+    align-items: center;
+}
+
+.status-button-container {
+    margin-right: 10px; /* 버튼과 가격 사이의 간격 조절 */
+}
+
+.status-button {
+    background-color: #ccc;
+    color: #fff;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px; /* 버튼 사이의 간격 설정 */
+}
+
+.button-green {
+    background-color: green;
+    color: white;
+    font-weight: bolder;
+    border-radius: 2px;
+}
+
+.button-black {
+    background-color: black;
+    color: white;
+    font-weight: bolder;
+    border-radius: 2px;
+}
+
+.item-price {
+    font-size: 20px;
+    font-weight: bolder;
+    line-height: 120%;
+    text-align: center;
+}
+
+.delete-space {
+    position: relative;
+    padding-right: 20px;
+    margin-left: 200%;
+}
+
+.close-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    cursor: pointer;
+    font-size: 20px;
+    padding: 10px;
+}
+
 
 
 

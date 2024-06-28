@@ -20,6 +20,6 @@ public class ItemStatusController {
         // 아이템 상태 업데이트 로직
         itemService.updateItemStatus(itemDto);
 
-        return ResponseEntity.ok().body(Map.of("message", "Status updated successfully"));
+        return ResponseEntity.ok().body(Map.of("success", true, "message", "Status updated successfully"));
     }
 }
