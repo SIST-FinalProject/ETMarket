@@ -127,7 +127,7 @@ public class ItemService {
         return itemDao.save(updatedItem);
     }
 
-    // itemDto insert를 위해 가공 후 Item Entity로 변환
+    // itemDto update를 위해 가공 후 Item Entity로 변환
     public Item processUpdateItemDto(ItemDto itemDto, Item item) {
         // itemDto 가공
         itemDto.setItemPrice(Integer.parseInt(itemDto.getItemPriceText().replace(",","")));
@@ -136,7 +136,6 @@ public class ItemService {
         } else {
             itemDto.setItemAddress(itemDto.getRoadAddress() + " (" + itemDto.getDetailAddress() + ")");
         }
-        itemDto.setDealStatus(DealStatus.판매중);
         itemDto.setItemDeliveryPrice(Integer.parseInt(itemDto.getItemDeliveryPriceText().replace(",","")));
         if (itemDto.isPriceStatusCheck()) {
             itemDto.setPriceStatus(PriceStatus.가능);
@@ -144,7 +143,6 @@ public class ItemService {
             itemDto.setPriceStatus(PriceStatus.불가능);
         }
         itemDto.setItemCount(Integer.parseInt(itemDto.getItemCountText().replace(",","")));
-        itemDto.setItemHidden(ItemHidden.보임);
 
         // Item Entity로 변환
         User user = userDao.findById(itemDto.getUserId()).orElseThrow(() -> new IllegalArgumentException("없는 user ID"));
@@ -157,14 +155,12 @@ public class ItemService {
                 .itemPrice(itemDto.getItemPrice())
                 .itemAddress(itemDto.getItemAddress())
                 .itemStatus(itemDto.getItemStatus())
-                .dealStatus(itemDto.getDealStatus())
                 .dealHow(itemDto.getDealHow())
                 .deliveryStatus(itemDto.getDeliveryStatus())
                 .itemDeliveryPrice(itemDto.getItemDeliveryPrice())
                 .priceStatus(itemDto.getPriceStatus())
                 .categoryName(itemDto.getCategoryName())
                 .itemCount(itemDto.getItemCount())
-                .itemHidden(itemDto.getItemHidden())
                 .build();
     }
   
