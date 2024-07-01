@@ -57,6 +57,7 @@
                                         <b th:text="${sellerDetailDto.getTransactionCount()}"></b>
                                     </a>
                                 </div>
+                                <div th:if="${sellerDetailDto.getSellerId() == uid}" class="manage-box"><a class="manage-link" href="/deal/manage">내 상품 관리</a></div>
 
                             </div>
                         </div>
