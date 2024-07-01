@@ -492,3 +492,19 @@ a {
     background-image: url('/image/more_icon.png');
     background-position: 4px 4px;
 }
+.manage-box {
+    display: flex;
+    margin-top: 20px;
+}
+.manage-link {
+    width: 106px;
+    border: 1px solid rgb(255, 255, 255);
+    color: rgb(255, 255, 255);
+    height: 40px;
+    display: flex;
+    -webkit-box-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    align-items: center;
+    font-size: 13px;
+}

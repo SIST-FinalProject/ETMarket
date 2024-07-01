@@ -13,7 +13,8 @@ public class SellerDetailDto {
     private String sellerName; // 회원 닉네임
     private String sellerImgUrl; // 회원 프로필 이미지url
     private int totalItemCount; // 전체 상품 개수
-    private int transactionCount; // 상품판매 횟수
+    private int transactionCount; // 거래 횟수
+    private int sellCount; // 판매 횟수
     private int reviewCount; // 리뷰 개수
     private double avgReviewScore; // 평균 리뷰 점수
     private int reviewScorePercentage; // 평균 리뷰점수 퍼센트

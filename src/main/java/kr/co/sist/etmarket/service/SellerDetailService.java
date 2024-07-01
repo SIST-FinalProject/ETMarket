@@ -101,6 +101,7 @@ public class SellerDetailService {
         sellerDetailDto.setSellerName(seller.getUserName());
         sellerDetailDto.setSellerImgUrl(seller.getUserImg());
         sellerDetailDto.setTransactionCount(transactionRepository.countBySellerId(seller.getUserId()));
+        sellerDetailDto.setSellCount(transactionRepository.countSellCountBySellerId(seller.getUserId()));
         sellerDetailDto.setTotalItemCount(itemDetailRepository.countByUser_UserIdAndItemHidden(seller.getUserId(), ItemHidden.보임));
         sellerDetailDto.setReviewCount(reviewRepository.countByTarget_UserId(seller.getUserId()));
         Optional<Double> avgReviewScore = reviewRepository.findByAverageReviewScoreByUserId(seller.getUserId());

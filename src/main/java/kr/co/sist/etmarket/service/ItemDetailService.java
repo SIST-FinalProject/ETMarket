@@ -6,7 +6,7 @@ import kr.co.sist.etmarket.dao.ItemDetailRepository;
 import kr.co.sist.etmarket.dao.ItemLikeRepository;
 import kr.co.sist.etmarket.dto.DetailTagDto;
 import kr.co.sist.etmarket.dto.ItemDetailDto;
-import kr.co.sist.etmarket.dto.ItemImgDto;
+import kr.co.sist.etmarket.dto.ItemDetailImgDto;
 import kr.co.sist.etmarket.dto.SimilarItemDto;
 import kr.co.sist.etmarket.entity.Item;
 import kr.co.sist.etmarket.entity.ItemImg;
@@ -112,9 +112,9 @@ public class ItemDetailService {
         return new DetailTagDto(itemTag.getItemTag());
     }
 
-    private ItemImgDto convertImageToDto(ItemImg itemImg) {
+    private ItemDetailImgDto convertImageToDto(ItemImg itemImg) {
 
-        return new ItemImgDto(itemImg.getItemImgId(), itemImg.getItemImg(), itemImg.getResistDate(), itemImg.getUpdateDate());
+        return new ItemDetailImgDto(itemImg.getItemImgId(), itemImg.getItemImg(), itemImg.getResistDate(), itemImg.getUpdateDate());
     }
 
 
