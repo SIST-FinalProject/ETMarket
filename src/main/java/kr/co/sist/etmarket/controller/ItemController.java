@@ -51,9 +51,10 @@ public class ItemController {
     public String insert(@ModelAttribute ItemDto itemDto,
                          @ModelAttribute ItemTagDto itemTagDto,
                          @RequestParam ArrayList<MultipartFile> itemImgUpload) {
+
         Item item = itemService.insertItem(itemDto);
 
-        if (!itemTagDto.getItemTags().isBlank()) {
+        if (!itemTagDto.getItemTagText().isBlank()) {
             itemTagService.insertItemTag(itemTagDto, item);
         }
 
@@ -94,7 +95,7 @@ public class ItemController {
                          @RequestParam ArrayList<MultipartFile> itemImgUpload) {
         Item item = itemService.updateItem(itemDto);
 
-        if (!itemTagDto.getItemTags().isBlank()) {
+        if (!itemTagDto.getItemTagText().isBlank()) {
             itemTagService.deleteItemTag(itemDto.getItemId());
 
             itemTagService.insertItemTag(itemTagDto, item);

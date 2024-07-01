@@ -60,7 +60,7 @@ public class UserDto {
         this.userPassword = userPassword;
         this.userId = userId;
         this.userName = userName;
-
+    }
   
   
   // User 엔티티를 UserDto로 변환하는 메소드

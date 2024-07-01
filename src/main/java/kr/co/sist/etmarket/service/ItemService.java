@@ -206,6 +206,7 @@ public class ItemService {
                 item.getItemChecks().size(),
                 item.getItemLikes().size()
         );
+    }
 
     // Item DB Delete(itemId)
     public void deleteItem(Long itemId) {
