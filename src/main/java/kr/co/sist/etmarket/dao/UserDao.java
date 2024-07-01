@@ -30,4 +30,9 @@ public interface UserDao extends JpaRepository<User, Long> {
 	// 회원가입
 	User save(UserDto userDto);
 	
+	// 중복체크 true/false
+	boolean existsByUserLoginId(String userLoginId);
+	boolean existsByUserName(String userName);
+	boolean existsByUserEmail(String userEmail);
+	
 }

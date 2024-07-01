@@ -7,6 +7,7 @@
 <link rel="stylesheet" type="text/css" href="/css/styles.css">
 <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
 <script src="/js/menu.js"></script>
+<script src="/js/join.js"></script>
 <title>ET마켓</title>
 <link rel="icon" href="image/favicon.ico" type="image/x-icon">
 <style type="text/css">
@@ -52,18 +53,17 @@
 	.joinpart {
 		margin-top: 20px;
 	}
+	
+	.error{
+		color: red; 
+		font-size: 10pt; 
+		display: none;
+	}
 </style>
-
-<script type="text/javascript">
-	$(function() {
-
-	});
-</script>
 </head>
 <body>
 <div class="joinForm">
 	<form action="/member/joinProcess" method="post">
-		<!-- <input type="hidden" name="userJoinType" value="GENERAL"> -->
 		<div align="center">
 		
 			<table style="padding: 50px;">
@@ -77,11 +77,20 @@
 					<td align="left">							
 						<div class="joinpart">
 							<font class="loginsub">아이디</font> <br>
-							<input type="text" name="userLoginId" class="logininput" required="required"> <br>
+							<input type="text" name="userLoginId" id="userLoginId" class="logininput"> <br>
 							<font style="color: gray; font-size: 9pt;">
-								영문, 숫자 사용 8~16자
+								영문, 숫자 사용 6~12자
 							</font>	
-						</div>						
+						</div>
+						
+						<!-- 아이디 유효성 에러 -->
+						<div id="idRuleError" class="error">
+	                     	영문, 숫자 사용 6~12자로 입력해주세요.
+	                    </div>
+	                    <!-- 아이디 중복 에러 -->
+						<div id="idOverError" class="error">
+	                      	사용 불가능한 아이디입니다.
+	                    </div>										
 					</td>
 				</tr>
 				
@@ -89,8 +98,13 @@
 					<td align="left">							
 						<div class="joinpart">
 							<font class="loginsub">닉네임</font> <br>
-							<input type="text" name="userName" class="logininput" required="required">
-						</div>						
+							<input type="text" name="userName" id="userName" class="logininput" required="required">
+						</div>
+						
+						<!-- 닉네임 중복 에러 -->
+						<div id="nameOverError" class="error">
+	                       이미 사용 중인 닉네임입니다.
+	                    </div>												
 					</td>
 				</tr>
 				
@@ -98,11 +112,16 @@
 					<td align="left">							
 						<div class="joinpart">
 							<font class="loginsub">비밀번호</font> <br>
-							<input type="password" name="userPassword" class="logininput" required="required"> <br>
+							<input type="password" name="userPassword" id="userPassword" class="logininput" required="required"> <br>
 							<font style="color: gray; font-size: 9pt;">
 								영문 대소문자/숫자/특수문자 중 2가지 이상 조합, 8~16자
 							</font>	
-						</div>						
+						</div>	
+						
+						<!-- 비밀번호 유효성 에러 -->
+						<div id="passwordError" class="error">
+	                       	영문 대소문자/숫자/특수문자 사용, 8~16자로 입력해주세요.
+	                    </div>							
 					</td>
 				</tr>
 				
@@ -110,11 +129,11 @@
 					<td align="left">							
 						<div class="joinpart">
 							<font class="loginsub">비밀번호 확인</font> <br>
-							<input type="password" name="userPasswordChk" class="logininput" required="required">
+							<input type="password" name="userPasswordChk" id="userPasswordChk" class="logininput" required="required">
 						</div>
 						
 						<!-- 비밀번호 불일치 시 에러 -->
-						<div id="passwordError" style="color: red; font-size: 10pt; display: none;">
+						<div id="passwordChkError" class="error">
                        		비밀번호가 일치하지 않습니다.
                        	</div>		
 					</td>
@@ -124,10 +143,16 @@
 					<td align="left">							
 						<div class="joinpart">
 							<font class="loginsub">휴대폰번호</font> <br>
-							<input type="text" name="userPhone" class="logininput" style="width: 215px;" required="required" placeholder="01012345678">
-							<button type="button" id="btnPhoneVerify" style="width:70px; background-color: black; height: 36px; color: white; border-radius: 5px;" 
-							class="loginsub">인증 요청</button>
-						</div>						
+							<input type="text" name="userPhone" id="userPhone" class="logininput" style="width: 215px;" required="required" placeholder="01012345678">
+							
+							<button type="button" id="btnPhoneVerify" style="width:70px; background-color: black; height: 36px; color: white; 
+							border-radius: 5px;" class="loginsub">인증 요청</button>
+						</div>
+						
+						<!-- 휴대폰번호 유효성 에러 -->
+						<div id="phoneError" class="error">
+	                       올바른 휴대폰번호를 입력해주세요.
+	                    </div>										
 					</td>
 				</tr>
 				
@@ -135,8 +160,13 @@
 					<td align="left">							
 						<div class="joinpart">
 							<font class="loginsub">인증번호 확인</font> <br>
-							<input type="text" name="phoneVerifyCode" class="logininput" required="required">
-						</div>						
+							<input type="text" name="phoneVerifyCode" id="phoneVerifyCode" class="logininput" required="required">
+						</div>	
+						
+						<!-- 인증번호 불일치 시 에러 -->
+						<div id="verifyError" class="error">
+                       		인증번호가 일치하지 않습니다.
+                       	</div>							
 					</td>
 				</tr>
 				
@@ -144,8 +174,17 @@
 					<td align="left">							
 						<div class="joinpart">
 							<font class="loginsub">이메일</font> <br>
-							<input type="text" name="userEmail" class="logininput" required="required" placeholder="example@example.com">
-						</div>						
+							<input type="text" name="userEmail" id="userEmail" class="logininput" required="required" placeholder="example@example.com">
+						</div>	
+						
+						<!-- 이메일 중복 에러 -->
+						<div id="emailOverError" class="error">
+                       		사용 불가능한 이메일입니다.
+                       	</div>		
+                       	<!-- 이메일 유효성 에러 -->
+						<div id="emailRuleError" class="error">
+                       		올바른 이메일을 입력해주세요.
+                       	</div>						
 					</td>
 				</tr>
 				

@@ -1,4 +1,5 @@
 package kr.co.sist.etmarket.dto;
+
 import kr.co.sist.etmarket.entity.User;
 
 import kr.co.sist.etmarket.etenum.UserStatus;
@@ -11,6 +12,10 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,6 +24,8 @@ public class UserDto {
 
     private Long userId;
 
+    @NotBlank(message = "아이디를 입력해주세요.")
+    @Pattern(regexp = "(?=.*[0-9])(?=.*[a-zA-Z]).{6,12}", message = "영문, 숫자 사용 6~12자로 입력해주세요.")
     private String userLoginId;
 
     private String userPassword;
