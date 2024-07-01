@@ -10,18 +10,15 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import kr.co.sist.etmarket.etenum.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter @Setter
 @Builder(toBuilder = true)
-@Getter
 public class Item {
 
     @Id
