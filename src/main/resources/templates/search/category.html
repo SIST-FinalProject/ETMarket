@@ -26,52 +26,19 @@
                     <div class="sc-krDsej ljQgzG">
                         <div class="sc-dTdPqK hQOzoP">카테고리</div>
                         <div class="sc-itybZL hDhAKY">
-                            <a class="sc-eMigcr gVIXdM" th:each="category : ${categoryNames}"
-                                th:href="@{/search/category(category=${category})}">
+                            <a class="sc-eMigcr gVIXdM" th:href="@{/search/category(category=${category})}">
                                 <div class="sc-gPWkxV hochYu">
                                     <i class="bi bi-caret-right" th:text="${category}">과학/IT</i>
                                 </div>
                             </a>
-<!--                            <a class="sc-eMigcr gVIXdM">-->
-<!--                                <div class="sc-gPWkxV hochYu">-->
-<!--                                    <i class="bi bi-caret-right">자기계발</i>-->
-<!--                                </div>-->
-<!--                            </a>-->
                         </div>
-                    </div>
-                </div>
-                <div class="sc-VJcYb gCyLOC">
-                    <div>
-                        <a class="sc-kUaPvJ jRlKCL">
-                            <div class="sc-giadOv eQYNMl">도서/티켓/문구</div>
-                        </a>
-                    </div>
-                    <div>
-                        <a class="sc-kUaPvJ jRlKCL">
-                            <div class="sc-giadOv eQYNMl">도서/티켓/문구2</div>
-                        </a>
-                    </div>
-                    <div>
-                        <a class="sc-kUaPvJ jRlKCL">
-                            <div class="sc-giadOv eQYNMl">도서/티켓/문구3</div>
-                        </a>
-                    </div>
-                    <div>
-                        <a class="sc-kUaPvJ jRlKCL">
-                            <div class="sc-giadOv eQYNMl">도서/티켓/문구4</div>
-                        </a>
-                    </div>
-                    <div>
-                        <a class="sc-kUaPvJ jRlKCL">
-                            <div class="sc-giadOv eQYNMl">도서/티켓/문구5</div>
-                        </a>
                     </div>
                 </div>
                 <div class="sc-ESoVU VKQRc">
                     <div class="sc-kcDeIU hTGiGu">
                         <div class="sc-kkbgRg bwspJJ">
-                            <span class="sc-gbzWSY cgZVvY">[[${content}]]</span>의 검색결과
-                            <span class="sc-hRmvpr fVRwQs" th:text="${items.totalElements} + '개'">0개 </span><!-- totalElements : 전체 데이터 수 -->
+                            <span class="sc-gbzWSY cgZVvY">카테고리 [[${category}]]</span>의 검색결과
+                            <span class="sc-hRmvpr fVRwQs" th:text="${categorys.totalElements} + '개'">0개 </span><!-- totalElements : 전체 데이터 수 -->
 
                             <div class="sc-BngTV bAXClA"><a class="sc-bFADNz cvmpey">정확도순</a><a
                                     class="sc-bFADNz Xyhcc">최신순</a><a class="sc-bFADNz Xyhcc">저가순</a><a
@@ -81,7 +48,7 @@
                     </div>
                     <div class="sc-cZBZkQ bppxQx">
                         <div class="sc-cBdUnI daItnk">
-                            <div class="sc-exkUMo bjByYJ" th:each="item : ${items}">
+                            <div class="sc-exkUMo bjByYJ" th:each="item : ${categorys}">
                                 <a class="sc-cooIXK kApwoH" th:href="'/item/' + ${item.itemId}">
                                     <div class="sc-fcdeBU eXGCeV">
                                         <img alt="상품 이미지" height="194"
@@ -113,17 +80,17 @@
                             <ul class="pagination">
                                 <!-- 이전 페이지 링크: 현재 페이지가 0인 경우 비활성화 -->
                                 <li th:classappend="${currentPage == 0} ? 'disabled'">
-                                    <a th:href="@{/search(content=${content}, page=${currentPage - 1}, size=${size})}" aria-label="Previous">
+                                    <a th:href="@{/search/category(category=${category}, page=${currentPage - 1}, size=${size})}" aria-label="Previous">
                                         <span aria-hidden="true">&laquo;</span>
                                     </a>
                                 </li>
                                 <!-- 페이지 번호 링크: 각 페이지 번호에 대해 반복 -->
                                 <li th:each="pageNum : ${#numbers.sequence(startPage, endPage)}" th:classappend="${pageNum == currentPage} ? 'active'">
-                                    <a th:href="@{/search(content=${content}, page=${pageNum}, size=${size})}" th:text="${pageNum + 1}">1</a>
+                                    <a th:href="@{/search/category(category=${category}, page=${pageNum}, size=${size})}" th:text="${pageNum + 1}">1</a>
                                 </li>
                                 <!-- 다음 페이지 링크: 현재 페이지가 마지막 페이지인 경우 비활성화 -->
                                 <li th:classappend="${currentPage == totalPages - 1} ? 'disabled'">
-                                    <a th:href="@{/search(content=${content}, page=${currentPage + 1}, size=${size})}" aria-label="Next">
+                                    <a th:href="@{/search/category(category=${category}, page=${currentPage + 1}, size=${size})}" aria-label="Next">
                                         <span aria-hidden="true">&raquo;</span>
                                     </a>
                                 </li>
@@ -139,14 +106,6 @@
     <div th:replace="fragments/footer :: company">기업설명부분</div>
 </div>
 
-<script>
-    $(document).ready(function () {
-        var content = [[${content}]];
-        $('#searchInput').val(content);
-
-
-    });
-</script>
 
 <script src="/js/user_search.js"></script>
 <script src="/js/main_list.js"></script>
