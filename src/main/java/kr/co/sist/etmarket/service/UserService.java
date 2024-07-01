@@ -1,7 +1,6 @@
 package kr.co.sist.etmarket.service;
 
 import kr.co.sist.etmarket.dao.UserDao;
-import kr.co.sist.etmarket.dto.UserDto;
 import kr.co.sist.etmarket.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

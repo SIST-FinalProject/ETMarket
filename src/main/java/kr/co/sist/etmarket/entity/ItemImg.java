@@ -2,13 +2,9 @@ package kr.co.sist.etmarket.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -17,8 +13,8 @@ import java.sql.Timestamp;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter @Setter
 @Builder
-@Getter
 public class ItemImg {
 
     @Id
@@ -34,12 +30,12 @@ public class ItemImg {
     private String itemImg;
 
     @Column(updatable = false)
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     @CreationTimestamp
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private Timestamp resistDate;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     @UpdateTimestamp
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private Timestamp updateDate;
 
 }

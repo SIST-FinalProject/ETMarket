@@ -23,9 +23,14 @@ public interface ItemDao extends JpaRepository<Item, Long> {
   // itemId값에 따른 getData
     Item findByItemId(Long itemId);
 
+
     @Query("SELECT i FROM Item i " +
             "WHERE i.categoryName = :category " +
             "ORDER BY i.itemUpdateDate DESC")
     Page<Item> findItemsByCategoryName(@Param("category") CategoryName category, Pageable pageable);
+
+
+    // itemId값에 따른 delete
+    void deleteByItemId(Long itemId);
 
 }

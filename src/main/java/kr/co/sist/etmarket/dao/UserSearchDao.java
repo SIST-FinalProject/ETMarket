@@ -1,11 +1,8 @@
 package kr.co.sist.etmarket.dao;
 
 
-import kr.co.sist.etmarket.entity.Item;
 import kr.co.sist.etmarket.entity.User;
 import kr.co.sist.etmarket.entity.UserSearch;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

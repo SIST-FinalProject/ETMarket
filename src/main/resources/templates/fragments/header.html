@@ -16,10 +16,10 @@
        
        <!-- 로그인 시 로그아웃 버튼 출력, 비로그인 시 로그인 버튼 출력 -->
         <div th:if="${session.loginok == null}">
-            <button class="dDTfxq" onclick="location.href='login'">로그인</button>
+            <button class="dDTfxq" onclick="location.href='/login'">로그인</button>
         </div>
         <div th:if="${session.loginok != null}">
-        	<button class="dDTfxq" onclick="location.href='logout'">로그아웃</button>
+        	<button class="dDTfxq" onclick="location.href='/logout'">로그아웃</button>
         </div>
     </div>
 </div>
@@ -105,7 +105,7 @@
                 <a class="BltZS">
                     <i class="bi bi-person"></i>내상점
                 </a>
-                <a class="BltZS">
+                <a class="BltZS" href="item/insertForm">
                     <i class="bi bi-currency-dollar"></i>판매하기
                 </a>
             </div>

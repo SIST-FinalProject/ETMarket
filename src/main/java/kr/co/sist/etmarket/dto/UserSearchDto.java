@@ -1,6 +1,5 @@
 package kr.co.sist.etmarket.dto;
 
-import kr.co.sist.etmarket.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
