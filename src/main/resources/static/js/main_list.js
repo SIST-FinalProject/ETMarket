@@ -45,7 +45,7 @@ $(document).ready(function() {
             const itemHtml =
                 `<div class="styled__ProductWrapper-sc-32dn86-1 eCFZgW">
                     <a class="sc-hzNEM dGgfzI" data-pid="${item.id}"
-                        href="/items/${item.id}"
+                        href="/items/${item.itemId}"
                         rel="noopener noreferrer"
                         target="_blank">
                         <div class="sc-chbbiW efblGl">
