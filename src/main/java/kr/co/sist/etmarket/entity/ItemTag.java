@@ -1,5 +1,6 @@
 package kr.co.sist.etmarket.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -7,6 +8,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter @Setter
+@Builder
 public class ItemTag {
 
     @Id
@@ -15,6 +17,7 @@ public class ItemTag {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "item_id")
+    @JsonIgnore
     private Item item;
 
     private String itemTag;

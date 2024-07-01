@@ -23,7 +23,7 @@
 	    text-indent: 6px;
 	}
 	
-	#btnFindLoginId{
+	#btnFindPassword{
 	    background-color: #4eb006;
 	    margin-top:20px; 
 	    width:300px; 
@@ -38,10 +38,13 @@
 	$(function(){
 		
 		// 인증번호 요청 버튼 클릭 시
-		$("#btnCerti").click(function(){
+		$("#btnVerify").click(function(){
 			userLoginId=$("#userLoginId").val();
 			userEmail=$("#userEmail").val();
 			//alert(userLoginId+", "+userEmail);
+			
+			// 인증번호 불일치 에러 숨기기
+			$("#passwordError").hide();
 			
 			// 아이디, 이메일 값 전달
 			$.ajax({
@@ -63,26 +66,6 @@
 						$("#findIdPwError").show();
 					}		
 				}		
-			});		
-		});
-		
-		// 다음 버튼 클릭 시
-		$("#btnFindLoginId").click(function(){
-			
-			var verifyCode=$("#verifyCode").val();
-			
-			//alert(userLoginId+", "+userEmail+", "+verifyCode);
-			
-			// 아이디, 이메일 값 전달
-			$.ajax({
-				type:"post",
-				url:"/member/find/verifyRequest",
-				dataType:"json",
-				data:{"userLoginId":userLoginId,"userEmail":userEmail,"verifyCode":verifyCode},
-				success:function(data){
-					alert("값 보내짐");
-	
-				}		
 			});	
 		});
 		
@@ -96,7 +79,7 @@
 
 <div align="center" style="margin: 70px 0px 150px 0px;">
 
-	<form action="/member/find/passwordProcess" method="post">
+	<form action="/member/find/passwordReset" method="post">
 		<table style="width: 300px;">
 			<tr>
 				<td style="float: left; margin-bottom: 30px;">
@@ -111,7 +94,7 @@
 				<td align="left">
 					<div style="margin-bottom: 8px;">
 						<font class="loginsub">아이디</font> <br> 
-						<input type="text" id="userLoginId" class="logininput" required="required" placeholder="가입하신 아이디">
+						<input type="text" name="userLoginId" id="userLoginId" class="logininput" required="required" placeholder="가입하신 아이디">
 					</div>
 				</td>
 			</tr>
@@ -122,22 +105,22 @@
 						<font class="loginsub">이메일</font> <br> 
 						
 						<div>
-							<input type="text" id="userEmail" style="width:200px; height: 38px; border: 0.7px solid #ddd; border-radius: 5px; margin-top: 3px; text-indent: 6px;" 
+							<input type="text" name="userEmail" id="userEmail" style="width:200px; height: 38px; border: 0.7px solid #ddd; border-radius: 5px; margin-top: 3px; text-indent: 6px;" 
 							required="required" placeholder="가입하신 이메일 주소">
-							<button type="button" id="btnCerti" style="width:95px; background-color: black; height: 38px; color: white; border-radius: 5px;" 
+							<button type="button" id="btnVerify" style="width:95px; background-color: black; height: 38px; color: white; border-radius: 5px;" 
 							class="loginsub">인증번호 요청</button>
 						</div>
 						
 						<div id="mailNumber" style="display: none;">
-                       		<input type="text" id="verifyCode" class="logininput" required="required" placeholder="인증번호 입력">
+                       		<input type="text" name="verifyCode" id="verifyCode" class="logininput" required="required" placeholder="인증번호 입력">
                        	</div>
 							
-						<!-- 아이디 및 비밀번호가 틀렸을 경우 에러메세지 출력 -->
-						<!-- <div th:if="${findIdPwError}">
-                           	<font style="color: red; font-size: 10pt;" th:text="${findIdPwError}"></font>
-                       	</div> -->
+						<!-- 에러메세지 출력 -->
                        	<div id="findIdPwError" style="color: red; font-size: 10pt; display: none;">
                        		입력정보와 일치하는 회원 정보가 없습니다.
+                       	</div>	
+                       	<div th:if="${passwordError}" id="passwordError">
+                         	<font style="color: red; font-size: 10pt;" th:text="${passwordError}"></font>
                        	</div>
                        	 
 					</div>
@@ -146,7 +129,7 @@
 
 			<tr>
 				<td>
-					<button type="button" id="btnFindLoginId">다음</button>
+					<button type="submit" id="btnFindPassword">다음</button>
 				</td>
 			</tr>
 
