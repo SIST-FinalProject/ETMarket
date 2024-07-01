@@ -5,7 +5,21 @@
 $(function() {
 	// 아이디 중복, 양식체크
 	$("#userLoginId").blur(function() {
-		//alert("블러");
+		var userLoginId=$("#userLoginId").val();
+		//alert(userLoginId);
+		
+		// /member/join/validation
+		$.ajax({
+			type: "post",
+			url: "/member/join/loginIdValid",
+			dataType: "json",
+			data: { "userLoginId": userLoginId},
+			success: function() {
+				alert("값 보내짐");
+
+			}
+		});	
+		
 	});
 	
 	// 닉네임 중복체크

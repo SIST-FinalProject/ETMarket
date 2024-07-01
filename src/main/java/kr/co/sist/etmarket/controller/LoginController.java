@@ -40,7 +40,8 @@ public class LoginController {
 
 	// 로그인 처리
 	@PostMapping("/member/loginProcess")
-	public String loginProcess(@ModelAttribute UserDto userDto, Model model, HttpSession session, @RequestParam(required = false) String redirectUrl) {
+	public String loginProcess(@ModelAttribute UserDto userDto, Model model, HttpSession session, 
+			@RequestParam(value="redirectUrl", required = false) String redirectUrl) {
 		
 		UserDto loginUser=loginService.login(userDto);
 		
@@ -53,7 +54,6 @@ public class LoginController {
 			session.setAttribute("myUserLoginId", loggedIn.getUserLoginId()); // 로그인 아이디
 			session.setAttribute("myUserId", loggedIn.getUserId()); // 회원번호
 			session.setAttribute("loginok", "yes");
-			//session.setAttribute("saveok", cbsave); 추후 추가
             
 			if (redirectUrl != null && !redirectUrl.isEmpty()) {
 				return "redirect:" + redirectUrl; // 원래 요청 페이지로 리디렉션
