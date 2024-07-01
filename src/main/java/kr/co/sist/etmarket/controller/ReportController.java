@@ -29,6 +29,9 @@ public class ReportController {
         if (myUid == null) {
             return "report/error_requireLogin";
         }
+        if (myUid.equals(uid)) {
+            return "redirect:/";
+        }
 
 
 

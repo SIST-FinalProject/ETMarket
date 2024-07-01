@@ -84,7 +84,7 @@
                     <div class="store-description" th:text="${sellerDetailDto.getSellerName()} + '님의 판매자 상세페이지 입니다.'">
                         store description
                     </div>
-                    <div class="report-store">
+                    <div th:unless="${sellerDetailDto.getSellerId() == uid}" class="report-store">
                         <a th:href="@{/report/seller(uid=${sellerDetailDto.getSellerId()})}" class="report-link">
                             <img src="/image/report_icon.png" width="14" height="14" alt="신고하기 아이콘">
                             신고하기
