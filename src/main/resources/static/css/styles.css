@@ -290,6 +290,10 @@ button {
     position: relative;
 }
 
+.foChwP > i {
+    margin-right: 2px;
+}
+
 .gwGdGE {
     height: 70px;
     display: flex;

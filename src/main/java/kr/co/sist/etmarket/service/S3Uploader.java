@@ -17,7 +17,7 @@ import java.util.UUID;
 
 @Slf4j
 @Service
-public class S3Uploader {
+public class  S3Uploader {
     private final AmazonS3 amazonS3;
     private final String bucket;
 
