@@ -58,7 +58,7 @@ a {
     top: -3%;
     left: -3%;
     filter: blur(10px);
-    background-image: url('/image/tempimage.png');
+    background-image: url('/image/basic_profile_image.png');
 }
 
 .profile-image-before::before {
