@@ -53,6 +53,8 @@ public class LoginController {
             session.setMaxInactiveInterval(60*60*8);
 			session.setAttribute("myUserLoginId", loggedIn.getUserLoginId()); // 로그인 아이디
 			session.setAttribute("myUserId", loggedIn.getUserId()); // 회원번호
+			session.setAttribute("myUserName", loggedIn.getUserName()); // 회원 닉네임 0702 추가
+			//System.out.println("세션값 확인: "+loggedIn.getUserLoginId()+", "+loggedIn.getUserId()+", "+loggedIn.getUserName());
 			session.setAttribute("loginok", "yes");
             
 			if (redirectUrl != null && !redirectUrl.isEmpty()) {
@@ -74,6 +76,7 @@ public class LoginController {
 		session.removeAttribute("loginok");
 		session.removeAttribute("myUserLoginId");
 		session.removeAttribute("myUserId");
+		session.removeAttribute("myUserName");
 		return "redirect:/";
 	}
 

@@ -9,6 +9,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -48,11 +49,14 @@ public class JoinController {
 	
 	@PostMapping("/member/join/loginIdValid")
 	@ResponseBody
-	public String loginIdValid(@Valid UserDto userDto, BindingResult bindingResult, Model model) {
+	public String loginIdValid(@Valid @RequestBody UserDto userDto, BindingResult bindingResult, Model model) {
 		System.out.println(userDto.getUserLoginId());
 		
-		model.addAttribute("userLoginId", userDto.getUserLoginId());
-		
+		if(bindingResult.hasErrors()) {
+			System.out.println("에러");
+		} else {
+			model.addAttribute("userLoginId", userDto.getUserLoginId());
+		}
 		return userDto.getUserLoginId();
 	}
 	
