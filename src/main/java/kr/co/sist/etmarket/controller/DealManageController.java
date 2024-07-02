@@ -98,7 +98,7 @@ public class DealManageController {
         model.addAttribute("likesByItemId", likesByItemId);
         model.addAttribute("itemHidden", hidden);
 
-        return "mypage/dealManage";
+        return "myPage/dealManage";
     }
 
     @PostMapping("/updateHiddenStatus")

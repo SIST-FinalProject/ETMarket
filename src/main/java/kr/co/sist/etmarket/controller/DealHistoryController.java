@@ -12,57 +12,58 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/deal/history")
 public class DealHistoryController {
 
     @Autowired
     private UserService userService;
-    private DealService dealService;
+    private final DealService dealService;
     private final ItemService itemService;
     private final ItemImgService itemImgService;
 
-    @GetMapping("/dealHistory")
+    @GetMapping("/deal/history")
     public String getDealHistory(HttpSession session, Model model) {
         try {
-            Long userId = (Long) session.getAttribute("userId");
+            Long userId = (Long) session.getAttribute("myUserId");
+
+            if (userId == null) {
+                throw new IllegalArgumentException("세션에서 userId를 찾을 수 없습니다.");
+            }
 
             User seller = userService.getUserById(userId);
-            List<Deal> salesHistory = dealService.getSellHistory(seller);
+            List<Deal> saleHistory = dealService.getSellHistory(seller);
 
             User buyer = userService.getUserById(userId);
-            List<Deal> purchasesHistory = dealService.getBuyHistory(buyer);
+            List<Deal> buyHistory = dealService.getBuyHistory(buyer);
 
             // 각 거래에 대한 아이템 이미지 정보 가져오기
-            List<ItemImgDto> salesItemImgList = salesHistory.stream()
+            List<ItemImgDto> saleItemImgList = saleHistory.stream()
                     .map(deal -> itemImgService.getFirstImageByItemId(deal.getItem().getItemId()))
                     .filter(Objects::nonNull)
                     .map(itemImg -> new ItemImgDto(itemImg.getItemImgId(), itemImg.getItemImg()))
                     .collect(Collectors.toList());
 
-            List<ItemImgDto> purchasesItemImgList = purchasesHistory.stream()
+            List<ItemImgDto> buyItemImgList = buyHistory.stream()
                     .map(deal -> itemImgService.getFirstImageByItemId(deal.getItem().getItemId()))
                     .filter(Objects::nonNull)
                     .map(itemImg -> new ItemImgDto(itemImg.getItemImgId(), itemImg.getItemImg()))
                     .collect(Collectors.toList());
 
-            model.addAttribute("salesHistory", salesHistory);
-            model.addAttribute("purchasesHistory", purchasesHistory);
-            model.addAttribute("salesItemImgList", salesItemImgList);
-            model.addAttribute("purchasesItemImgList", purchasesItemImgList);
+            model.addAttribute("saleHistory", saleHistory);
+            model.addAttribute("buyHistory", buyHistory);
+            model.addAttribute("saleItemImgList", saleItemImgList);
+            model.addAttribute("buyItemImgList", buyItemImgList);
 
-            return "dealHistory"; // dealHistory.html 뷰로 이동
+            return "myPage/history"; // dealHistory.html 뷰로 이동
         } catch (Exception e) {
-            return "errorPage"; // 예외 발생 시 errorPage.html 뷰로 이동
+            throw new RuntimeException("거래 내역을 조회하는 도중 오류가 발생하였습니다.", e);
         }
     }
 }

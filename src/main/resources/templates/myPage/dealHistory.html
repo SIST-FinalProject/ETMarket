@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/css/styles.css">
+    <link rel="stylesheet" type="text/css" href="/css/dealManage.css">
+    <link rel="stylesheet" type="text/css" href="/css/dealHistory.css">
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <script src="/js/menu.js"></script>
+    <title>구매/판매 내역 | ET마켓</title>
+    <link rel="icon" href="/image/favicon.ico" type="image/x-icon">
+
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+    </style>
+</head>
+
+<body>
+<div th:replace="~{fragments/header :: menu1}">메뉴1부분</div>
+<div th:replace="~{fragments/header :: menu2}">메뉴2부분</div>
+
+<div class="sc-dTsoBL qMyCA">
+    <div class="sc-btewqU IQTNO">
+        <nav class="sc-hAnkBK bvTSLH">
+            <div class="sc-bJTOcE bwpcVz">
+                <a class="sc-DNdyV ihLswr" th:href="@{/deal/manage}">상품등록</a>
+            </div>
+            <div class="sc-bJTOcE cxNxJu">
+                <a class="sc-DNdyV ihLswr" th:href="@{/deal/manage}">상품관리</a>
+            </div>
+            <div class="sc-bJTOcE bwpcVz">
+                <a class="sc-geAPOV fEXFkE" th:href="@{/deal/history}" >구매/판매 내역</a>
+            </div>
+        </nav>
+    </div>
+
+    <main class="sc-f401efc8-0 gfbMHq">
+        <div>
+            <div class="sc-38383725-0 fUJWkv">
+                <div class="sc-gsFSXq iFhoNP bun-ui-tabs">
+                    <button type="button" label="판매내역" class="sc-iGgWBj fGKPCc bun-ui-tab bun-ui-tab-selected bun-ui-tab-0" width="33.333333333333336%"><span class="bun-ui-tab-label">판매내역</span></button><button type="button" label="구매내역" class="sc-iGgWBj jhtVHV bun-ui-tab bun-ui-tab-1" width="33.333333333333336%"><span class="bun-ui-tab-label">구매내역</span></button></div>
+                <hr class="sc-kAyceB cdAyDo bun-ui-divider">
+            </div>
+            <!--<section class="sc-7aa57e5b-0 dhPOSI">
+                <div class="sc-7aa57e5b-1 krLOOu"><form><div class="sc-cPiKLX irylio bun-ui-search-container"><svg width="20" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" role="img"><path d="M8.99 16.162c-3.955 0-7.172-3.218-7.172-7.172A7.18 7.18 0 0 1 8.99 1.818c3.954 0 7.171 3.217 7.171 7.172 0 3.954-3.217 7.172-7.171 7.172zm6.963-1.494A8.953 8.953 0 0 0 17.98 8.99C17.98 4.032 13.946 0 8.99 0 4.033 0 0 4.032 0 8.99c0 4.957 4.033 8.99 8.99 8.99a8.943 8.943 0 0 0 5.676-2.027l3.781 3.78a.908.908 0 0 0 1.287 0 .909.909 0 0 0 0-1.285l-3.78-3.78z" fill="#b2b2b2" fill-rule="evenodd"></path></svg><input placeholder="상품명으로 검색해보세요" enterkeyhint="search" class="bun-ui-search" value=""></div></form><button class="sc-7aa57e5b-3 gJHWv"><svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 18" role="img">
+                <path d="M6.6 11.3c1.562 0 2.866 1.063 3.265 2.5H19a.9.9 0 1 1 0 1.8H9.865c-.399 1.436-1.703 2.5-3.265 2.5s-2.866-1.064-3.265-2.5H1a.9.9 0 0 1 0-1.8h2.335c.4-1.437 1.703-2.5 3.265-2.5zm0 1.8c-.882 0-1.6.718-1.6 1.6 0 .882.718 1.6 1.6 1.6.882 0 1.6-.718 1.6-1.6 0-.882-.718-1.6-1.6-1.6zm6.801-11.2c1.562 0 2.866 1.063 3.265 2.5h2.335a.9.9 0 0 1 0 1.8h-2.335c-.399 1.436-1.703 2.5-3.265 2.5s-2.866-1.064-3.265-2.5H1.001a.9.9 0 1 1 0-1.8h9.135c.399-1.437 1.703-2.5 3.265-2.5zm0 1.8c-.882 0-1.6.718-1.6 1.6 0 .882.718 1.6 1.6 1.6.882 0 1.6-.718 1.6-1.6 0-.882-.718-1.6-1.6-1.6z" fill="#1e1d29" fill-rule="evenodd"></path></svg></button></div></section>
+            <section class="sc-38383725-1 TZQfU">
+                <div class="sc-20ef24f2-0 jwboJy">
+                    <article class="sc-cd837f27-0 cpZssi">
+                        <header class="sc-cd837f27-1 eOxcte">
+                            <h3>24년 05월 24일</h3>
+                            <svg width="12" height="12" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" role="img">
+                                <path d="M5.262 19.536a.9.9 0 0 0 1.273 0l9-8.974a.905.905 0 0 0 .265-.636.904.904 0 0 0-.263-.637l-9-9.024a.9.9 0 1 0-1.275 1.27l8.365 8.388-8.363 8.34a.9.9 0 0 0-.002 1.273" fill="#7f7f7f" fill-rule="evenodd"></path></svg></header>
+                        <hr class="sc-kAyceB cdAyDo bun-ui-divider"><section class="sc-cd837f27-2 gyvxQm"><p class="sc-gFqAkR gAweBe">거래 완료</p>
+                        <section class="sc-cd837f27-7 DJdJS">
+                            <img src="https://media.bunjang.co.kr/product/248653303_1_0_w160.jpg" alt="새상품 [코인코즈] 반팔티셔츠 상품 사진" loading="lazy"><section>
+                        <header class="sc-cd837f27-4 hmyVuO">18,000원</header>
+                        <p class="sc-cd837f27-5 bxbsbo">새상품 [코인코즈] 반팔티셔츠</p>
+                            <p class="sc-cd837f27-6 QHfXe">코싸지 / 택배거래</p></section>
+                        </section>
+                    </section>
+            <footer class="sc-cd837f27-3 bjPSeA transaction-card-footer">
+                <button class="sc-gEvEer fbpoRr bun-ui-button" color="secondaryRed">후기 남기기</button>
+            </footer>
+                    </article>
+                </div>
+            </section>-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <h1>Deal History</h1>
+            <div>
+                <h2>Purchase History for Item</h2>
+                <label for="purchaseItemId">Item ID:</label>
+                <input type="text" id="purchaseItemId">
+                <label for="purchaseSellerId">Seller ID:</label>
+                <input type="text" id="purchaseSellerId">
+                <button onclick="buyHistory()">Get Purchase History</button>
+                <table id="purchaseTable">
+                    <thead>
+                    <tr>
+                        <th>Deal ID</th>
+                        <th>Item ID</th>
+                        <th>Seller ID</th>
+                        <th>Buyer ID</th>
+                        <th>Item Price</th>
+                        <th>Deal Method</th>
+                        <th>Rating Left</th>
+                        <th>Deal Date</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!-- Purchase data will be inserted here -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div>
+                <h2>Sales History for Item</h2>
+                <label for="salesItemId">Item ID:</label>
+                <input type="text" id="salesItemId">
+                <label for="salesBuyerId">Buyer ID:</label>
+                <input type="text" id="salesBuyerId">
+                <button onclick="getSalesHistory()">Get Sales History</button>
+                <table id="salesTable">
+                    <thead>
+                    <tr>
+                        <th>Deal ID</th>
+                        <th>Item ID</th>
+                        <th>Seller ID</th>
+                        <th>Buyer ID</th>
+                        <th>Item Price</th>
+                        <th>Deal Method</th>
+                        <th>Rating Left</th>
+                        <th>Deal Date</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!-- Sales data will be inserted here -->
+                    </tbody>
+                </table>
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+        </div>
+    </main>
+
+    <footer class="sc-SFOxd jqAsZn">
+        <div class="pagination-container">
+            <a class="pagination-arrow" th:if="${nowPage > 1}"
+               th:href="@{/deal/manage(page=${nowPage - 1}, dealStatus=${dealStatus}, keyword=${keyword})}">
+                <i class="bi bi-chevron-left"></i>
+            </a>
+            <th:block th:each="page : ${#numbers.sequence(startPage, endPage)}">
+                <a class="pagination-link" th:if="${page != nowPage}"
+                   th:href="@{/deal/manage(page=${page - 1}, dealStatus=${dealStatus}, keyword=${keyword})}"
+                   th:text="${page}"></a>
+                <strong class="pagination-current" th:if="${page == nowPage}" th:text="${page}"></strong>
+            </th:block>
+            <a class="pagination-arrow"
+               th:href="@{/deal/manage(page=${nowPage + 1}, dealStatus=${dealStatus}, keyword=${keyword})}">
+                <i class="bi bi-chevron-right"></i>
+            </a>
+        </div>
+
+
+
+    </footer>
+</div>
+<div th:replace="~{fragments/footer :: company}">기업설명부분</div>
+
+
+<script>
+    function getPurchasesHistory() {
+        const itemId = document.getElementById('purchaseItemId').value;
+        const sellerId = document.getElementById('purchaseSellerId').value;
+        fetch(/deal/history/purchases?itemId=${itemId}&sellerId=${sellerId})
+    .then(response => response.json())
+            .then(data => {
+                const tableBody = document.getElementById('purchaseTable').getElementsByTagName('tbody')[0];
+                tableBody.innerHTML = '';
+                data.forEach(deal => {
+                    const row = tableBody.insertRow();
+                    row.insertCell(0).textContent = deal.deal_id;
+                    row.insertCell(1).textContent = deal.item_id;
+                    row.insertCell(2).textContent = deal.seller_id;
+                    row.insertCell(3).textContent = deal.buyer_id;
+                    row.insertCell(4).textContent = deal.item_price;
+                    row.insertCell(5).textContent = deal.deal_method;
+                    row.insertCell(6).textContent = deal.rating_left;
+                    row.insertCell(7).textContent = deal.deal_date;
+                });
+            });
+    }
+
+    function getSalesHistory() {
+        const itemId = document.getElementById('salesItemId').value;
+        const buyerId = document.getElementById('salesBuyerId').value;
+        fetch(/deal/history/sales?itemId=${itemId}&buyerId=${buyerId})
+    .then(response => response.json())
+            .then(data => {
+                const tableBody = document.getElementById('salesTable').getElementsByTagName('tbody')[0];
+                tableBody.innerHTML = '';
+                data.forEach(deal => {
+                    const row = tableBody.insertRow();
+                    row.insertCell(0).textContent = deal.deal_id;
+                    row.insertCell(1).textContent = deal.item_id;
+                    row.insertCell(2).textContent = deal.seller_id;
+                    row.insertCell(3).textContent = deal.buyer_id;
+                    row.insertCell(4).textContent = deal.item_price;
+                    row.insertCell(5).textContent = deal.deal_method;
+                    row.insertCell(6).textContent = deal.rating_left;
+                    row.insertCell(7).textContent = deal.deal_date;
+                });
+            });
+    }
+</script>
+</body>
+</html>

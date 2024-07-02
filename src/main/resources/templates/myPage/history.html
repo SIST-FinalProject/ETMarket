@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Deal History</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+    .history-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+    .history-table, th, td {
+      border: 1px solid #ddd;
+    }
+    .history-table th, .history-table td {
+      padding: 10px;
+      text-align: left;
+    }
+    .history-table th {
+      background-color: #f2f2f2;
+    }
+    .item-image {
+      max-width: 100px;
+      max-height: 100px;
+    }
+  </style>
+</head>
+<body>
+<h1>Deal History</h1>
+
+<h2>Sales History</h2>
+<table class="history-table">
+  <thead>
+  <tr>
+    <th>Deal ID</th>
+    <th>Item Name</th>
+    <th>Buyer</th>
+    <th>Price</th>
+    <th>Deal Date</th>
+    <th>Deal Method</th>
+    <th>Rating Left</th>
+    <th>Item Image</th>
+  </tr>
+  </thead>
+  <tbody>
+  <!-- Loop through sale history -->
+  <tr th:each="sale : ${saleHistory}">
+    <td th:text="${sale.dealId}"></td>
+    <td th:text="${sale.item.itemTitle}"></td>
+    <td th:text="${sale.buyer.userName}"></td>
+    <td th:text="${sale.itemPrice}"></td>
+    <td th:text="${#dates.format(sale.dealDate, 'yyyy-MM-dd HH:mm')}"></td>
+    <td th:text="${sale.dealMethod}"></td>
+    <td th:text="${sale.ratingLeft}"></td>
+    <!--<td>
+      <img th:src="@{'/item/image/' + ${saleItemImgList[__${row.index}__].itemImgId}}" class="item-image" alt="Item Image">
+    </td>-->
+  </tr>
+  </tbody>
+</table>
+
+<h2>Purchase History</h2>
+<table class="history-table">
+  <thead>
+  <tr>
+    <th>Deal ID</th>
+    <th>Item Name</th>
+    <th>Seller</th>
+    <th>Price</th>
+    <th>Deal Date</th>
+    <th>Deal Method</th>
+    <th>Rating Left</th>
+    <th>Item Image</th>
+  </tr>
+  </thead>
+  <tbody>
+  <!-- Loop through buy history -->
+  <tr th:each="buy : ${buyHistory}">
+    <td th:text="${buy.dealId}"></td>
+    <td th:text="${buy.item.itemTitle}"></td>
+    <td th:text="${buy.seller.userName}"></td>
+    <td th:text="${buy.itemPrice}"></td>
+    <td th:text="${#dates.format(buy.dealDate, 'yyyy-MM-dd HH:mm')}"></td>
+    <td th:text="${buy.dealMethod}"></td>
+    <td th:text="${buy.ratingLeft}"></td>
+    <!--<td>
+      <img th:src="@{'/item/image/' + ${buyItemImgList[__${row.index}__].itemImgId}}" class="item-image" alt="Item Image">
+    </td>-->
+  </tr>
+  </tbody>
+</table>
+</body>
+</html>

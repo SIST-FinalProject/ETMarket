@@ -1,6 +1,5 @@
 package kr.co.sist.etmarket.service;
 
-import jakarta.servlet.http.HttpSession;
 import kr.co.sist.etmarket.dao.DealDao;
 import kr.co.sist.etmarket.entity.Deal;
 import kr.co.sist.etmarket.entity.User;
