@@ -5,18 +5,21 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.sql.Timestamp;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+
 public class ItemImgDto {
-    private Long itemId;
     private Long itemImgId;
-    private Timestamp resistDate;
-    private Timestamp updateDate;
+
+    private Long itemId;
+
     private String itemImg;
+
+    private String itemDeleteImgIds;
+
+    private int itemImgUploadCount;
 
     public ItemImgDto(Long itemImgId, String itemImg) {
         this.itemImgId = itemImgId;

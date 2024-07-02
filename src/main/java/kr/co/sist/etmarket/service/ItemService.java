@@ -1,52 +1,226 @@
 package kr.co.sist.etmarket.service;
 
-import kr.co.sist.etmarket.dto.ItemDto;
+import jakarta.transaction.Transactional;
 import kr.co.sist.etmarket.dao.ItemDao;
+import kr.co.sist.etmarket.dao.ItemImgDao;
+import kr.co.sist.etmarket.dao.UserDao;
+import kr.co.sist.etmarket.dto.ItemDto;
 import kr.co.sist.etmarket.entity.Item;
+import kr.co.sist.etmarket.entity.User;
 import kr.co.sist.etmarket.etenum.DealStatus;
 import kr.co.sist.etmarket.etenum.ItemHidden;
-import lombok.AllArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import kr.co.sist.etmarket.etenum.PriceStatus;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
+import java.text.DecimalFormat;
 import java.util.Optional;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
+@Transactional
 public class ItemService {
-
     private final ItemDao itemDao;
+    private final UserDao userDao;
+    private final ItemImgDao itemImgDao;
 
-    /*public Page<Item> findByUserId(Long userId, Pageable pageable) {
-        return itemDao.findByUserId(userId, pageable);
-    }*/
+    // Item DB insert
+    public Item insertItem(ItemDto itemDto) {
+        //ItemDto 가공후 Entity로 변환
+        Item item = processInsertItemDto(itemDto);
 
-    public Page<Item> itemList(Pageable pageable){
-        return itemDao.findAll(pageable);
+        // Item DB insert
+        return itemDao.save(item);
     }
 
-    public Page<Item> itemSearchList(String keyword, Pageable pageable){
-        return itemDao.findByItemTitleContaining(keyword, pageable);
+    // itemDto insert를 위해 가공 후 Item Entity로 변환
+    public Item processInsertItemDto(ItemDto itemDto) {
+        // itemDto 가공
+        itemDto.setItemPrice(Integer.parseInt(itemDto.getItemPriceText().replace(",","")));
+        if (itemDto.getDetailAddress().isBlank()) {
+            itemDto.setItemAddress(itemDto.getRoadAddress());
+        } else {
+            itemDto.setItemAddress(itemDto.getRoadAddress() + " (" + itemDto.getDetailAddress() + ")");
+        }
+        itemDto.setDealStatus(DealStatus.판매중);
+        itemDto.setItemDeliveryPrice(Integer.parseInt(itemDto.getItemDeliveryPriceText().replace(",","")));
+        if (itemDto.isPriceStatusCheck()) {
+            itemDto.setPriceStatus(PriceStatus.가능);
+        } else {
+            itemDto.setPriceStatus(PriceStatus.불가능);
+        }
+        itemDto.setItemCount(Integer.parseInt(itemDto.getItemCountText().replace(",","")));
+        itemDto.setItemHidden(ItemHidden.보임);
+
+        // Item Entity로 변환
+        User user = userDao.findById(itemDto.getUserId()).orElseThrow(() -> new IllegalArgumentException("없는 user ID"));
+
+        return Item.builder()
+                .user(user)
+                .itemTitle(itemDto.getItemTitle())
+                .itemContent(itemDto.getItemContent())
+                .itemPrice(itemDto.getItemPrice())
+                .itemAddress(itemDto.getItemAddress())
+                .itemStatus(itemDto.getItemStatus())
+                .dealStatus(itemDto.getDealStatus())
+                .dealHow(itemDto.getDealHow())
+                .deliveryStatus(itemDto.getDeliveryStatus())
+                .itemDeliveryPrice(itemDto.getItemDeliveryPrice())
+                .priceStatus(itemDto.getPriceStatus())
+                .categoryName(itemDto.getCategoryName())
+                .itemCount(itemDto.getItemCount())
+                .itemHidden(itemDto.getItemHidden())
+                .build();
     }
 
-    public Page<Item> itemStatusList(DealStatus dealStatus, Pageable pageable) {
-        return itemDao.findByDealStatus(dealStatus, pageable);
+    // Item DB getData(itemId)
+    public ItemDto getDataItem(Long itemId) {
+        Item item = itemDao.findByItemId(itemId);
+
+        return covertToDto(item);
     }
 
-    public Page<Item> itemSearchAndStatusList(String keyword, DealStatus dealStatus, Pageable pageable) {
-        return itemDao.findByItemTitleAndDealStatus(keyword, dealStatus, pageable);
+    // item 출력을 위해 itemDto로 가공
+    private ItemDto covertToDto(Item item) {
+        DecimalFormat decimalFormat = new DecimalFormat("#,###");
+
+        ItemDto itemDto = new ItemDto();
+        itemDto.setItemId(item.getItemId());
+        itemDto.setUserId(item.getUser().getUserId());
+        itemDto.setItemTitle(item.getItemTitle());
+        itemDto.setItemContent(item.getItemContent());
+        itemDto.setItemPriceText(decimalFormat.format(item.getItemPrice()));
+        int idx = item.getItemAddress().lastIndexOf("(");
+        if (idx != -1) {
+            itemDto.setRoadAddress(item.getItemAddress().substring(0, idx).trim());
+            itemDto.setDetailAddress(item.getItemAddress().substring(idx + 1, item.getItemAddress().length() - 1).trim());
+        } else {
+            itemDto.setRoadAddress(item.getItemAddress().trim());
+        }
+        itemDto.setItemStatus(item.getItemStatus());
+        itemDto.setDealHow(item.getDealHow());
+        itemDto.setDeliveryStatus(item.getDeliveryStatus());
+        itemDto.setItemDeliveryPriceText(decimalFormat.format(item.getItemDeliveryPrice()));
+        if (item.getPriceStatus().toString().equals("가능")) {
+            itemDto.setPriceStatusCheck(true);
+        } else {
+            itemDto.setPriceStatusCheck(false);
+        }
+        itemDto.setCategoryName(item.getCategoryName());
+        itemDto.setItemCountText(decimalFormat.format(item.getItemCount()));
+
+        return itemDto;
     }
 
-    public void updateItemStatus(ItemDto itemDto) {
+    // Item DB update
+    public Item updateItem(ItemDto itemDto) {
+        // 데이터베이스에서 기존 Item 엔티티를 조회합니다.
+        Item existingItem = itemDao.findById(itemDto.getItemId()).orElseThrow(() -> new IllegalArgumentException("해당 item ID를 찾을 수 없습니다."));
+
+        // 기존 Item 엔티티를 수정합니다.
+        Item updatedItem = processUpdateItemDto(itemDto, existingItem);
+
+        // Item DB Update
+        return itemDao.save(updatedItem);
+    }
+
+    // itemDto insert를 위해 가공 후 Item Entity로 변환
+    public Item processUpdateItemDto(ItemDto itemDto, Item item) {
+        // itemDto 가공
+        itemDto.setItemPrice(Integer.parseInt(itemDto.getItemPriceText().replace(",","")));
+        if (itemDto.getDetailAddress().isBlank()) {
+            itemDto.setItemAddress(itemDto.getRoadAddress());
+        } else {
+            itemDto.setItemAddress(itemDto.getRoadAddress() + " (" + itemDto.getDetailAddress() + ")");
+        }
+        itemDto.setDealStatus(DealStatus.판매중);
+        itemDto.setItemDeliveryPrice(Integer.parseInt(itemDto.getItemDeliveryPriceText().replace(",","")));
+        if (itemDto.isPriceStatusCheck()) {
+            itemDto.setPriceStatus(PriceStatus.가능);
+        } else {
+            itemDto.setPriceStatus(PriceStatus.불가능);
+        }
+        itemDto.setItemCount(Integer.parseInt(itemDto.getItemCountText().replace(",","")));
+        itemDto.setItemHidden(ItemHidden.보임);
+
+        // Item Entity로 변환
+        User user = userDao.findById(itemDto.getUserId()).orElseThrow(() -> new IllegalArgumentException("없는 user ID"));
+
+        return item.toBuilder()
+                .itemId(itemDto.getItemId())
+                .user(user)
+                .itemTitle(itemDto.getItemTitle())
+                .itemContent(itemDto.getItemContent())
+                .itemPrice(itemDto.getItemPrice())
+                .itemAddress(itemDto.getItemAddress())
+                .itemStatus(itemDto.getItemStatus())
+                .dealStatus(itemDto.getDealStatus())
+                .dealHow(itemDto.getDealHow())
+                .deliveryStatus(itemDto.getDeliveryStatus())
+                .itemDeliveryPrice(itemDto.getItemDeliveryPrice())
+                .priceStatus(itemDto.getPriceStatus())
+                .categoryName(itemDto.getCategoryName())
+                .itemCount(itemDto.getItemCount())
+                .itemHidden(itemDto.getItemHidden())
+                .build();
+    }
+
+    public Slice<Item> getItemSlice(Pageable pageable) {
+        return itemDao.findAllOrderByItemUpdateDateDesc(pageable);
+    }
+    //    public Slice<Item> getItemSlice(int page, int size) {
+    //        Pageable pageable = PageRequest.of(page, size);
+    //        return itemDao.findAllOrderByItemUpdateDateDesc(pageable);
+    //    }
+
+    // Item DB Delete(itemId)
+    public void deleteItem(Long itemId) {
+        itemDao.deleteByItemId(itemId);
+    }
+
+
+
+
+    /*마이페이지에서 사용*/
+
+    /* 유저가 등록한 전체 상품 출력(숨김 상품 제외) */
+    public Page<Item> findByUserIdAllItem(Long userId, Pageable pageable) {
+        pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("itemUpdateDate").descending());
+        return itemDao.findByUser_UserIdAndItemHidden(userId, ItemHidden.보임, pageable);
+    }
+    /* 전체 탭에서 검색 */
+    public Page<Item> itemSearchList(Long userId, String keyword, Pageable pageable) {
+        pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("itemUpdateDate").descending());
+        return itemDao.findByUser_UserIdAndItemTitleContainingAndItemHidden(userId, keyword, ItemHidden.보임, pageable);
+    }
+    /* 거래상태에 따라 출력(숨김 상품 제외) */
+    public Page<Item> itemStatusList(Long userId, DealStatus dealStatus, Pageable pageable) {
+        pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("itemUpdateDate").descending());
+        return itemDao.findByUser_UserIdAndDealStatusAndItemHidden(userId, dealStatus, ItemHidden.보임, pageable);
+    }
+    /* 판매중,예약중,거래완료 탭에서 검색 */
+    public Page<Item> itemSearchAndStatusList(Long userId, String keyword, DealStatus dealStatus, Pageable pageable) {
+        pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("itemUpdateDate").descending());
+        return itemDao.findByUser_UserIdAndItemTitleContainingAndDealStatusAndItemHidden(userId, keyword, dealStatus, ItemHidden.보임, pageable);
+    }
+    /* 숨긴 상품 출력 */
+    public Page<Item> hiddenList(Long userId, Pageable pageable) {
+        pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("itemUpdateDate").descending());
+        return itemDao.findByUser_UserIdAndItemHidden(userId, ItemHidden.숨김, pageable);
+    }
+    /* 숨김 탭에서 검색 */
+    public Page<Item> hiddenSearchList(Long userId, String keyword, Pageable pageable) {
+        pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("itemUpdateDate").descending());
+        return itemDao.findByUser_UserIdAndItemTitleContainingAndItemHidden(userId, keyword, ItemHidden.숨김, pageable);
+    }
+    /* 거래 상태 변경 */
+    public void updateDealStatus(ItemDto itemDto) {
         Item item = itemDao.findById(itemDto.getItemId())
                 .orElseThrow(() -> new IllegalArgumentException("Invalid item ID"));
         item.setDealStatus(itemDto.getDealStatus());
         itemDao.save(item);
     }
-
-
 
     @Transactional
     public boolean updateHiddenStatus(Long itemId, ItemHidden hidden) {
@@ -59,14 +233,6 @@ public class ItemService {
         } else {
             return false;
         }
-    }
-
-    public Page<Item> findByItemHidden(ItemHidden hidden, Pageable pageable) {
-        return itemDao.findByItemHidden(hidden, pageable);
-    }
-
-    public Page<Item> getVisibleItems(DealStatus dealStatus, Pageable pageable) {
-        return itemDao.findByItemHiddenAndDealStatus(ItemHidden.보임, DealStatus.valueOf(dealStatus.name()), pageable);
     }
 
 }

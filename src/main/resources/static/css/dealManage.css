@@ -72,8 +72,8 @@ a {
     margin-right: 2rem;
 }
 
-.cxNxJu .sc-DNdyV {
-    color: rgb(216, 12, 24);
+.clicked a {
+    color: red;
 }
 
 .ihLswr {
@@ -517,9 +517,9 @@ button, input[type="text"], input[type="tel"], input[type="number"] {
 
 .likes{
     vertical-align: bottom;
-    margin-left: 5px;
     font-size: 1.5em;
     right: 0;
+    margin-left:500px;
 }
 
 .item_status{
@@ -593,7 +593,7 @@ button, input[type="text"], input[type="tel"], input[type="number"] {
 .delete-space {
     position: relative;
     padding-right: 20px;
-    margin-left: 200%;
+    margin-left: 100%;
 }
 
 .close-button {

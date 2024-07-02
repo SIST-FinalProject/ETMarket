@@ -12,6 +12,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 public class ItemUpService {
@@ -27,30 +30,70 @@ public class ItemUpService {
         this.userDao = userDao;
     }
 
+
     @Transactional
     public void upItem(ItemUpDto itemUpDto) {
-        // itemId와 userId를 사용하여 Item과 User 엔티티를 조회
-        Item item = itemDao.findById(itemUpDto.getItemId()).orElseThrow(() -> new IllegalArgumentException("Invalid item ID"));
-        User user = userDao.findById(itemUpDto.getUserId()).orElseThrow(() -> new IllegalArgumentException("Invalid user ID"));
+        Item item = itemDao.findById(itemUpDto.getItemId())
+                .orElseThrow(() -> new IllegalArgumentException("Invalid item ID"));
 
-        // 끌어올리기 횟수 감소 로직 추가
+        User user = userDao.findById(itemUpDto.getUserId())
+                .orElseThrow(() -> new IllegalArgumentException("Invalid user ID"));
+
+        LocalDateTime startOfDay = LocalDate.now().atStartOfDay();
+        LocalDateTime endOfDay = LocalDateTime.now().withHour(23).withMinute(59).withSecond(59).withNano(999999999);
+
+        // 사용자의 남은 끌어올리기 횟수를 감소시키고 반환
         int remainingUpCount = decreaseRemainingUpCount(itemUpDto.getUserId());
-        if (remainingUpCount >= 0) {
-            ItemUp itemUp = new ItemUp();
-            itemUp.setItem(item);
-            itemUp.setUser(user);
-            itemUp.setItemUpCount(itemUpDao.countByItem_ItemIdAndUser_UserId(itemUpDto.getItemId(), itemUpDto.getUserId()) + 1);
-            itemUp.setItemUpDate(new Timestamp(System.currentTimeMillis()));
+
+        if (remainingUpCount <= 0) {
+            throw new IllegalArgumentException("오늘 더 이상 끌어올릴 수 없습니다.");
+        }
+
+        // 오늘 이미 이 상품을 끌어올렸는지 확인
+        if (itemUpDao.existsByItemAndUserAndDate(itemUpDto.getItemId(), itemUpDto.getUserId(), startOfDay, endOfDay)) {
+            throw new IllegalArgumentException("오늘 이미 이 상품을 끌어올렸습니다.");
+        }
+
+
+        // 특정 아이템 ID에 대한 기존 레코드를 찾기
+        Optional<ItemUp> existingItemUp = itemUpDao.findByItem_ItemId(itemUpDto.getItemId());
+
+        if (existingItemUp.isPresent()) {
+            ItemUp itemUp = existingItemUp.get();
+            itemUp.setItemUpCount(itemUp.getItemUpCount() + 1);
+            itemUp.setItemUpDate(Timestamp.valueOf(LocalDateTime.now()));
             itemUpDao.save(itemUp);
         } else {
-            throw new IllegalArgumentException("끌어올리기 횟수가 부족합니다.");
+            ItemUp newItemUp = new ItemUp();
+            newItemUp.setItem(item);
+            newItemUp.setUser(user);
+            newItemUp.setItemUpCount(1);
+            newItemUp.setItemUpDate(Timestamp.valueOf(LocalDateTime.now()));
+
+            itemUpDao.save(newItemUp);
         }
+        item.setItemUpdateDate(Timestamp.valueOf(LocalDateTime.now()));
+        itemDao.save(item);
     }
 
+    // 사용자의 남은 끌어올리기 횟수를 감소시키고 반환하는 메서드
     private int decreaseRemainingUpCount(Long userId) {
-        // 끌어올리기 횟수 감소 로직 구현 (예: 데이터베이스에서 끌어올리기 횟수 관리)
-        // 이 메서드는 사용자의 끌어올리기 횟수를 감소시키고 남은 횟수를 반환하는 로직을 구현해야 합니다.
-        // 예를 들어 데이터베이스에서 사용자의 끌어올리기 횟수를 조회하고 감소시키는 등의 처리가 들어갑니다.
-        return 5; // 예시로 최대 5번으로 설정
+        int maxDailyUpCount = 10;
+        int usedUpCount = itemUpDao.countTodayUpActions(userId, LocalDate.now().atStartOfDay(), LocalDateTime.now().withHour(23).withMinute(59).withSecond(59).withNano(999999999));
+        int remainingUpCount = maxDailyUpCount - usedUpCount;
+
+        return remainingUpCount;
+    }
+
+    // 사용자의 남은 끌어올리기 횟수를 조회하는 메서드
+    public int getRemainingUpCount(Long userId) {
+        int maxDailyUpCount = 10;
+        int usedUpCount = itemUpDao.countTodayUpActions(userId, LocalDate.now().atStartOfDay(), LocalDateTime.now().withHour(23).withMinute(59).withSecond(59).withNano(999999999));
+        return maxDailyUpCount - usedUpCount;
+    }
+
+    public int getItemUpCount(Long itemId) {
+        Optional<ItemUp> itemUp = itemUpDao.findByItem_ItemId(itemId);
+        return itemUp.map(ItemUp::getItemUpCount).orElse(0);
     }
 }

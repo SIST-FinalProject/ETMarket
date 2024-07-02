@@ -10,15 +10,15 @@ import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/item-status")
-public class ItemStatusController {
+@RequestMapping("/deal-status")
+public class DealStatusController {
 
     private final ItemService itemService;
 
     @PostMapping("/update")
-    public ResponseEntity<?> updateItemStatus(@RequestBody ItemDto itemDto) {
+    public ResponseEntity<?> updateDealStatus(@RequestBody ItemDto itemDto) {
         // 아이템 상태 업데이트 로직
-        itemService.updateItemStatus(itemDto);
+        itemService.updateDealStatus(itemDto);
 
         return ResponseEntity.ok().body(Map.of("success", true, "message", "Status updated successfully"));
     }
