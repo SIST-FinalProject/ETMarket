@@ -23,8 +23,8 @@ public class UserDto {
 
     private Long userId;
 
-    @NotBlank(message = "아이디를 입력해주세요.")
-    @Pattern(regexp = "(?=.*[0-9])(?=.*[a-zA-Z]).{6,12}", message = "영문, 숫자 사용 6~12자로 입력해주세요.")
+//    @NotBlank(message = "아이디를 입력해주세요.")
+//    @Pattern(regexp = "(?=.*[0-9])(?=.*[a-zA-Z]).{6,12}", message = "영문, 숫자 사용 6~12자로 입력해주세요.")
     private String userLoginId;
 
     private String userPassword;
@@ -96,6 +96,11 @@ public class UserDto {
 				new ArrayList<>(), // buyers
 				new ArrayList<>() // target
 		);
+	}
+	
+	// 비밀번호 암호화
+	public void encryptPassword(String BCryptpassword) {
+		this.userPassword=BCryptpassword;
 	}
     
 }

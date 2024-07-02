@@ -3,33 +3,90 @@
  */
 
 $(function() {
-	// 아이디 중복, 양식체크
+	// 아이디 양식, 중복 체크
 	$("#userLoginId").blur(function() {
-		var userLoginId=$("#userLoginId").val();
+		var userLoginId=$(this).val();
 		//alert(userLoginId);
 		
-		// /member/join/validation
+		// 원래대로
+		$("#idOverError").hide();
+		$("#idRuleError").hide();
+		$("#btnJoin").prop('disabled',false);
+		$("#btnJoin").css("background-color","#4eb006");
+		
+		// 아이디 중복 체크
 		$.ajax({
 			type: "post",
-			url: "/member/join/loginIdValid",
+			url: "/member/join/existLoginId",
 			dataType: "json",
 			data: { "userLoginId": userLoginId},
-			success: function() {
-				alert("값 보내짐");
+			success: function(res) {
+				// 중복된 값이면 에러 출력
+				if(res==true){
+					$("#idOverError").show();
+					
+					// 회원가입 차단
+					$("#btnJoin").prop('disabled',true);
+					$("#btnJoin").css("background-color","#aaa");
+				}
 
 			}
-		});	
+		});
+		
+		// 아이디 양식
+		let loginIdRule = /^(?=.*[0-9])(?=.*[a-zA-Z]).{6,12}$/;
+		
+		if(!loginIdRule.test(userLoginId)){
+			$("#idRuleError").show();
+			
+			// 회원가입 차단
+			$("#btnJoin").prop('disabled',true);
+			$("#btnJoin").css("background-color","#aaa");
+		}
 		
 	});
 	
-	// 닉네임 중복체크
+	// 닉네임 양식, 중복 체크
 	$("#userName").blur(function() {
-		//alert("블러");
+		var userName=$(this).val();
+		
+		$("#nameOverError").hide();
+		
+		// 닉네임 중복 체크
+		$.ajax({
+			type: "post",
+			url: "/member/join/existName",
+			dataType: "json",
+			data: { "userName": userName},
+			success: function(res) {
+				// 중복된 값이면 에러 출력
+				if(res==true){
+					$("#nameOverError").show();
+				}
+
+			}
+		});
 	});
 	
 	// 비밀번호 양식체크
 	$("#userPassword").blur(function() {
-		//alert("블러");
+		var userPassword=$(this).val();
+		
+		// 원래대로
+		$("#passwordError").hide();
+		$("#btnJoin").prop('disabled',false);
+		$("#btnJoin").css("background-color","#4eb006");
+		
+		// 비밀번호 양식
+		let passwordRule = /^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&*+=-_]).{8,16}$/;
+		
+		if(!passwordRule.test(userPassword)){
+			$("#passwordError").show();
+			
+			// 회원가입 차단
+			$("#btnJoin").prop('disabled',true);
+			$("#btnJoin").css("background-color","#aaa");
+		}
 	});
 	
 	// 비밀번호&비밀번호 확인 일치 체크
@@ -58,7 +115,26 @@ $(function() {
 	// 이메일 양식, 중복 체크
 	$("#userEmail").blur(function() {
 		//alert("블러");
+		var userEmail=$("#userEmail").val();
+		
+		$("#emailOverError").hide();
+		
+		// 이메일 중복 체크
+		$.ajax({
+			type: "post",
+			url: "/member/join/existEmail",
+			dataType: "json",
+			data: { "userEmail": userEmail},
+			success: function(res) {
+				// 중복된 값이면 에러 출력
+				if(res==true){
+					$("#emailOverError").show();
+					$("#btnJoin").prop('disabled',true);
+				}
+			}
+		});
+		
+		
 	});
-	
 	
 });

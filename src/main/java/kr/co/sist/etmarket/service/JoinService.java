@@ -23,5 +23,26 @@ public class JoinService {
         // User 엔티티를 저장
         userDao.save(user);
     }
+    
+    // 아이디 중복 체크
+    public boolean loginIdExistChk(String userLoginId) {
+    	boolean chk = userDao.existsByUserLoginId(userLoginId);
+    	//System.out.println("joinService에서 아이디 중복 체크값: "+chk);
+    	return chk;
+    }
+    
+	// 닉네임 중복 체크
+    public boolean nameExistChk(String userName) {
+    	boolean chk = userDao.existsByUserName(userName);
+    	//System.out.println("joinService에서 닉네임 중복 체크값: "+chk);
+    	return chk;
+    }
+    
+    // 이메일 중복 체크
+    public boolean emailExistChk(String userEmail) {
+    	boolean chk = userDao.existsByUserEmail(userEmail);
+    	//System.out.println("joinService에서 이메일 중복 체크값: "+chk);
+    	return chk;
+    }
 
 }
