@@ -35,8 +35,8 @@
             <!--검색창-->
             <div class="keyjxL">
                 <div class="voMyM">
-                    <input type="text" placeholder="상품명" class="cLfdog">
-                    <a><i class="bi bi-search" style="cursor: pointer;"></i></a>
+                    <input type="text" placeholder="상품명" class="cLfdog" id="searchInput">
+                    <a><i class="bi bi-search" style="cursor: pointer;" id="searchButton"></i></a>
                 </div>
                 <!--검책창>최근검색어/인기검색어-->
                 <div class="eLTnVY">
@@ -91,7 +91,7 @@
                     <!--닫기/검색어 전체삭제-->
                     <div class="bNSExK">
                         <a class="iotYfC">닫기</a>
-                        <a class="bprumR">
+                        <a class="bprumR" onclick="deleteAllContent()">
                             <i class="bi bi-trash"></i>검색어 전체삭제
                         </a>
                     </div>
@@ -105,7 +105,7 @@
                 <a class="BltZS">
                     <i class="bi bi-person"></i>내상점
                 </a>
-                <a class="BltZS">
+                <a class="BltZS" href="item/insertForm">
                     <i class="bi bi-currency-dollar"></i>판매하기
                 </a>
             </div>
@@ -115,14 +115,14 @@
             <div class="gIJOQQ">
                 <i class="bi bi-list" style="font-size: 2em; cursor: pointer;"></i>
                 <div class="vertical-menu">
-                    <a href="#">식품</a>
-                    <a href="#">패션</a>
-                    <a href="#">전자기기</a>
-                    <a href="#">생활/주방</a>
-                    <a href="#">뷰티/미용</a>
-                    <a href="#">도서</a>
-                    <a href="#">티켓/교환권</a>
-                    <a href="#">기타</a>
+                    <a th:href="@{/search/category(category='식품')}">식품</a>
+                    <a th:href="@{/search/category(category='패션')}">패션</a>
+                    <a th:href="@{/search/category(category='전자기기')}">전자기기</a>
+                    <a th:href="@{/search/category(category='생활주방')}">생활/주방</a>
+                    <a th:href="@{/search/category(category='뷰티미용')}">뷰티/미용</a>
+                    <a th:href="@{/search/category(category='도서')}">도서</a>
+                    <a th:href="@{/search/category(category='티켓교환권')}">티켓/교환권</a>
+                    <a th:href="@{/search/category(category='기타')}">기타</a>
                 </div>
             </div>
         </div>

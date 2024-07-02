@@ -32,14 +32,20 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-	
+
 	// JSON libraries
 	implementation 'com.fasterxml.jackson.core:jackson-databind'
 	implementation 'com.fasterxml.jackson.core:jackson-core:2.16.1'
-	
-	// 이메일 인증 - redis
+  
+  // 이메일 인증 - redis
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
+	// WebSocket
+	implementation 'org.springframework.boot:spring-boot-starter-websocket' //socket
+	implementation 'org.webjars:sockjs-client:1.1.2' //sockJS
+	implementation 'org.webjars:stomp-websocket:2.3.3-1' //stomp
+
 }
 
 tasks.named('test') {

@@ -1,7 +1,5 @@
 package kr.co.sist.etmarket.service;
 
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
 import java.time.Duration;
 import java.util.Random;
 
@@ -21,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class LoginService {
 	
-	private static final String AUTH_CODE_PREFIX = "verifyCode ";
+	private static final String AUTH_CODE_PREFIX = "verifyCode_";
 	
 	@Autowired
 	UserDao userDao;
@@ -72,34 +70,18 @@ public class LoginService {
 		return null;
 	}
 	
-	// 인증코드 생성
-//	private String createCode() {
-//		int lenth=6;
-//		try {
-//            Random random = SecureRandom.getInstanceStrong();
-//            StringBuilder builder = new StringBuilder();
-//            for (int i = 0; i < lenth; i++) {
-//                builder.append(random.nextInt(10));
-//            }
-//            return builder.toString();
-//        } catch (NoSuchAlgorithmException e) {
-//            log.debug("MemberService.createCode() exception occur");
-//            throw new BusinessLogicException(ExceptionCode.NO_SUCH_ALGORITHM);
-//        }
-//	}
-	
 	// 인증코드 이메일로 발송 - redis에 인증코드 저장
 	public void sendCodeToEmail(String userEmail) {
-        String title = "Travel with me 이메일 인증 번호";
-        //String verifyCode = this.createCode();
+        String title = "ET마켓 이메일 인증 번호";
+
         Random random=new Random();
-        String verifyCode=String.valueOf(random.nextInt(888888)+111111);
+        String code=String.valueOf(random.nextInt(888888)+111111);
         
-        mailService.sendEmail(userEmail, title, verifyCode);
+        mailService.sendEmail(userEmail, title, code);
         
-        // 이메일 인증 요청 시 인증 번호 Redis에 저장 ( key = "verifyCode " + Email / value = verifyCode )
+        // 이메일 인증 요청 시 인증 번호 Redis에 저장 ( key = "verifyCode_" + Email / value = verifyCode )
         redisService.setValues(AUTH_CODE_PREFIX + userEmail,
-        		verifyCode, Duration.ofMillis(this.authCodeExpirationMillis));
+        		code, Duration.ofMillis(this.authCodeExpirationMillis));
     }
 	
 	// 인증코드 검증
@@ -107,7 +89,14 @@ public class LoginService {
         String redisAuthCode = redisService.getValues(AUTH_CODE_PREFIX + userEmail);
         boolean authResult = redisService.checkExistsValue(redisAuthCode) && redisAuthCode.equals(verifyCode);
 
+        System.out.println("LoginService에서 인증코드 확인: "+redisAuthCode+", boolean값: "+authResult);
+        
         return redisAuthCode.equals(verifyCode);
     }
+	
+	// 비밀번호 수정
+	public void updateUserPassword(String userLoginId, String userEmail, String userPassword) {
+		userDao.updateUserPassword(userLoginId, userEmail, userPassword);
+	}
 
 }
