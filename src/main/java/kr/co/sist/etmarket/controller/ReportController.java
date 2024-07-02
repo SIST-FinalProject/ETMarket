@@ -2,6 +2,7 @@ package kr.co.sist.etmarket.controller;
 
 
 import jakarta.servlet.http.HttpSession;
+import kr.co.sist.etmarket.dto.BasicItemDto;
 import kr.co.sist.etmarket.dto.BasicSellerDto;
 import kr.co.sist.etmarket.service.ReportService;
 import lombok.RequiredArgsConstructor;
@@ -18,8 +19,6 @@ public class ReportController {
     private final ReportService reportService;
 
 
-
-
     @GetMapping("/report/seller")
     public String getReportUserForm(@RequestParam("uid") Long uid, Model model, HttpSession httpSession) {
 
@@ -32,8 +31,6 @@ public class ReportController {
         if (myUid.equals(uid)) {
             return "redirect:/";
         }
-
-
 
         model.addAttribute("sellerDto", basicSellerDto);
         return "report/report_user";
@@ -54,5 +51,38 @@ public class ReportController {
         return "redirect:/";
 
     }
+
+    @GetMapping("/report/item")
+    public String getReportItemForm(@RequestParam("id") Long id, Model model, HttpSession httpSession) {
+
+        Long myUid = (Long) httpSession.getAttribute("myUserId");
+        BasicItemDto basicItemDto = reportService.getItemIdName(id);
+
+        if (myUid == null) {
+            return "report/error_requireLogin";
+        }
+
+        model.addAttribute("itemDto", basicItemDto);
+        return "report/report_item";
+    }
+
+    @PostMapping("/submitReportItem")
+    public String submitReportItem(@RequestParam("itemId")Long itemId,
+                                   @RequestParam("reason")String reportReason,
+                                   @RequestParam("reportContent")String reportContent,
+                                   HttpSession httpSession) {
+
+        Long myUid = (Long) httpSession.getAttribute("myUserId");
+
+        if (myUid == null) {
+            return "redirect:/login";
+        }
+
+        reportService.submitReportItem(myUid, itemId,reportReason, reportContent);
+        return "redirect:/";
+
+    }
+
+
 }
 
