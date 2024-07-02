@@ -49,7 +49,7 @@
                     <div class="sc-cZBZkQ bppxQx">
                         <div class="sc-cBdUnI daItnk">
                             <div class="sc-exkUMo bjByYJ" th:each="item : ${categorys}">
-                                <a class="sc-cooIXK kApwoH" th:href="'/item/' + ${item.itemId}">
+                                <a class="sc-cooIXK kApwoH" th:href="'/items/' + ${item.itemId}">
                                     <div class="sc-fcdeBU eXGCeV">
                                         <img alt="상품 이미지" height="194"
                                              th:src="${item.itemImgs.size() > 0 ? item.itemImgs[0].itemImg : '/image/non_img.png'}"
