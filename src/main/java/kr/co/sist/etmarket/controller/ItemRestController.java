@@ -23,8 +23,8 @@ public class ItemRestController {
     private ItemService itemService;
 
     @GetMapping("/items")
-    public Slice<ItemDto> getAllItems(@RequestParam(defaultValue = "0") int page,
-                                   @RequestParam(defaultValue = "10") int size) {
+    public Slice<ItemDto> getAllItems(@RequestParam(defaultValue = "0", name = "page") int page,
+                                   @RequestParam(defaultValue = "10", name = "size") int size) {
         Pageable pageable = PageRequest.of(page, size);
 //        Slice<ItemDto> itemSlice = itemService.getItemSlice(pageable);
         return itemService.getItemSlice(pageable);

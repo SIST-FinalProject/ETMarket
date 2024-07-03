@@ -18,7 +18,7 @@ public class SellerController {
 
 
     @GetMapping("/seller/{sellerId}/items")
-    public String sellerItems(@PathVariable Long sellerId, Model model, HttpSession httpSession) {
+    public String sellerItems(@PathVariable("sellerId")Long sellerId, Model model, HttpSession httpSession) {
 
         SellerDetailDto sellerDetailDto = sellerDetailService.getSellerDetailWithItems(sellerId);
         Long uid = (Long) httpSession.getAttribute("myUserId");
@@ -34,7 +34,7 @@ public class SellerController {
     }
 
     @GetMapping("/seller/{sellerId}/reviews")
-    public String sellerReviews(@PathVariable Long sellerId, Model model, HttpSession httpSession) {
+    public String sellerReviews(@PathVariable("sellerId") Long sellerId, Model model, HttpSession httpSession) {
 
         SellerDetailDto sellerDetailDto = sellerDetailService.getSellerDetailWithReviews(sellerId);
         Long uid = (Long) httpSession.getAttribute("myUserId");
