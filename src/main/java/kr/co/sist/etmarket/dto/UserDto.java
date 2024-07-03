@@ -102,7 +102,9 @@ public class UserDto {
 				new ArrayList<>(), // userSearches
 				new ArrayList<>(), // sellers
 				new ArrayList<>(), // buyers
-				new ArrayList<>() // target
+				new ArrayList<>(), // target
+				new ArrayList<>(), // senderChatroom
+				new ArrayList<>() // receiverChatroom
 		);
 	}
 	
