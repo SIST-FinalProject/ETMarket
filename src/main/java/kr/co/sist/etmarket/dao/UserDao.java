@@ -35,4 +35,16 @@ public interface UserDao extends JpaRepository<User, Long> {
 	boolean existsByUserName(String userName);
 	boolean existsByUserEmail(String userEmail);
 	
+	// 회원정보 수정
+//	@Query(value="update user set user_password=:userPassword where user_id=:userId", nativeQuery = true)
+//	@Modifying
+//	@Transactional
+//	public void updateUserInfo(@Param("userLoginId") String userLoginId, @Param("userEmail") String userEmail, @Param("userPassword") String userPassword);
+	
+	// 회원 탈퇴 status ACTIVE->DELETE
+	@Query(value="update user set user_status='DELETE' where user_id=:userId", nativeQuery = true)
+	@Modifying
+	@Transactional
+	public void deleteUser(@Param("userId") Long userId);
+	
 }
