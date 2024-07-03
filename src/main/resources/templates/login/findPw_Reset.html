@@ -54,7 +54,7 @@
 					dataType:"html",
 					data:{"userLoginId":userLoginId,"userEmail":userEmail,"userPassword":userPassword},
 					success:function(data){
-						alert("성공");
+						//alert("성공");
 						location.href="/login";
 					}
 				});
@@ -90,7 +90,7 @@
 				<td>
 					<div style="margin-bottom: 8px;">
 						<font class="loginsub">비밀번호</font> <br>
-						<input type="text" id="userPassword" class="logininput" required="required" placeholder="비밀번호 입력">
+						<input type="password" id="userPassword" class="logininput" required="required" placeholder="비밀번호 입력">
 						<font style="color: gray; font-size: 9pt;">
 							영문 대소문자/숫자/특수문자 중 2가지 이상 조합, 8~16자
 						</font>	
@@ -102,7 +102,7 @@
 				<td>
 					<div style="margin-bottom: 0px; height: 70px;">
 						<font class="loginsub">비밀번호 확인</font> <br>
-						<input type="text" id="userPasswordCheck" class="logininput" required="required" placeholder="비밀번호 다시 입력">	
+						<input type="password" id="userPasswordCheck" class="logininput" required="required" placeholder="비밀번호 다시 입력">	
 						
 						<div id="passwordError" style="color: red; font-size: 10pt; display: none;">
                        		비밀번호가 일치하지 않습니다.
