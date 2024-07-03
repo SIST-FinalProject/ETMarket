@@ -14,7 +14,7 @@ import java.sql.Timestamp;
 public class ReportProduct {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long reportUserId;
+    private Long reportProductId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")

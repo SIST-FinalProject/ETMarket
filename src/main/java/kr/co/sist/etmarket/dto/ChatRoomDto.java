@@ -4,17 +4,20 @@ import kr.co.sist.etmarket.entity.Item;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.socket.WebSocketSession;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 public class ChatRoomDto {
 
-    private Long chatroomId;
+    private int chatroomId;
 
     private String roomName;
 
@@ -29,4 +32,11 @@ public class ChatRoomDto {
     private List<MessageDto> messages = new ArrayList<>();
 
     private String chatroomImg;
+
+    private Set<WebSocketSession> sessions = new HashSet<>();
+
+    public ChatRoomDto(int chatroomId, String roomName) {
+        this.chatroomId = chatroomId;
+        this.roomName = roomName;
+    }
 }

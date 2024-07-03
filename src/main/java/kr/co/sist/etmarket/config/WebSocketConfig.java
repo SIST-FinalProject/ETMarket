@@ -3,20 +3,24 @@ package kr.co.sist.etmarket.config;
 import kr.co.sist.etmarket.handler.WebSocketHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.socket.config.annotation.EnableWebSocket;
-import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
-import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
+import org.springframework.messaging.simp.config.MessageBrokerRegistry;
+import org.springframework.web.socket.CloseStatus;
+import org.springframework.web.socket.TextMessage;
+import org.springframework.web.socket.WebSocketSession;
+import org.springframework.web.socket.config.annotation.*;
+import org.springframework.web.socket.handler.TextWebSocketHandler;
+
+import java.util.HashMap;
 
 @Configuration
-@EnableWebSocket // websocket 서버로서 동작하겠다는 어노테이션
 @RequiredArgsConstructor
+@EnableWebSocket
 public class WebSocketConfig implements WebSocketConfigurer {
 
     private final WebSocketHandler webSocketHandler;
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(webSocketHandler, "/ws/chting").setAllowedOrigins("*");
-        // handler 등록, js에서 new Websocket할 때 경로 지정
+        registry.addHandler(webSocketHandler, "/chating/{chatroomId}"); // 채팅방 구분
     }
 }

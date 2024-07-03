@@ -11,20 +11,29 @@ import java.sql.Timestamp;
 @Data
 public class MessageDto {
 
-    private Long messageId;
+    private int messageId;
 
-    private String content;
+    private String message;
 
     private Timestamp sendTime;
 
-    private UserDto sender;
+    private String sender;
 
-    private UserDto receiver;
+//    private String receiver;
 
     private ChatRoomDto chatRoom;
+
+    private String chatroomId;
 
     private String img;
 
     private String chatRead; // 읽은 여부
+
+    private MessageType type;
+
+    public enum MessageType {
+        // 입장, 채팅, 나감
+        ENTER, TALK, QUIT
+    }
 
 }
