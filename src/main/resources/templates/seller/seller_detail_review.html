@@ -88,6 +88,13 @@
                             신고하기
                         </a>
                     </div>
+                    <div th:if="${sellerDetailDto.getSellerId() == uid}" class="modify-mypage-box">
+                        <button class="btn-modify-mypage">
+                            <a href="/seller/mypage" class="mypage-link">
+                                마이페이지 수정
+                            </a>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
