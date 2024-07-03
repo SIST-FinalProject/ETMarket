@@ -36,7 +36,7 @@ public class ItemTempController {
     }
 
     @GetMapping("/items/{itemId}")
-    public String itemDetail(@PathVariable Long itemId, Model model, HttpSession httpSession) {
+    public String itemDetail(@PathVariable("itemId") Long itemId, Model model, HttpSession httpSession) {
 
         Long uid = (Long) httpSession.getAttribute("myUserId");
         if (uid != null) {

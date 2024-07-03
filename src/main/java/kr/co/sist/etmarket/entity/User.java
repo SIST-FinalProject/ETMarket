@@ -52,6 +52,9 @@ public class User {
 
     @Column
     private String userSocialToken;
+    
+    @Column
+    private String userIntroduce;
 
     @Enumerated(EnumType.STRING)
     private UserStatus userStatus;

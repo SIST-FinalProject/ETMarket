@@ -44,6 +44,8 @@ public class UserDto {
     private String userSocialToken;
 
     private UserStatus userStatus;
+    
+    private String userIntroduce;
 
     @Builder.Default
     private List<ItemDto> items = new ArrayList<>();
@@ -80,7 +82,8 @@ public class UserDto {
 				.userImg(user.getUserImg())
 				.userCreateDate(user.getUserCreateDate())
 				.userJoinType(user.getUserJoinType())
-				.userStatus(user.getUserStatus()).build();
+				.userStatus(user.getUserStatus())
+				.userIntroduce(user.getUserIntroduce()).build();
 	}
 
 	// UserDto를 User 엔티티로 변환하는 메소드
@@ -96,6 +99,7 @@ public class UserDto {
 				this.userCreateDate, 
 				this.userJoinType, 
 				this.userSocialToken, 
+				this.userIntroduce,
 				this.userStatus,
 				new ArrayList<>(), // items
 				new ArrayList<>(), // itemLikes
