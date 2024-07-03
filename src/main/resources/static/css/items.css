@@ -53,6 +53,8 @@ div {
 .hDhAKY {
     display: flex;
     height: 34px;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
 }
 .gVIXdM {
     display: flex;
@@ -64,6 +66,7 @@ div {
     padding: 0px 13px;
     font-size: 12px;
     margin-right: 13px;
+    margin-bottom: 10px;
 }
 a {
     color: rgb(33, 33, 33);
@@ -251,82 +254,74 @@ img {
 .ipZTHT {
     display: flex;
 }
-.kGxJht {
-    width: 33px;
-    height: 33px;
+.pagination {
     display: flex;
-    -webkit-box-pack: center;
-    justify-content: center;
-    -webkit-box-align: center;
-    align-items: center;
-    margin-right: 12px;
-    border: 1px solid rgb(204, 204, 204);
-    background: rgb(255, 255, 255);
-    border-radius: 2px;
-    color: rgb(155, 153, 169);
-    visibility: hidden;
-}
-.dmlTCW {
-    transform: rotate(180deg);
-}
-.hXSYJr {
-    width: 33px;
-    height: 33px;
-    display: flex;
-    -webkit-box-pack: center;
-    justify-content: center;
-    -webkit-box-align: center;
-    align-items: center;
-    margin-right: 12px;
-    /*border: 1px solid rgb(255, 80, 88);*/
-    border: 1px solid #4eb006;
-    border-radius: 2px;
-    color: rgb(255, 255, 255);
-    /*background: rgb(255, 80, 88);*/
-    background: #4eb006;
-}
-.kGxJht {
-    width: 33px;
-    height: 33px;
-    display: flex;
-    -webkit-box-pack: center;
-    justify-content: center;
-    -webkit-box-align: center;
-    align-items: center;
-    margin-right: 12px;
-    border: 1px solid rgb(204, 204, 204);
-    background: rgb(255, 255, 255);
-    border-radius: 2px;
-    color: rgb(155, 153, 169);
-    visibility: hidden;
-}
-.kGxJht:last-child {
-    margin-right: 0px;
+    list-style: none;
+    padding: 0;
+    /*margin: 0;*/
 }
 
-/*ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ*/
+.page-item {
+    margin: 0 5px;
+}
+
+.page-link {
+    display: block;
+    padding: 10px 15px;
+    color: #007bff;
+    text-decoration: none;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.page-link:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+.page-item.active .page-link {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+
+.page-item.disabled .page-link {
+    color: #6c757d;
+    pointer-events: none;
+    background-color: #e9ecef;
+    border-color: #dee2e6;
+}
+.pagination {
+    display: flex;
+    list-style: none;
+    padding: 0;
+}
+
+.pagination li {
+    margin: 0 5px;
+}
+
+.pagination li a {
+    text-decoration: none;
+    padding: 8px 16px;
+    color: #4eb006;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+}
+
+.pagination li.active a {
+    background-color: #4eb006;
+    color: white;
+    border-color: #4eb006;
+}
+
+.pagination li.disabled a {
+    color: #6c757d;
+    pointer-events: none;
+    cursor: not-allowed;
+}
 
 
-/*만약 페이지가 5개 이상일 때*/
-/*.fLknnD {*/
-/*    width: 33px;*/
-/*    height: 33px;*/
-/*    display: flex;*/
-/*    -webkit-box-pack: center;*/
-/*    justify-content: center;*/
-/*    -webkit-box-align: center;*/
-/*    align-items: center;*/
-/*    margin-right: 12px;*/
-/*    border: 1px solid rgb(204, 204, 204);*/
-/*    background: rgb(255, 255, 255);*/
-/*    border-radius: 2px;*/
-/*    color: rgb(155, 153, 169);*/
-/*}*/
-/*.fLknnD:last-child {*/
-/*    margin-right: 0px;*/
-/*}*/
-/*img {*/
-/*    overflow-clip-margin: content-box;*/
-/*    overflow: clip;*/
-/*}*/
+
 

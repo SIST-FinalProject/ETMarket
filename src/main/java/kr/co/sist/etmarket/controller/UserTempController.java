@@ -20,6 +20,7 @@ public class UserTempController {
 
         if (uid != null && isLogin.equals("yes")) {
             response.put("isLoggedin", true);
+            response.put("userId", uid);
         } else {
             response.put("isLoggedin", false);
         }

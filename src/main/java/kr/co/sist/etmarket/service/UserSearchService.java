@@ -5,10 +5,18 @@ import kr.co.sist.etmarket.dao.UserDao;
 import kr.co.sist.etmarket.dao.UserSearchDao;
 import kr.co.sist.etmarket.dto.UserDto;
 import kr.co.sist.etmarket.dto.UserSearchDto;
+import kr.co.sist.etmarket.entity.Item;
+import kr.co.sist.etmarket.entity.ItemImg;
 import kr.co.sist.etmarket.entity.User;
 import kr.co.sist.etmarket.entity.UserSearch;
 import kr.co.sist.etmarket.etenum.*;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -85,36 +93,39 @@ public class UserSearchService {
     }
     
     // 검색어에 대한 상품 리스트
-    //List<Object[]> findItemsByContentAndItemTitle(@Param("content") String content);
-    public List<ItemDto> getItemTitle(String content) {
-        List<Object[]> results = userSearchDao.findItemsByContentAndItemTitle(content);
-        List<ItemDto> items = new ArrayList<>();
+//    List<Object[]> findItemsByContentAndItemTitle(@Param("content") String content);
+    public Page<ItemDto> getItemTitle(String content, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Item> items = userSearchDao.findItemsByContentAndItemTitle(content, pageable);
+//        Page<ItemDto> itemDtos = items.map(this::createItemDto);
 
-        for (Object[] ob : results) {
-            ItemDto item = new ItemDto(
-//                    ob[0] != null ? (Integer) ob[0] : 0,
-                    ob[1] != null ? (Integer) ob[1] : 0, // itemPrice
-                    ob[2] != null ? ((Number) ob[2]).longValue() : 0L, // itemId
-//                    (Timestamp) ob[3],
-                    (Timestamp) ob[4], // updateDate
-                    ob[5] != null ? ((Number) ob[5]).longValue() : 0L, // userId
-                    ob[6] != null ? (String) ob[6] : "", // itemAddress
-//                    ob[7] != null ? (String) ob[7] : "",
-                    ob[8] != null ? (String) ob[8] : "", // itemTitle
-//                    (CategoryName) ob[9],
-//                    (DealHow) ob[10],
-                    ob[11] != null ? DealStatus.valueOf((String) ob[11]) : DealStatus.판매중, // 거래 여부 상태
-                    ob[12] != null ? DeliveryStatus.valueOf((String) ob[12]) : DeliveryStatus.비포함, // 배송비포함 비포함
-                    ob[13] != null ? ItemHidden.valueOf((String) ob[13]) :ItemHidden.보임 // 아이템 숨김 보임
-//                    (ItemStatus) ob[14],
-//                    (PriceStatus) ob[15],
-//                    ob[16] != null ? (Integer) ob[16] : 0,
-//                    ob[17] != null ? ((Number) ob[17]).longValue() : 0L
-            );
-            System.out.println("item = " + item);
-            items.add(item);
-        }
-        return items;
+        return items.map(this::createItemDto);
+    }
+
+    private ItemDto createItemDto(Item item) {
+        return new ItemDto(
+                item.getItemId(),
+                item.getItemTitle(),
+                item.getItemContent(),
+                item.getItemPrice(),
+                item.getItemAddress(),
+                item.getItemStatus(),
+                item.getDealStatus(),
+                item.getDealHow(),
+                item.getDeliveryStatus(),
+                item.getItemDeliveryPrice(),
+                item.getPriceStatus(),
+                item.getCategoryName(),
+                item.getItemCount(),
+                item.getItemHidden(),
+                item.getItemResistDate(),
+                item.getItemUpdateDate(),
+                item.getUserSearch() != null ? item.getUserSearch().getUserSearchId() : null,
+                item.getItemImgs(), // Include the item images list
+                item.getItemTags(),
+                item.getItemChecks().size(),
+                item.getItemLikes().size()
+        );
     }
 
     public List<UserSearch> getContent(String content) {

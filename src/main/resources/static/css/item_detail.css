@@ -251,6 +251,11 @@ img {
     -webkit-box-align: center;
     align-items: center;
 }
+.report-item-link {
+    display: flex;
+    color: inherit;
+    align-items: center;
+}
 .info-title {
     position: relative;
     width: 90px;

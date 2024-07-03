@@ -1,6 +1,8 @@
 package kr.co.sist.etmarket.controller;
 
+import kr.co.sist.etmarket.dto.ItemDto;
 import kr.co.sist.etmarket.entity.Item;
+import kr.co.sist.etmarket.etenum.CategoryName;
 import kr.co.sist.etmarket.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,9 +23,10 @@ public class ItemRestController {
     private ItemService itemService;
 
     @GetMapping("/items")
-    public Slice<Item> getAllItems(@RequestParam(defaultValue = "0") int page,
-                                                  @RequestParam(defaultValue = "10") int size) {
+    public Slice<ItemDto> getAllItems(@RequestParam(defaultValue = "0") int page,
+                                   @RequestParam(defaultValue = "10") int size) {
         Pageable pageable = PageRequest.of(page, size);
+//        Slice<ItemDto> itemSlice = itemService.getItemSlice(pageable);
         return itemService.getItemSlice(pageable);
     }
 //    @GetMapping("/items")
@@ -34,6 +37,13 @@ public class ItemRestController {
 //                .header("X-Has-Next", String.valueOf(itemSlice.hasNext()))
 //                .body(itemSlice.getContent());
 //    }
+    @GetMapping("/api/search/category")
+    public Page<ItemDto> findItemsByContentAndItemTitle(@RequestParam String category,
+                                                        @RequestParam(defaultValue = "0") int page,
+                                                        @RequestParam(defaultValue = "10") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return itemService.getCategoryList(CategoryName.valueOf(category), page, size);
+    }
 
 
 }
