@@ -4,7 +4,7 @@
 	
 
 $(function() {
-	// 이미지
+	// 이미지 삭제 시
 	$("#delImg").click(function(){
 		$("#profileImg").attr("src","../image/basic_profile_image.png");
 		$("#userImg").attr("value","NoImage");

@@ -41,7 +41,7 @@ public class JoinController {
 		
 		userDto.setUserStatus(UserStatus.ACTIVE); //회원상태 세팅
 		userDto.setUserJoinType("GENERAL"); // 가입유형 세팅
-		userDto.setUserJoinType("NoImage"); // 가입유형 세팅
+		userDto.setUserImg("NoImage"); // 이미지 세팅
 		
 		// 0702 비밀번호 암호화 추후 추가
 		// userDto.encryptPassword(encoder.encode(userDto.getUserPassword())); // 비밀번호 암호화
