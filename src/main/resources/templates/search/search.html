@@ -29,7 +29,7 @@
                             <a class="sc-eMigcr gVIXdM" th:each="category : ${categoryNames}"
                                 th:href="@{/search/category(category=${category})}">
                                 <div class="sc-gPWkxV hochYu">
-                                    <i class="bi bi-caret-right" th:text="${category}">과학/IT</i>
+                                    <i class="bi bi-caret-right" th:text="${category}"></i>
                                 </div>
                             </a>
 <!--                            <a class="sc-eMigcr gVIXdM">-->
@@ -41,29 +41,16 @@
                     </div>
                 </div>
                 <div class="sc-VJcYb gCyLOC">
-                    <div>
+                    <!-- 태그 리스트에서 최대 5개까지 출력 -->
+                    <div th:each="tag, iterStat : ${tagNames}" th:if="${iterStat.index < 5}">
                         <a class="sc-kUaPvJ jRlKCL">
-                            <div class="sc-giadOv eQYNMl">도서/티켓/문구</div>
+                            <div class="sc-giadOv eQYNMl" th:text="${tag}"></div>
                         </a>
                     </div>
-                    <div>
+                    <!-- 빈 div를 채우는 부분 -->
+                    <div th:each="i : ${#numbers.sequence(1, 5 - tagNames.size())}" th:if="${tagNames.size() < 5}">
                         <a class="sc-kUaPvJ jRlKCL">
-                            <div class="sc-giadOv eQYNMl">도서/티켓/문구2</div>
-                        </a>
-                    </div>
-                    <div>
-                        <a class="sc-kUaPvJ jRlKCL">
-                            <div class="sc-giadOv eQYNMl">도서/티켓/문구3</div>
-                        </a>
-                    </div>
-                    <div>
-                        <a class="sc-kUaPvJ jRlKCL">
-                            <div class="sc-giadOv eQYNMl">도서/티켓/문구4</div>
-                        </a>
-                    </div>
-                    <div>
-                        <a class="sc-kUaPvJ jRlKCL">
-                            <div class="sc-giadOv eQYNMl">도서/티켓/문구5</div>
+                            <div class="sc-giadOv eQYNMl"></div>
                         </a>
                     </div>
                 </div>
@@ -82,7 +69,7 @@
                     <div class="sc-cZBZkQ bppxQx">
                         <div class="sc-cBdUnI daItnk">
                             <div class="sc-exkUMo bjByYJ" th:each="item : ${items}">
-                                <a class="sc-cooIXK kApwoH" th:href="'/item/' + ${item.itemId}">
+                                <a class="sc-cooIXK kApwoH" th:href="'/items/' + ${item.itemId}">
                                     <div class="sc-fcdeBU eXGCeV">
                                         <img alt="상품 이미지" height="194"
                                              th:src="${item.itemImgs.size() > 0 ? item.itemImgs[0].itemImg : '/image/non_img.png'}"
