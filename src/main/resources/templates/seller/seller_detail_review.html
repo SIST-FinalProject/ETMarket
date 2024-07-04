@@ -8,6 +8,7 @@
     <link rel="stylesheet" type="text/css" href="/css/seller_detail_review.css">
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
     <script src="/js/menu.js"></script>
+    <script src="/js/seller-detail.js"></script>
 
     <title>Title</title>
 
@@ -79,7 +80,7 @@
                             <div class="sold-count" th:text="${sellerDetailDto.getSellCount()}">transactionscount</div>
                         </div>
                     </div>
-                    <div class="store-description" th:text="${sellerDetailDto.getSellerName()} + '님의 판매자 상세페이지 입니다.'">
+                    <div class="store-description" th:text="${sellerDetailDto.getIntroDescription()}">
                         store description
                     </div>
                     <div th:unless="${sellerDetailDto.getSellerId() == uid}" class="report-store">
@@ -89,11 +90,19 @@
                         </a>
                     </div>
                     <div th:if="${sellerDetailDto.getSellerId() == uid}" class="modify-mypage-box">
+                        <button class="btn-modify-introduce">소개글 수정</button>
                         <button class="btn-modify-mypage">
                             <a href="/seller/mypage" class="mypage-link">
                                 마이페이지 수정
                             </a>
                         </button>
+                    </div>
+                    <div id="modify-container"\ class="hidden">
+                        <div>
+                            <textarea id="store-description-textarea" maxlength="1000"></textarea>
+                            <span id="char-count">0/1000</span>
+                        </div>
+                        <button id="confirm-button" type="button">확인</button>
                     </div>
                 </div>
             </div>
