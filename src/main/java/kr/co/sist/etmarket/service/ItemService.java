@@ -235,4 +235,8 @@ public class ItemService {
         }
     }
 
+    public Item findById(Long itemId) {
+        return itemDao.findById(itemId).orElseThrow(() -> new IllegalArgumentException("Item not found with id: " + itemId));
+    }
+
 }

@@ -61,7 +61,7 @@ public class DealHistoryController {
             model.addAttribute("saleItemImgList", saleItemImgList);
             model.addAttribute("buyItemImgList", buyItemImgList);
 
-            return "myPage/history"; // dealHistory.html 뷰로 이동
+            return "myPage/history";
         } catch (Exception e) {
             throw new RuntimeException("거래 내역을 조회하는 도중 오류가 발생하였습니다.", e);
         }

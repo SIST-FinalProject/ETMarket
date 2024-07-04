@@ -69,5 +69,11 @@ public class UserDto {
                 .userStatus(user.getUserStatus())
                 .build();
     }
+
+    /*마이페이지에서 사용*/
+    public UserDto(Long userId, String userName) {
+        this.userId = userId;
+        this.userName = userName;
+    }
     
 }

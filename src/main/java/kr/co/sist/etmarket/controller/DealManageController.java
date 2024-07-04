@@ -1,11 +1,13 @@
 package kr.co.sist.etmarket.controller;
 
 import jakarta.servlet.http.HttpSession;
+import kr.co.sist.etmarket.dto.ChatRoomCountDto;
 import kr.co.sist.etmarket.dto.ItemImgDto;
 import kr.co.sist.etmarket.dto.ItemLikeDto;
 import kr.co.sist.etmarket.entity.Item;
 import kr.co.sist.etmarket.etenum.DealStatus;
 import kr.co.sist.etmarket.etenum.ItemHidden;
+import kr.co.sist.etmarket.service.ChatRoomService;
 import kr.co.sist.etmarket.service.ItemImgService;
 import kr.co.sist.etmarket.service.ItemLikeService;
 import kr.co.sist.etmarket.service.ItemService;
@@ -32,6 +34,7 @@ public class DealManageController {
     private final ItemService itemService;
     private final ItemLikeService itemLikeService;
     private final ItemImgService itemImgService;
+    private final ChatRoomService chatRoomService;
 
     @GetMapping("/deal/manage")
     public String list(Model model,
@@ -86,7 +89,13 @@ public class DealManageController {
 
         // 상품별 찜 개수
         Map<Long, Long> likesByItemId = itemLikeService.countLikesByItemId().stream()
-                .collect(Collectors.toMap(ItemLikeDto::getItemId, ItemLikeDto::getLikeCount));
+                .collect(Collectors.toMap(ItemLikeDto::getItemId, ItemLikeDto::getLikeCount, (existing, replacement) -> existing));
+
+        // 상품별 채팅방 개수
+        Map<Long, Long> chatRoomsByItemId = chatRoomService.getChatRoomCountByItemId().stream()
+                .collect(Collectors.toMap(ChatRoomCountDto::getItemId, ChatRoomCountDto::getChatRoomCount, (existing, replacement) -> existing));
+
+
 
         model.addAttribute("list", list);
         model.addAttribute("itemImgList", itemImgList);
@@ -96,6 +105,7 @@ public class DealManageController {
         model.addAttribute("keyword", keyword);
         model.addAttribute("dealStatus", dealStatus);
         model.addAttribute("likesByItemId", likesByItemId);
+        model.addAttribute("chatRoomsByItemId", chatRoomsByItemId);
         model.addAttribute("itemHidden", hidden);
 
         return "myPage/dealManage";
