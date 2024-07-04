@@ -14,5 +14,5 @@ public class ItemTagDto {
 
     private String itemTag;
 
-    private String itemTags;
+    private String itemTagText;
 }

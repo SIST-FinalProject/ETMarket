@@ -2,8 +2,7 @@ package kr.co.sist.etmarket.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Timestamp;
@@ -11,6 +10,7 @@ import java.sql.Timestamp;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter @Setter
 public class ReportUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

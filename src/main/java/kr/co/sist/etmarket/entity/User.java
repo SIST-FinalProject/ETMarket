@@ -21,7 +21,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
+@Getter @Setter
 public class User {
 
     @Id
@@ -56,6 +56,9 @@ public class User {
 
     @Column
     private String userSocialToken;
+
+    @Column
+    private String userIntroduce;
 
     @Enumerated(EnumType.STRING)
     private UserStatus userStatus;

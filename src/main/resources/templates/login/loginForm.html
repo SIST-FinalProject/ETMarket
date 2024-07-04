@@ -47,6 +47,7 @@
 	<div align="center" style="margin: 70px 0px 120px 0px;">
 	
 		<form action="/member/loginProcess" method="post">
+			<input type="hidden" name="redirectUrl" th:value="${param.redirect}" />
 			<table style="width:300px;">
 				<tr>
 					<td style="float: left; margin-bottom: 20px;">

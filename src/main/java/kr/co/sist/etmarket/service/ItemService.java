@@ -128,7 +128,7 @@ public class ItemService {
         return itemDao.save(updatedItem);
     }
 
-    // itemDto insert를 위해 가공 후 Item Entity로 변환
+    // itemDto update를 위해 가공 후 Item Entity로 변환
     public Item processUpdateItemDto(ItemDto itemDto, Item item) {
         // itemDto 가공
         itemDto.setItemPrice(Integer.parseInt(itemDto.getItemPriceText().replace(",","")));
@@ -215,6 +215,7 @@ public class ItemService {
     // Item DB Delete(itemId)
     public void deleteItem(Long itemId) {
         itemDao.deleteByItemId(itemId);
+
     }
 
 }

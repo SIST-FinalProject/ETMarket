@@ -1,5 +1,11 @@
 package kr.co.sist.etmarket.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+
+import jakarta.servlet.http.HttpServletRequest;
+import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -175,10 +181,10 @@ public class LoginController {
 	@PostMapping("/member/find/passwordResetProcess")
 	public String ResetProcess(@RequestParam("userLoginId") String userLoginId,
 			@RequestParam("userEmail") String userEmail, @RequestParam("userPassword") String userPassword) {
-
+		
 		System.out.println(userLoginId+", "+userEmail+", "+userPassword);
 		loginService.updateUserPassword(userLoginId, userEmail, userPassword);
-
+		
 		return "redirect:/login"; // 이거 안됨
 	}
 

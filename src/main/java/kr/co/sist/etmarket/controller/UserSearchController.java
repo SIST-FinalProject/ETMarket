@@ -23,9 +23,9 @@ public class UserSearchController {
 
 
     @GetMapping("/search")
-    public String findItemsByContentAndItemTitle(@RequestParam String content,
-                                                 @RequestParam(defaultValue = "0") int page,
-                                                 @RequestParam(defaultValue = "10") int size,
+    public String findItemsByContentAndItemTitle(@RequestParam("content") String content,
+                                                 @RequestParam(defaultValue = "0", name = "page") int page,
+                                                 @RequestParam(defaultValue = "10", name = "size") int size,
                                                  Model model) {
         Page<ItemDto> itemDtos = userSearchService.getItemTitle(content, page, size);
 
