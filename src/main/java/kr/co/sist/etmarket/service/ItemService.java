@@ -77,7 +77,7 @@ public class ItemService {
                 .build();
     }
 
-    // Item DB getData
+    // Item DB getData(itemId)
     public ItemDto getDataItem(Long itemId) {
         Item item = itemDao.findByItemId(itemId);
 
@@ -137,7 +137,7 @@ public class ItemService {
         } else {
             itemDto.setItemAddress(itemDto.getRoadAddress() + " (" + itemDto.getDetailAddress() + ")");
         }
-        itemDto.setDealStatus(DealStatus.예약중);
+        itemDto.setDealStatus(DealStatus.판매중);
         itemDto.setItemDeliveryPrice(Integer.parseInt(itemDto.getItemDeliveryPriceText().replace(",","")));
         if (itemDto.isPriceStatusCheck()) {
             itemDto.setPriceStatus(PriceStatus.가능);
@@ -210,6 +210,11 @@ public class ItemService {
                 item.getItemChecks().size(),
                 item.getItemLikes().size()
         );
+    }
+
+    // Item DB Delete(itemId)
+    public void deleteItem(Long itemId) {
+        itemDao.deleteByItemId(itemId);
     }
 
 }

@@ -7,11 +7,15 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import kr.co.sist.etmarket.etenum.UserStatus;
+import lombok.*;
 import lombok.Getter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.NoArgsConstructor;
+
+import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 @Entity
