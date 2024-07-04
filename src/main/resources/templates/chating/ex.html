@@ -45,7 +45,7 @@
     <div class="right-panel">
         <div class="chat-window">
             <div class="chat-window-header">
-                <img src="/image/초롱.png" alt="Profile" width="50" height="50">
+                <img src="/image/non_img.png" alt="Profile" width="50" height="50">
                 <div>
                     <strong>안창환</strong>
                     <p>4일 전 접속</p>
@@ -57,35 +57,35 @@
                 <button>구매하기</button>
             </div>
             <div class="chat-window-body">
-                <div class="message mine">
+                <div class="message other">
+                    <img src="/image/초롱.png" alt="Profile" width="40" height="40">
                     <div class="message-content">
                         <p>안창환 님과 데이터사이언스 입문에 대한 이야기를 시작해보세요.</p>
                         <p>상품금액: 8,000원</p>
                         <p>배송비: 4,000원</p>
                     </div>
-                    <img src="/image/yuyu.png" alt="Profile" width="40" height="40">
-                </div>
-                <div class="message other">
-                    <img src="/image/초롱.png" alt="Profile" width="40" height="40">
-                    <div class="message-content">
-                        <p>안녕하세요! 혹시 직거래도 가능한가요??</p>
-                    </div>
-                </div>
-                <div class="message other">
-                    <img src="/image/초롱.png" alt="Profile" width="40" height="40">
-                    <div class="message-content">
-                        <p>물론 가능합니다! 언제 어디서 만날까요?</p>
-                    </div>
                 </div>
                 <div class="message mine">
                     <div class="message-content">
+                        <p>안녕하세요! 혹시 직거래도 가능한가요??</p>
+                    </div>
+<!--                    <img src="/image/초롱.png" alt="Profile" width="40" height="40">-->
+                </div>
+                <div class="message mine">
+                    <div class="message-content">
+                        <p>물론 가능합니다! 언제 어디서 만날까요?</p>
+                    </div>
+<!--                    <img src="/image/초롱.png" alt="Profile" width="40" height="40">-->
+                </div>
+                <div class="message other">
+                    <img src="/image/초롱.png" alt="Profile" width="40" height="40">
+                    <div class="message-content">
                         <p>이번 주 토요일에 강남역 근처에서 만나는 게 어떨까요?</p>
                     </div>
-                    <img src="/image/yuyu.png" alt="Profile" width="40" height="40">
                 </div>
             </div>
             <div class="message-input">
-                <input type="text"id="chatting"  placeholder="메시지를 입력하세요...">
+                <input type="text"id="chatting"  placeholder="메시지를 입력하세요.">
                 <button onclick="send()" id="sendBtn">보내기</button>
             </div>
         </div>
@@ -95,11 +95,14 @@
 <script th:inline="javascript">
 
     var ws;
+    var userName = [[${userName}]];
+
+    setName();
 
     // 페이지 로드 시 WebSocket 연결 초기화
-    window.onload = function() {
-        wsOpen();
-    };
+    // window.onload = function() {
+    //     wsOpen();
+    // };
 
     function wsOpen(){
         ws = new WebSocket("ws://" + location.host + "/chatingEx");
@@ -118,25 +121,23 @@
                 if (json.type === "getId"){
                     let ss = json.sessionId != null ? json.sessionId : "";
                     if(ss !== ''){
-                        $("sessionId").val(ss);
+                        $("#sessionId").val(ss);
                     }
                 } else if (json.type === "message") {
-                    if (json.sessionId === $("sessionId").val()) {
+                    if (json.sessionId === $("#sessionId").val()) {
                         let str = `<div class="message mine">
-                                        <p class="uname">나 :</p>
+<!--                                        <img src="/image/yuyu.png" alt="Profile" width="40" height="40">-->
                                         <div class="message-content">
                                             <p>${json.msg}</p>
                                         </div>
-                                        <img src="/image/yuyu.png" alt="Profile" width="40" height="40">
                                     </div>`;
                         $(".chat-window-body").append(str);
                     } else {
                         let str = `<div class="message other">
-                                        <p class="uname">${json.userName}</p>
-                                        <img src="/image/초롱.png" alt="Profile" width="40" height="40">
                                         <div class="message-content">
                                             <p>${json.msg}</p>
                                         </div>
+                                        <img src="/image/초롱.png" alt="Profile" width="40" height="40">
                                     </div>`;
                         $(".chat-window-body").append(str);
                     }
@@ -154,15 +155,15 @@
         });
     }
 
-    function chatName(){
-        var userName = $("#userName").val();
-        if(userName == null || userName.trim() === ""){
-            alert("사용자 이름을 입력해주세요.");
-            $("#userName").focus();
+    function setName(){
+        let name = userName;
+        if(name == null || name.trim() === ""){
+            alert("사용자가 아닙니다.");
+            // $("#userName").focus();
         }else{
             wsOpen();
-            $("#yourName").hide();
-            $("#yourMsg").show();
+            // $("#yourName").hide();
+            // $("#yourMsg").show();
         }
     }
 

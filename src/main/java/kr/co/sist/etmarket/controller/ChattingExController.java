@@ -23,7 +23,7 @@ public class ChattingExController {
     @GetMapping("/et/chat")
     public String chat(@RequestParam String userName, Model model) {
         System.out.println("userName = " + userName);
-        model.addAttribute("userName", "user1");
+        model.addAttribute("userName", userName);
         return "chating/ex";
     }
 //
