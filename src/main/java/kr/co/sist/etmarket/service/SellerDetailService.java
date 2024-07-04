@@ -71,6 +71,7 @@ public class SellerDetailService {
         sellerDetailDto.setSellerId(seller.getUserId());
         sellerDetailDto.setSellerName(seller.getUserName());
         sellerDetailDto.setSellerImgUrl(seller.getUserImg());
+        sellerDetailDto.setIntroDescription(seller.getUserIntroduce());
         sellerDetailDto.setTransactionCount(transactionRepository.countBySellerId(seller.getUserId()));
         sellerDetailDto.setSellCount(transactionRepository.countSellCountBySellerId(seller.getUserId()));
         sellerDetailDto.setTotalItemCount(itemDetailRepository.countByUser_UserIdAndItemHidden(seller.getUserId(), ItemHidden.보임));
@@ -101,6 +102,7 @@ public class SellerDetailService {
         sellerDetailDto.setSellerId(seller.getUserId());
         sellerDetailDto.setSellerName(seller.getUserName());
         sellerDetailDto.setSellerImgUrl(seller.getUserImg());
+        sellerDetailDto.setIntroDescription(seller.getUserIntroduce());
         sellerDetailDto.setTransactionCount(transactionRepository.countBySellerId(seller.getUserId()));
         sellerDetailDto.setSellCount(transactionRepository.countSellCountBySellerId(seller.getUserId()));
         sellerDetailDto.setTotalItemCount(itemDetailRepository.countByUser_UserIdAndItemHidden(seller.getUserId(), ItemHidden.보임));
@@ -160,6 +162,18 @@ public class SellerDetailService {
                 review.getComment(),
                 commonService.convertTime(review.getRatingDate())
         );
+
+    }
+
+    public String updateMyIntroduction(Long myUid, String description) {
+
+        User user = sellerDetailRepository.findById(myUid).orElseThrow(() -> new NoSuchElementException("id값에 해당하는 유저가 없습니다"));
+
+        user.setUserIntroduce(description);
+        sellerDetailRepository.save(user);
+
+        return description;
+
 
     }
 }

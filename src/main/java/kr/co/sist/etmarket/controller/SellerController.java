@@ -1,14 +1,17 @@
 package kr.co.sist.etmarket.controller;
 
 import jakarta.servlet.http.HttpSession;
+import kr.co.sist.etmarket.dto.MyIntroductionBody;
 import kr.co.sist.etmarket.dto.SellerDetailDto;
 import kr.co.sist.etmarket.service.ItemDetailService;
 import kr.co.sist.etmarket.service.SellerDetailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
@@ -43,6 +46,21 @@ public class SellerController {
         model.addAttribute("uid", uid);
 
         return "seller/seller_detail_review";
+    }
+
+    @PostMapping("/update-introduce")
+    @ResponseBody
+    public Map<String, Object> updateIntroduce(@RequestBody MyIntroductionBody myIntroductionBody, HttpSession httpSession) {
+
+        Long uid = (Long) httpSession.getAttribute("myUserId");
+        String description = myIntroductionBody.getDescription();
+
+        Map<String, Object> response = new HashMap<>();
+        String updatedIntroduction = sellerDetailService.updateMyIntroduction(uid, description);
+
+        response.put("introduction", updatedIntroduction);
+
+        return response;
     }
 
 
