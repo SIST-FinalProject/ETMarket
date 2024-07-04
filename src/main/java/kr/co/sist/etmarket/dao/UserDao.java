@@ -26,9 +26,6 @@ public interface UserDao extends JpaRepository<User, Long> {
 	@Modifying
 	@Transactional
 	public void updateUserPassword(@Param("userLoginId") String userLoginId, @Param("userEmail") String userEmail, @Param("userPassword") String userPassword);
-
-	// 회원가입
-	User save(UserDto userDto);
 	
 	// 중복체크 true/false
 	boolean existsByUserLoginId(String userLoginId);
@@ -39,7 +36,7 @@ public interface UserDao extends JpaRepository<User, Long> {
 //	@Query(value="update user set user_password=:userPassword where user_id=:userId", nativeQuery = true)
 //	@Modifying
 //	@Transactional
-//	public void updateUserInfo(@Param("userLoginId") String userLoginId, @Param("userEmail") String userEmail, @Param("userPassword") String userPassword);
+//	public void updateUser(@Param("userLoginId") String userLoginId, @Param("userEmail") String userEmail, @Param("userPassword") String userPassword);
 	
 	// 회원 탈퇴 status ACTIVE->DELETE
 	@Query(value="update user set user_status='DELETE' where user_id=:userId", nativeQuery = true)

@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.co.sist.etmarket.dto.UserDto;
@@ -32,9 +33,18 @@ public class UserController {
 	}
 	
 	// 회원정보 수정
+//	@PostMapping("/member/update")
+//	public String updateUser(@ModelAttribute UserDto userDto, @RequestParam("userImgUpload") MultipartFile userImgUpload) {
+//		System.out.println("userController 수정될 값: "+userDto+", 이미지: "+userImgUpload);
+//		
+//		return "redirect:/login";
+//	}
 	@PostMapping("/member/update")
-	public String updateUser(@ModelAttribute UserDto userDto, @RequestParam("UserImgUpload") String UserImgUpload) {
-		return null;
+	public String updateUser(@ModelAttribute UserDto userDto) {
+		System.out.println("userController 수정될 값: "+userDto);
+		userService.update(userDto);
+		
+		return "redirect:/login";
 	}
 	
 	// 회원탈퇴

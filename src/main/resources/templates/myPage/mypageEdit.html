@@ -7,12 +7,13 @@
 <link rel="stylesheet" type="text/css" href="/css/styles.css">
 <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
 <script src="/js/menu.js"></script>
-<script src="/js/join.js"></script>
+<script src="/js/mypageEdit.js"></script>
 <title>ET마켓</title>
 <link rel="icon" href="image/favicon.ico" type="image/x-icon">
 <style type="text/css">
 	.loginsub {
 		font-size: 10pt !important;
+		color: gray;
 	}
 	
 	.logininput {
@@ -22,11 +23,12 @@
 		border-radius: 5px;
 		margin-top: 3px;
 		text-indent: 6px;
+		font-size: 11pt;
 	}
 	
 	#btnEdit {
 		background-color: #4eb006;
-		margin: 40px 0px 40px 0px;
+		margin: 40px 0px 5px 0px;
 		width: 280px;
 		height: 45px;
 		color: white;
@@ -46,8 +48,21 @@
 	
 	.profileImg{
 		width: 120px;
+		height: 120px;
+		object-fit:cover;
 		border-radius: 100px;
-		margin: 20px;
+		margin: 25px 0px 2px 0px;
+		border: 1px solid #ddd;
+		cursor: pointer;
+	}
+	
+	.btnImgUpload{
+		background: white;
+		color:gray;
+		border: white;
+		font-size: 9pt;
+		cursor: pointer;
+		margin-bottom: 10px;
 	}
 </style>
 </head>
@@ -59,8 +74,8 @@
 <div class="editForm">
 	<form action="/member/update" method="post" enctype="multipart/form-data">
 		<div align="center">
-		<input type="hidden" th:value="${UserId}">
-			<table style="padding: 50px; width: 300px;">
+		<input type="hidden" name="userId" th:value="${userInfo.userId}">
+			<table style="padding: 60px; width: 300px;">
 				<tr>
 					<td>
 						<h1>회원정보 수정</h1>
@@ -69,10 +84,21 @@
 				
 				<tr>
 					<td align="center">
-						<th:if="${userInfo.userImg == null}">
-							<img src="../image/basic_profile_image.png" class="profileImg"> <br>
-							<input type="file" name="UserImgUpload" style="width: 68px;">
-						</th:if>
+						<div th:if="${userInfo.userImg == 'NoImage'}">
+							<img src="../image/basic_profile_image.png" class="profileImg" onclick="document.getElementById('userImgUpload').click();"> <br>
+							
+							<!-- 이미지 미리보기 -->
+							<img alt="" src="" id="preshow" style="position: absolute; left:800px; top:100px; max-width:200px;">
+						</div>
+						<div th:if="${userInfo.userImg != 'NoImage'}">
+							<img th:src="${userInfo.userImg}" id="profileImg" class="profileImg" onclick="document.getElementById('userImgUpload').click();"> <br>					
+							<input type="hidden" id="userImg" name="userImg" th:value="${userInfo.userImg}">
+						</div>
+						
+						<div>
+							<input type="file" id="userImgUpload" name="userImgUpload" accept="image/*" style="display: none;"/>
+							<a><i class="bi bi-x-lg" id="delImg"></i></a>
+						</div>	
 					</td>
 				</tr>
 				
@@ -80,7 +106,7 @@
 					<td align="left">							
 						<div class="joinpart">
 							<font class="loginsub">아이디</font> <br>		
-							[[${userInfo.userLoginId}]]
+							<font style="font-size: 11pt;">[[${userInfo.userLoginId}]]</font>
 						</div>							
 					</td>
 				</tr>
@@ -130,8 +156,7 @@
 					<td align="left">							
 						<div class="joinpart">
 							<font class="loginsub">비밀번호 확인</font> <br>
-							<input type="password" name="userPasswordChk" id="userPasswordChk" class="logininput"
-							th:value="${userInfo.userPassword}">
+							<input type="password" name="userPasswordChk" id="userPasswordChk" class="logininput" required="required">
 						</div>
 						
 						<!-- 비밀번호 불일치 시 에러 -->
@@ -171,7 +196,7 @@
 					<td align="left">							
 						<div class="joinpart">
 							<font class="loginsub">인증번호 확인</font> <br>
-							<input type="text" name="phoneVerifyCode" id="phoneVerifyCode" class="logininput" required="required">
+							<input type="text" name="phoneVerifyCode" id="phoneVerifyCode" class="logininput">
 						</div>	
 						
 						<!-- 인증번호 불일치 시 에러 -->
@@ -207,7 +232,7 @@
 				<tr>
 					<td align="center">
 						<button type="submit" id="btnEdit">회원정보 수정</button>
-						<a class="loginsub" th:href="@{/member/delete(userId=${userInfo.userId})}" style="color:gray;">회원탈퇴</a>
+						<a class="loginsub" th:href="@{/member/delete(userId=${userInfo.userId})}">회원탈퇴</a>
 					</td>
 				</tr>
 				
