@@ -99,9 +99,17 @@
             </div>
             <!--채팅/내상점/판매하기-->
             <div class="eqbkiv">
-                <button class="foChwP">
-                    <i class="bi bi-chat-right-dots"></i>채팅
-                </button>
+                <div th:if="${session.userName != null}">
+                    <button class="foChwP" th:onclick="|location.href='@{/et/chat(userName=${session.userName})}'|">
+                        <i class="bi bi-chat-right-dots"></i>채팅
+                    </button>
+                </div>
+                <div th:if="${session.userName == null}">
+                    <button class="foChwP" th:onclick="|location.href='@{/login}'|">
+                        <i class="bi bi-chat-right-dots"></i>채팅
+                    </button>
+                </div>
+
                 <a class="BltZS">
                     <i class="bi bi-person"></i>내상점
                 </a>
@@ -128,5 +136,6 @@
         </div>
     </div>
 </div>
+
 </body>
 </html>

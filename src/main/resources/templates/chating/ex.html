@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+    <link href="/css/styles.css" rel="stylesheet" type="text/css">
+    <link href="/css/ex.css" rel="stylesheet" type="text/css">
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <script src="/js/menu.js"></script>
+    <title>통합화면</title>
+    <link href="image/favicon.ico" rel="icon" type="image/x-icon">
+
+</head>
+<body>
+<div th:replace="fragments/header :: menu1">메뉴1부분</div>
+
+<div th:replace="fragments/header :: menu2">메뉴2부분</div>
+
+<div class="main-container">
+    <div class="left-panel">
+        <div class="header">
+            <h1>전체 대화</h1>
+        </div>
+        <div class="chat-list">
+            <input type="hidden" id="sessionId" value="">
+            <div class="chat-list-item">
+                <img src="/image/초롱.png" alt="Profile" width="40" height="40">
+                <div>
+                    <strong>안창환</strong>
+                    <p>안창환 님과 데이터사이언스 입문에 대한 이야기를 시...</p>
+                </div>
+                <span>3월 8일</span>
+            </div>
+            <div class="chat-list-item">
+                <img src="/image/et.png" alt="Profile" width="40" height="40">
+                <div>
+                    <strong>ET마켓</strong>
+                    <p>ET마켓에 오신 걸 환영해요</p>
+                </div>
+                <span>3월 8일</span>
+            </div>
+        </div>
+    </div>
+    <div class="right-panel">
+        <div class="chat-window">
+            <div class="chat-window-header">
+                <img src="/image/초롱.png" alt="Profile" width="50" height="50">
+                <div>
+                    <strong>안창환</strong>
+                    <p>4일 전 접속</p>
+                </div>
+                <div>
+                    <strong>8,000원</strong>
+                    <p>데이터사이언스 입문</p>
+                </div>
+                <button>구매하기</button>
+            </div>
+            <div class="chat-window-body">
+                <div class="message mine">
+                    <div class="message-content">
+                        <p>안창환 님과 데이터사이언스 입문에 대한 이야기를 시작해보세요.</p>
+                        <p>상품금액: 8,000원</p>
+                        <p>배송비: 4,000원</p>
+                    </div>
+                    <img src="/image/yuyu.png" alt="Profile" width="40" height="40">
+                </div>
+                <div class="message other">
+                    <img src="/image/초롱.png" alt="Profile" width="40" height="40">
+                    <div class="message-content">
+                        <p>안녕하세요! 혹시 직거래도 가능한가요??</p>
+                    </div>
+                </div>
+                <div class="message other">
+                    <img src="/image/초롱.png" alt="Profile" width="40" height="40">
+                    <div class="message-content">
+                        <p>물론 가능합니다! 언제 어디서 만날까요?</p>
+                    </div>
+                </div>
+                <div class="message mine">
+                    <div class="message-content">
+                        <p>이번 주 토요일에 강남역 근처에서 만나는 게 어떨까요?</p>
+                    </div>
+                    <img src="/image/yuyu.png" alt="Profile" width="40" height="40">
+                </div>
+            </div>
+            <div class="message-input">
+                <input type="text"id="chatting"  placeholder="메시지를 입력하세요...">
+                <button onclick="send()" id="sendBtn">보내기</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:inline="javascript">
+
+    var ws;
+
+    // 페이지 로드 시 WebSocket 연결 초기화
+    window.onload = function() {
+        wsOpen();
+    };
+
+    function wsOpen(){
+        ws = new WebSocket("ws://" + location.host + "/chatingEx");
+        wsEvt();
+    }
+
+    function wsEvt() {
+        ws.onopen = function(data){
+            //소켓이 열리면 초기화 세팅하기
+        }
+
+        ws.onmessage = function(data) {
+            var msg = data.data;
+            if(msg != null && msg.trim() !== ''){
+                var json = JSON.parse(msg);
+                if (json.type === "getId"){
+                    let ss = json.sessionId != null ? json.sessionId : "";
+                    if(ss !== ''){
+                        $("sessionId").val(ss);
+                    }
+                } else if (json.type === "message") {
+                    if (json.sessionId === $("sessionId").val()) {
+                        let str = `<div class="message mine">
+                                        <p class="uname">나 :</p>
+                                        <div class="message-content">
+                                            <p>${json.msg}</p>
+                                        </div>
+                                        <img src="/image/yuyu.png" alt="Profile" width="40" height="40">
+                                    </div>`;
+                        $(".chat-window-body").append(str);
+                    } else {
+                        let str = `<div class="message other">
+                                        <p class="uname">${json.userName}</p>
+                                        <img src="/image/초롱.png" alt="Profile" width="40" height="40">
+                                        <div class="message-content">
+                                            <p>${json.msg}</p>
+                                        </div>
+                                    </div>`;
+                        $(".chat-window-body").append(str);
+                    }
+                }else{
+                    console.warn("unknown type!")
+                }
+
+            }
+        }
+
+        document.addEventListener("keypress", function(e){
+            if(e.keyCode == 13){ //enter press
+                send();
+            }
+        });
+    }
+
+    function chatName(){
+        var userName = $("#userName").val();
+        if(userName == null || userName.trim() === ""){
+            alert("사용자 이름을 입력해주세요.");
+            $("#userName").focus();
+        }else{
+            wsOpen();
+            $("#yourName").hide();
+            $("#yourMsg").show();
+        }
+    }
+
+    function send() {
+        var option ={
+            type: "message",
+            sessionId : $("#sessionId").val(),
+            userName : [[${userName}]],
+            msg : $("#chatting").val()
+        }
+        ws.send(JSON.stringify(option))
+        $('#chatting').val("");
+    }
+</script>
+
+<div th:replace="fragments/footer :: company">기업설명부분</div>
+
+<script src="/js/user_search.js"></script>
+</body>
+</html>

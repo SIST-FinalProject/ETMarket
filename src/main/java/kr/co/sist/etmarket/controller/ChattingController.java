@@ -6,10 +6,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,7 +20,7 @@ public class ChattingController {
     private List<ChatRoomDto> roomDtoList = new ArrayList<>();
     static int chatroomId = 0;
 
-    @RequestMapping("/chat")
+    @GetMapping("/chat")
     public String chat() {
         return "chating/chat";
     }
@@ -31,7 +28,7 @@ public class ChattingController {
     /**
      * 방 페이지
      */
-    @RequestMapping("/room")
+    @GetMapping("/room")
     public String room() {
         return "chating/room";
     }
@@ -39,7 +36,7 @@ public class ChattingController {
     /**
      * 방 생성하기
      */
-    @RequestMapping("/createRoom")
+    @PostMapping("/createRoom")
     public @ResponseBody List<ChatRoomDto> createRoom(@RequestParam HashMap<Object, Object> params) {
         String roomName = params.get("roomName").toString();
 
@@ -56,7 +53,7 @@ public class ChattingController {
     /**
      * 방 정보 가져오기
      */
-    @RequestMapping("/getRoom")
+    @PostMapping("/getRoom")
     public @ResponseBody List<ChatRoomDto> getRoom(@RequestParam HashMap<Object, Object> params) {
         return roomDtoList;
     }
@@ -64,7 +61,7 @@ public class ChattingController {
     /**
      * 채팅방
      */
-    @RequestMapping("/moveChating")
+    @GetMapping("/moveChating")
     public String chating(@RequestParam HashMap<Object, Object> params, Model model) {
         int chatroomId = Integer.parseInt(params.get("chatroomId").toString());
 
@@ -81,7 +78,5 @@ public class ChattingController {
             return "chating/room";
         }
     }
-
-
 
 }

@@ -22,13 +22,13 @@ public class LoginController {
 	LoginService loginService;
 	
 	// 로그인폼 이동
-	@GetMapping("login")
+	@GetMapping("/login")
     public String goLogin() {
     	return "login/loginForm";
     }
 	
 	// 로그인 처리
-	@PostMapping("loginprocess")
+	@PostMapping("/loginprocess")
 	public String loginprocess(@ModelAttribute UserDto userDto, Model model, HttpSession session) {
 		
 		Optional<UserDto> loginUser=loginService.login(userDto);
@@ -58,12 +58,12 @@ public class LoginController {
 	}
 	
 	// 로그아웃
-	@GetMapping("logout")
+	@GetMapping("/logout")
 	public String logout(HttpSession session) {
 		// 세션 삭제
 		session.removeAttribute("loginok");
 		session.removeAttribute("myid");
-		
+
 		return "redirect:/";
 	}
 
