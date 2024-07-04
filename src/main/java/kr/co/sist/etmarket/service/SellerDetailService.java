@@ -176,4 +176,10 @@ public class SellerDetailService {
 
 
     }
+
+    public String getMyIntroduction(Long myUid) {
+        User user = sellerDetailRepository.findById(myUid).orElseThrow(() -> new NoSuchElementException("id값에 해당하는 유저가 없습니다"));
+
+        return user.getUserIntroduce();
+    }
 }

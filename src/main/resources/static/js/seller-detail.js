@@ -12,6 +12,24 @@ document.addEventListener('DOMContentLoaded', function() {
         modifyMypageBox.classList.add('hidden');
         modifyContainer.classList.remove('hidden');
         modifyContainer.classList.add('modify-div');
+        const userId = $(this).data('user-id');
+
+        $.ajax({
+            url: '/get-introduce',
+            type: 'GET',
+            contentType: 'application/json',
+            data:{userId: userId},
+            success: function (response) {
+                if (response.status) {
+                    textarea.value = response.description;
+                } else {
+                    alert('유저 불일치');
+                }
+            },
+            error: function () {
+                alert('소개글 불러오는중 오류 발생');
+            },
+        })
     });
 
     textarea.addEventListener('input', function() {

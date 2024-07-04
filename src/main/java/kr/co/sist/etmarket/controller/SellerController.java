@@ -21,16 +21,13 @@ public class SellerController {
 
 
     @GetMapping("/seller/{sellerId}/items")
-    public String sellerItems(@PathVariable("sellerId")Long sellerId, Model model, HttpSession httpSession) {
+    public String sellerItems(@PathVariable("sellerId") Long sellerId, Model model, HttpSession httpSession) {
 
         SellerDetailDto sellerDetailDto = sellerDetailService.getSellerDetailWithItems(sellerId);
         Long uid = (Long) httpSession.getAttribute("myUserId");
 
         model.addAttribute("sellerDetailDto", sellerDetailDto);
         model.addAttribute("uid", uid);
-
-
-
 
 
         return "seller/seller_detail_item";
@@ -63,5 +60,24 @@ public class SellerController {
         return response;
     }
 
+    @GetMapping("/get-introduce")
+    @ResponseBody
+    public Map<String, Object> getIntroduce(@RequestParam("userId") String userId, HttpSession httpSession) {
 
+        Long uid = (Long) httpSession.getAttribute("myUserId");
+        Long parsedUserId = Long.parseLong(userId);
+
+        Map<String, Object> response = new HashMap<>();
+
+        if (!uid.equals(parsedUserId)) {
+            response.put("status", false);
+        } else {
+            String description = sellerDetailService.getMyIntroduction(uid);
+            response.put("status", true);
+            response.put("description", description);
+        }
+
+        return response;
+
+    }
 }
