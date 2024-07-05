@@ -7,13 +7,15 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import kr.co.sist.etmarket.etenum.UserStatus;
-import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter @Setter
 public class User {
 
     @Id
@@ -48,9 +50,6 @@ public class User {
 
     @Column
     private String userSocialToken;
-    
-    @Column
-    private String userIntroduce;
 
     @Enumerated(EnumType.STRING)
     private UserStatus userStatus;
@@ -73,10 +72,6 @@ public class User {
     @OneToMany(mappedBy = "target", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Rating> target = new ArrayList<>();
 
-    @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ChatRoom> senderChatroom = new ArrayList<>();
 
-    @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ChatRoom> receiverChatroom = new ArrayList<>();
 
 }
