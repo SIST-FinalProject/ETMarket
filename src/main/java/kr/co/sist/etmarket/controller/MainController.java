@@ -9,9 +9,4 @@ public class MainController {
     public String start(){
         return "main/main";
     }
-
-    @GetMapping("/list")
-    public String list(){
-        return "main/list";
-    }
 }

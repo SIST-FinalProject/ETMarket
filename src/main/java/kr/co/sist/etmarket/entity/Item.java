@@ -5,29 +5,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import kr.co.sist.etmarket.etenum.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter @Setter
-@Builder(toBuilder = true)
 public class Item {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long itemId;
 
-    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
@@ -37,7 +31,8 @@ public class Item {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private Timestamp itemResistDate;
 
-    @UpdateTimestamp
+    @Column(name = "item_update_date")
+    @CreationTimestamp
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private Timestamp itemUpdateDate;
 
@@ -75,62 +70,19 @@ public class Item {
     @Column(name = "item_category_name")
     private CategoryName categoryName;
 
-    private int itemCount;
-
     @Enumerated(EnumType.STRING)
     @Column(name = "item_hidden")
     private ItemHidden itemHidden;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_search_id")
-    private UserSearch userSearch;
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ItemTag> itemTags = new ArrayList<>();
 
-    @Builder.Default
-    @JsonIgnoreProperties
-//    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true) // 조회시 같이 조회되게 LAZY 없앰
-    private List<ItemTag> itemTags = new ArrayList<>(); // 상품 태그
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ItemImg> itemImgs = new ArrayList<>();
 
-    @Builder.Default
-    @JsonIgnoreProperties
-//    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true) // 조회시 같이 조회되게 LAZY 없앰
-    private List<ItemImg> itemImgs = new ArrayList<>(); // 상품 이미지
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ItemCheck> itemChecks = new ArrayList<>();
 
-    @Builder.Default
-    @JsonIgnoreProperties
-    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    private List<ItemCheck> itemChecks = new ArrayList<>(); // 상품 조회
-
-    @Builder.Default
-    @JsonIgnoreProperties
-    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    private List<ItemLike> itemLikes = new ArrayList<>(); // 상품 좋아요
-
-    @Override
-    public String toString() {
-        return "Item{" +
-                "itemId=" + itemId +
-                ", itemTitle='" + itemTitle + '\'' +
-                ", itemContent='" + itemContent + '\'' +
-                ", itemPrice=" + itemPrice +
-                ", itemAddress='" + itemAddress + '\'' +
-                ", itemStatus=" + itemStatus +
-                ", dealStatus=" + dealStatus +
-                ", dealHow=" + dealHow +
-                ", deliveryStatus=" + deliveryStatus +
-                ", itemDeliveryPrice=" + itemDeliveryPrice +
-                ", priceStatus=" + priceStatus +
-                ", categoryName=" + categoryName +
-                ", itemCount=" + itemCount +
-                ", itemHidden=" + itemHidden +
-                ", itemResistDate=" + itemResistDate +
-                ", itemUpdateDate=" + itemUpdateDate +
-                ", userSearchId=" + (userSearch != null ? userSearch.getUserSearchId() : null) +
-                ", itemTags=" + itemTags.size() +
-                ", itemImgs=" + itemImgs.size() +
-                ", itemChecks=" + itemChecks.size() +
-                ", itemLikes=" + itemLikes.size() +
-                '}';
-    }
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ItemLike> itemLikes = new ArrayList<>();
 }
