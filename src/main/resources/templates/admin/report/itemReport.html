@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="admin/layout/layout :: head('상품 신고 목록')">
+</head>
+
+<body id="page-top">
+
+<!-- Page Wrapper -->
+<div id="wrapper">
+
+    <!-- Sidebar -->
+    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar" th:replace="admin/layout/layout :: sidebar('itemReport')">
+    </ul>
+    <!-- End of Sidebar -->
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+
+            <!-- Topbar -->
+            <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow" th:replace="admin/layout/layout :: topbar">
+            </nav>
+            <!-- End of Topbar -->
+
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+
+                <!-- Page Heading -->
+                <h1 class="h3 mb-4 text-gray-800">상품 신고 목록</h1>
+
+                <!-- 신고 목록 테이블 -->
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">상품 신고 내역</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                <tr>
+                                    <th>신고 ID</th>
+                                    <th>신고자 ID</th>
+                                    <th>신고자 이름</th>
+                                    <th>상품 ID</th>
+                                    <th>상품 이름</th>
+                                    <th>제목</th>
+                                    <th>내용</th>
+                                    <th>신고 날짜</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="report : ${itemReports}">
+                                    <td th:text="${report.reportProductId}"></td>
+                                    <td th:text="${report.userId}"></td>
+                                    <td th:text="${report.userName}"></td>
+                                    <td th:text="${report.itemId}"></td>
+                                    <td th:text="${report.itemName}"></td>
+                                    <td th:text="${report.title}"></td>
+                                    <td th:text="${report.content}"></td>
+                                    <td th:text="${#dates.format(report.createDate, 'yyyy-MM-dd HH:mm')}"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- /.container-fluid -->
+
+        </div>
+        <!-- End of Main Content -->
+
+        <!-- Footer -->
+        <footer class="sticky-footer bg-white" th:replace="admin/layout/layout :: footer">
+        </footer>
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+</div>
+<!-- End of Page Wrapper -->
+
+<!-- Include common elements and scripts -->
+<th:block th:replace="admin/layout/layout :: commonElementsAndScripts"></th:block>
+<script>
+    $(document).ready(function() {
+        $('#dataTable').DataTable({
+            "pageLength": 10,
+            "lengthMenu": [10, 25, 50, 75, 100],
+            "language": {
+                "search": "검색:",
+                "lengthMenu": "페이지당 _MENU_ 개씩 보기",
+                "zeroRecords": "데이터가 없습니다.",
+                "info": "_TOTAL_ 개의 항목 중 _START_ - _END_",
+                "infoEmpty": "항목 없음",
+                "infoFiltered": "(전체 _MAX_ 개의 항목 중 필터링됨)",
+                "paginate": {
+                    "first": "처음",
+                    "last": "마지막",
+                    "next": "다음",
+                    "previous": "이전"
+                }
+            }
+        });
+    });
+</script>
+</body>
+
+</html>
