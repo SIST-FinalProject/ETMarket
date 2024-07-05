@@ -1,59 +1,47 @@
 /**
  * 
  */
+	
 
 $(function() {
-	// 아이디 유효성 체크
-	$("#userLoginId").blur(function() {
-		var userLoginId=$(this).val();
-		//alert(userLoginId);
-		
-		// 원래대로
-		$("#idBlankError").hide();
-		$("#idOverError").hide();
-		$("#idRuleError").hide();
-		$("#btnJoin").prop('disabled',false);
-		$("#btnJoin").css("background-color","#4eb006");
-		
-		// 아이디 공백 체크
-	    if (userLoginId == "") {
-	        $("#idBlankError").show();
-	        $("#btnJoin").prop('disabled', true);
-	        $("#btnJoin").css("background-color", "#aaa");
-	        return; // 공백이면 더 이상 진행하지 않음
-	    }
-		
-		// 아이디 중복 체크
-		$.ajax({
-			type: "post",
-			url: "/member/join/existLoginId",
-			dataType: "json",
-			data: { "userLoginId": userLoginId},
-			success: function(res) {
-				// 중복된 값이면 에러 출력
-				if(res==true){
-					$("#idOverError").show();
-					
-					// 회원가입 차단
-					$("#btnJoin").prop('disabled',true);
-					$("#btnJoin").css("background-color","#aaa");
-				}
+
+	$(document).ready(function() {
+		// 이미지 미리보기
+		let photo_path = $('.profileImg').attr('src');
+		let my_photo;
+
+		$('#userImgUpload').change(function() {
+			my_photo = this.files[0];
+			if (!my_photo) {
+				$('.profileImg').attr('src', photo_path);
+				return;
 			}
+			if (my_photo.size > 1024 * 1024) {
+				alert(Math.round(my_photo.size / 1024 / 1024) + 'MB(1MB까지만 업로드 가능)');
+				$('.profileImg').attr('src', photo_path);
+				$(this).val('');
+				return;
+			}
+
+			// 이미지 미리보기 처리
+			let reader = new FileReader();
+			reader.readAsDataURL(my_photo);
+
+			reader.onload = function() {
+				$('.profileImg').attr('src', reader.result);
+			};
 		});
-		
-		// 아이디 양식
-		let loginIdRule = /^(?=.*[0-9])(?=.*[a-zA-Z]).{6,12}$/;
-		
-		if(!loginIdRule.test(userLoginId)){
-			$("#idRuleError").show();
-			
-			// 회원가입 차단
-			$("#btnJoin").prop('disabled',true);
-			$("#btnJoin").css("background-color","#aaa");
-		} 
-			
+	
 	});
 	
+	// 이미지 삭제 시
+	$("#delImg").click(function() {
+		$("#profileImg").attr("src", "../image/basic_profile_image.png");
+		$("#isDeleted").val("imgDeleted");
+	});
+	
+	
+	// 유효성 체크 
 	// 닉네임 유효성 체크
 	$("#userName").blur(function() {
 		var userName=$(this).val();
@@ -65,8 +53,8 @@ $(function() {
 		// 닉네임 공백 체크
 	    if (userName == "") {
 	        $("#nameBlankError").show();
-	        $("#btnJoin").prop('disabled', true);
-	        $("#btnJoin").css("background-color", "#aaa");
+	        $("#btnEdit").prop('disabled', true);
+	        $("#btnEdit").css("background-color", "#aaa");
 	        return; // 공백이면 더 이상 진행하지 않음
 	    }
 		
@@ -93,14 +81,14 @@ $(function() {
 		// 원래대로
 		$("#passwordRuleError").hide();
 		$("#passwordBlankError").hide();
-		$("#btnJoin").prop('disabled',false);
-		$("#btnJoin").css("background-color","#4eb006");
+		$("#btnEdit").prop('disabled',false);
+		$("#btnEdit").css("background-color","#4eb006");
 		
 		// 비밀번호 공백 체크
 	    if (userPassword == "") {
 	        $("#passwordBlankError").show();
-	        $("#btnJoin").prop('disabled', true);
-	        $("#btnJoin").css("background-color", "#aaa");
+	        $("#btnEdit").prop('disabled', true);
+	        $("#btnEdit").css("background-color", "#aaa");
 	        return; // 공백이면 더 이상 진행하지 않음
 	    }
 		
@@ -111,8 +99,8 @@ $(function() {
 			$("#passwordRuleError").show();
 			
 			// 회원가입 차단
-			$("#btnJoin").prop('disabled',true);
-			$("#btnJoin").css("background-color","#aaa");
+			$("#btnEdit").prop('disabled',true);
+			$("#btnEdit").css("background-color","#aaa");
 		}
 	});
 	
@@ -133,8 +121,8 @@ $(function() {
 		// 비밀번호 공백 체크
 	    if (userPassword == "") {
 	        $("#passwordChkBlankError").show();
-	        $("#btnJoin").prop('disabled', true);
-	        $("#btnJoin").css("background-color", "#aaa");
+	        $("#btnEdit").prop('disabled', true);
+	        $("#btnEdit").css("background-color", "#aaa");
 	        return; // 공백이면 더 이상 진행하지 않음
 	    }
 	    
@@ -148,14 +136,14 @@ $(function() {
 		// 원래대로
 		$("#phoneRuleError").hide();
 		$("#phoneBlankError").hide();
-		$("#btnJoin").prop('disabled',false);
-		$("#btnJoin").css("background-color","#4eb006");
+		$("#btnEdit").prop('disabled',false);
+		$("#btnEdit").css("background-color","#4eb006");
 		
 		// 전화번호 공백 체크
 	    if (userPhone == "") {
 	        $("#phoneBlankError").show();
-	        $("#btnJoin").prop('disabled', true);
-	        $("#btnJoin").css("background-color", "#aaa");
+	        $("#btnEdit").prop('disabled', true);
+	        $("#btnEdit").css("background-color", "#aaa");
 	        return; // 공백이면 더 이상 진행하지 않음
 	    }
 	    
@@ -166,8 +154,8 @@ $(function() {
 			$("#phoneRuleError").show();
 			
 			// 회원가입 차단
-			$("#btnJoin").prop('disabled',true);
-			$("#btnJoin").css("background-color","#aaa");
+			$("#btnEdit").prop('disabled',true);
+			$("#btnEdit").css("background-color","#aaa");
 		}
 		
 		// 인증번호 전송
@@ -189,14 +177,14 @@ $(function() {
 		$("#emailRuleError").hide();
 		$("#emailOverError").hide();
 		$("#emailBlankError").hide();
-		$("#btnJoin").prop('disabled',false);
-		$("#btnJoin").css("background-color","#4eb006");
+		$("#btnEdit").prop('disabled',false);
+		$("#btnEdit").css("background-color","#4eb006");
 		
 		// 이메일 공백 체크
 	    if (userEmail == "") {
 	        $("#emailBlankError").show();
-	        $("#btnJoin").prop('disabled', true);
-	        $("#btnJoin").css("background-color", "#aaa");
+	        $("#btnEdit").prop('disabled', true);
+	        $("#btnEdit").css("background-color", "#aaa");
 	        return; // 공백이면 더 이상 진행하지 않음
 	    }
 		
@@ -207,8 +195,8 @@ $(function() {
 			$("#emailRuleError").show();
 			
 			// 회원가입 차단
-			$("#btnJoin").prop('disabled',true);
-			$("#btnJoin").css("background-color","#aaa");
+			$("#btnEdit").prop('disabled',true);
+			$("#btnEdit").css("background-color","#aaa");
 		}
 		
 		// 이메일 중복 체크
@@ -221,8 +209,8 @@ $(function() {
 				// 중복된 값이면 에러 출력
 				if(res==true){
 					$("#emailOverError").show();
-					$("#btnJoin").prop('disabled',true);
-					$("#btnJoin").css("background-color", "#aaa");
+					$("#btnEdit").prop('disabled',true);
+					$("#btnEdit").css("background-color","#aaa");
 				}
 			}
 		});	

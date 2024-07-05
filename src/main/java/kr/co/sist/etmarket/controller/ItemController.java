@@ -65,7 +65,7 @@ public class ItemController {
 
     // updateForm 이동
     @GetMapping("/item/updateForm")
-    public String updateForm(@RequestParam Long itemId, HttpSession session, Model model) {
+    public String updateForm(@RequestParam("itemId") Long itemId, HttpSession session, Model model) {
         Long userId = (Long) session.getAttribute("myUserId");
 
         ItemDto itemDto = itemService.getDataItem(itemId);
