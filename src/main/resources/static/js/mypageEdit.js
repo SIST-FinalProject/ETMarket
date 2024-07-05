@@ -4,11 +4,42 @@
 	
 
 $(function() {
+
+	$(document).ready(function() {
+		// 이미지 미리보기
+		let photo_path = $('.profileImg').attr('src');
+		let my_photo;
+
+		$('#userImgUpload').change(function() {
+			my_photo = this.files[0];
+			if (!my_photo) {
+				$('.profileImg').attr('src', photo_path);
+				return;
+			}
+			if (my_photo.size > 1024 * 1024) {
+				alert(Math.round(my_photo.size / 1024 / 1024) + 'MB(1MB까지만 업로드 가능)');
+				$('.profileImg').attr('src', photo_path);
+				$(this).val('');
+				return;
+			}
+
+			// 이미지 미리보기 처리
+			let reader = new FileReader();
+			reader.readAsDataURL(my_photo);
+
+			reader.onload = function() {
+				$('.profileImg').attr('src', reader.result);
+			};
+		});
+	
+	});
+	
 	// 이미지 삭제 시
-	$("#delImg").click(function(){
-		$("#profileImg").attr("src","../image/basic_profile_image.png");
-		$("#userImg").attr("value","NoImage");
-	})
+	$("#delImg").click(function() {
+		$("#profileImg").attr("src", "../image/basic_profile_image.png");
+		$("#isDeleted").val("imgDeleted");
+	});
+	
 	
 	// 유효성 체크 
 	// 닉네임 유효성 체크

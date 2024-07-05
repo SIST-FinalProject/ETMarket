@@ -84,11 +84,11 @@
 				
 				<tr>
 					<td align="center">
+						<!-- 프로필 이미지 -->
 						<div th:if="${userInfo.userImg == 'NoImage'}">
-							<img src="../image/basic_profile_image.png" class="profileImg" onclick="document.getElementById('userImgUpload').click();"> <br>
 							
-							<!-- 이미지 미리보기 -->
-							<img alt="" src="" id="preshow" style="position: absolute; left:800px; top:100px; max-width:200px;">
+							<!--IMG TAG-->
+							<img src="../image/basic_profile_image.png" class="profileImg" id="profileImg" onclick="document.getElementById('userImgUpload').click();"> <br>
 						</div>
 						<div th:if="${userInfo.userImg != 'NoImage'}">
 							<img th:src="${userInfo.userImg}" id="profileImg" class="profileImg" onclick="document.getElementById('userImgUpload').click();"> <br>					
@@ -96,8 +96,11 @@
 						</div>
 						
 						<div>
+						
+							<!--INPUT TAG-->
 							<input type="file" id="userImgUpload" name="userImgUpload" accept="image/*" style="display: none;"/>
 							<a><i class="bi bi-x-lg" id="delImg"></i></a>
+							<input type="hidden" id="isDeleted" name="isDeleted">
 						</div>	
 					</td>
 				</tr>

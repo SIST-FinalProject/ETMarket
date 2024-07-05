@@ -52,5 +52,19 @@ public class UserService {
     	return userDao.save(existingUser);
     }
     
+    // 회원 프로필 이미지 삭제 - 이미지 링크변환
+    public String getPath(String userImgName) {
+    	
+    	if(userImgName!=null) {
+    		String target="userImg/";
+        	int index=userImgName.indexOf(target);
+        	
+        	return userImgName.substring(index);
+    	}
+    	
+    	return null;
+    	
+    }
+    
 
 }

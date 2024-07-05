@@ -28,12 +28,12 @@
                     <div class="profile-image-box">
                         <div class="profile-image-inner">
                             <div class="profile-image-content">
-                                <div th:if="${sellerDetailDto.getSellerImgUrl() != null}" th:attr="style='background-image: url(' + ${sellerDetailDto.getSellerImgUrl()} + ');'" class="profile-image-before">::before</div>
-                                <div th:if="${sellerDetailDto.getSellerImgUrl() == null}" class="profile-image-before default-profile-image">::before</div>
+                                <div th:if="${sellerDetailDto.getSellerImgUrl() != 'NoImage'}" th:attr="style='background-image: url(' + ${sellerDetailDto.getSellerImgUrl()} + ');'" class="profile-image-before">::before</div>
+                                <div th:if="${sellerDetailDto.getSellerImgUrl() == 'NoImage'}" class="profile-image-before default-profile-image">::before</div>
                             </div>
                             <div class="profile-info">
-                                <img th:if="${sellerDetailDto.getSellerImgUrl() != null}" th:src="${sellerDetailDto.getSellerImgUrl()}" class="profile-image" width="100" height="100" alt="판매자 프로필 이미지">
-                                <img th:if="${sellerDetailDto.getSellerImgUrl() == null}" src="/image/basic_profile_image.png" class="profile-image" width="100" height="100" alt="기본 프로필 이미지">
+                                <img th:if="${sellerDetailDto.getSellerImgUrl() != 'NoImage'}" th:src="${sellerDetailDto.getSellerImgUrl()}" class="profile-image" width="100" height="100" alt="판매자 프로필 이미지">
+                                <img th:if="${sellerDetailDto.getSellerImgUrl() == 'NoImage'}" src="/image/basic_profile_image.png" class="profile-image" width="100" height="100" alt="기본 프로필 이미지">
                                 <div class="rating-container"></div>
                                 <div class="rating-stars">
                                     <span th:unless="${sellerDetailDto.getAvgReviewScore() == 0}" th:each="star : ${#numbers.sequence(1, sellerDetailDto.getAvgReviewScore())}">
