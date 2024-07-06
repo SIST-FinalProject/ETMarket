@@ -10,8 +10,8 @@ import java.util.List;
 @Repository
 public interface DealDao extends JpaRepository<Deal, Long> {
     /* 판매자 ID로 판매 내역 조회 (deal_date 기준 최신순) */
-    List<Deal> findAllBySellerOrderByDealDateDesc(User sellerId);
+    List<Deal> findAllBySellerOrderByDealDateDesc(User seller);
     /* 구매자 ID로 구매 내역 조회 (deal_date 기준 최신순) */
-    List<Deal> findAllByBuyerOrderByDealDateDesc(User buyerId);
+    List<Deal> findAllByBuyerOrderByDealDateDesc(User buyer);
 }
 

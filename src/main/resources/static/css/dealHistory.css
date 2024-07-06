@@ -195,3 +195,53 @@
      color: rgb(216, 12, 24);
      background: rgb(253, 243, 243);
  }
+
+/* 모달 전체 화면을 가리키는 배경 */
+.modalBackdrop {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* 반투명 배경색 */
+    z-index: 9999; /* 다른 요소들보다 위에 표시 */
+}
+
+/* 모달 창 */
+.ratingModal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* 그림자 효과 */
+    z-index: 10000; /* 배경보다 더 위에 표시 */
+}
+
+/* 모달 창 내부 요소들의 스타일 */
+.ratingModal h2 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.ratingModal input,
+.ratingModal textarea {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.ratingModal .submitRatingButton {
+    padding: 10px 20px;
+    background-color: #007bff; /* 버튼 색상 */
+    color: #fff; /* 버튼 텍스트 색상 */
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}

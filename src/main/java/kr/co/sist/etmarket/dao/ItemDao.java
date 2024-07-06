@@ -33,8 +33,8 @@ public interface ItemDao extends JpaRepository<Item, Long> {
    /* 유저가 등록한 전체 상품 출력(숨김 상품 제외) & 숨긴 상품 출력 */
    Page<Item> findByUser_UserIdAndItemHidden(Long userId, ItemHidden hidden, Pageable pageable);
 
-    /* 전체 & 숨김 탭에서 검색 */
-    Page<Item> findByUser_UserIdAndItemTitleContainingAndItemHidden(Long userId, String keyword, ItemHidden hidden, Pageable pageable);
+   /* 전체 & 숨김 탭에서 검색 */
+   Page<Item> findByUser_UserIdAndItemTitleContainingAndItemHidden(Long userId, String keyword, ItemHidden hidden, Pageable pageable);
 
    /* 거래상태에 따라 출력(숨김 상품 제외) */
    Page<Item> findByUser_UserIdAndDealStatusAndItemHidden(Long userId, DealStatus dealStatus, ItemHidden hidden, Pageable pageable);

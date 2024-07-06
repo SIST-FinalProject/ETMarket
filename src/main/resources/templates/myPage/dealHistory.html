@@ -9,6 +9,7 @@
     <link rel="stylesheet" type="text/css" href="/css/dealHistory.css">
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
     <script src="/js/menu.js"></script>
+    <script src="/js/dealHistory.js"></script>
     <title>거래내역 | ET마켓</title>
     <link rel="icon" href="/image/favicon.ico" type="image/x-icon">
 </head>
@@ -42,28 +43,45 @@
                 <div style="display: flex; align-items: center; margin-left: auto;">
                     <div id="select-3">
                         <div id="option-list-3" style="display: flex; column-gap: 24px;">
-                            <a class="item_status" id="sell-history" href="#">판매내역</a>
-                            <a class="item_status" id="buy-history" href="#">구매내역</a>
+                            <a class="item_status sell-history">판매내역</a>
+                            <a class="item_status buy-history">구매내역</a>
                         </div>
                     </div>
                 </div>
             </header>
-                   <!-- <section class="itemList TZQfU" th:replace="~{fragments/dealHistoryFragment :: dealHistoryContent}">-->
-                        <section class="itemList TZQfU" >
-                </section>
+            <section class="TZQfU">
+                <!--판매내역/구매내역 출력-->
+            </section>
+
+            <input type="hidden" class="userId" name="userId" th:data-userid="${userId}">
+            <!-- 후기 남기기 모달창 -->
+            <div class="ratingModal" style="display:none;">
+                <h2>~와의 거래는 어땠나요?</h2>
+                <div>별점:</div>
+                <input type="number" class="ratingInput" step="0.5" max="5" min="0">
+                <br>
+                <div >코멘트:</div>
+                <textarea  class="commentInput"></textarea>
+                <br>
+                <button class="submitRatingButton">후기 남기기</button>
+            </div>
+
         </main>
     </div>
-
     <div th:replace="~{fragments/footer :: company}">기업설명부분</div>
 </div>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        document.getElementById('sell-history').addEventListener('click', function (event) {
+        const sellHistoryLink = document.querySelector('.item_status.sell-history');
+        const buyHistoryLink = document.querySelector('.item_status.buy-history');
+        const historySection = document.querySelector('.TZQfU');
+
+        sellHistoryLink.addEventListener('click', function (event) {
             event.preventDefault();
             loadHistory('sell');
         });
 
-        document.getElementById('buy-history').addEventListener('click', function (event) {
+        buyHistoryLink.addEventListener('click', function (event) {
             event.preventDefault();
             loadHistory('buy');
         });
@@ -71,24 +89,130 @@
         function loadHistory(type) {
             fetch(`/deal/history/${type}`)
                 .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok ' + response.statusText);
-                    }
-                    return response.text();
-                })
+                if (!response.ok) {
+                    throw new Error('Network response was not ok ' + response.statusText);
+                }
+                return response.text();
+            })
                 .then(html => {
-                    console.log(html);  // 서버에서 반환된 HTML 내용을 콘솔에 출력
-                    var itemList = document.querySelector('.itemList'); // 클래스 선택자로 변경
-                    if (itemList) {
-                        itemList.innerHTML = html;
-                    } else {
-                        console.error('Element with class "itemList" not found.');
-                    }
+                    historySection.innerHTML = html; // historySection에 HTML 추가
                 })
                 .catch(error => console.error('Error:', error));
         }
     });
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const historySection = document.querySelector('.TZQfU');
+
+        // 후기 남기기 버튼 클릭 처리 (이벤트 위임)
+        historySection.addEventListener('click', function(event) {
+            if (event.target.classList.contains('fbpoRr') && event.target.classList.contains('leaveRatingButton')) {
+                // 후기 남기기 버튼이 클릭된 경우
+                const button = event.target;
+
+                // 1. 세션에서 로그인한 유저 ID를 가져오기
+                const userIdInput = button.parentElement.querySelector('input[name="userId"]');
+                // 2. dealId를 가져오기
+                const dealIdInput = button.parentElement.querySelector('input[name="dealId"]');
+                if (!dealIdInput) {
+                    console.error('dealId input not found');
+                    return;
+                }
+                const dealId = dealIdInput.value;
+
+                if (!userIdInput) {
+                    console.error('userId 입력 필드를 찾을 수 없습니다.');
+                    return;
+                }
+                const reviewerId = userIdInput.value;
+
+                const url = `/rating/${dealId}/getTargetId?reviewerId=${encodeURIComponent(reviewerId)}`;
+
+                // 3. 서버로부터 거래 상대방 ID를 가져오기
+                fetch(url)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('서버로부터 거래 상대방 ID를 가져오는 데 실패했습니다.');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        const targetId = data.targetId;
+                        // 4. 모달 창 열기 및 리뷰 작성 함수 호출
+                        openRatingModal(dealId, reviewerId, targetId);
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert(error.message);
+                    });
+            }
+        });
+
+        // 모달 창을 열고 리뷰를 작성하도록 하는 함수
+        function openRatingModal(dealId, reviewerId, targetId) {
+            // 모달 창 열기
+            document.querySelector('.ratingModal').style.display = 'block';
+
+            // 평가 등록 버튼에 클릭 이벤트 추가
+            document.querySelector('.submitRatingButton').onclick = function () {
+                const rating = document.querySelector('.ratingInput').value;
+                const comment = document.querySelector('.commentInput').value;
+
+                const ratingData = {
+                    dealId: dealId,
+                    reviewerId: reviewerId,
+                    targetId: targetId,
+                    rating: parseFloat(rating),
+                    comment: comment
+                };
+
+                // 서버로 평가 데이터 전송
+                fetch('/rating/leave', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(ratingData)
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('평가 저장에 실패했습니다.');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log('Success:', data);
+                        alert('리뷰가 성공적으로 저장되었습니다.');
+                        document.querySelector('.ratingModal').style.display = 'none'; // 모달 창 닫기
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert(error.message);
+                    });
+            };
+        }
+    });
+
+
 </script>
 </body>
 </html>
+

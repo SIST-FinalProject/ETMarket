@@ -5,6 +5,7 @@ import kr.co.sist.etmarket.dao.ItemDao;
 import kr.co.sist.etmarket.dao.ItemImgDao;
 import kr.co.sist.etmarket.dao.UserDao;
 import kr.co.sist.etmarket.dto.ItemDto;
+import kr.co.sist.etmarket.entity.Deal;
 import kr.co.sist.etmarket.entity.Item;
 import kr.co.sist.etmarket.entity.User;
 import kr.co.sist.etmarket.etenum.DealStatus;
@@ -235,8 +236,7 @@ public class ItemService {
         }
     }
 
-    public Item findById(Long itemId) {
+    public Item findItemById(Long itemId) {
         return itemDao.findById(itemId).orElseThrow(() -> new IllegalArgumentException("Item not found with id: " + itemId));
     }
-
 }

@@ -1,6 +1,7 @@
 package kr.co.sist.etmarket.service;
 
 import kr.co.sist.etmarket.dao.DealDao;
+import kr.co.sist.etmarket.dao.UserDao;
 import kr.co.sist.etmarket.entity.Deal;
 import kr.co.sist.etmarket.entity.Item;
 import kr.co.sist.etmarket.entity.User;
@@ -11,12 +12,16 @@ import org.springframework.transaction.annotation.Transactional;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class DealService {
 
     @Autowired
     private DealDao dealDao;
+
+    @Autowired
+    private UserDao userDao;
 
     @Autowired
     private ChatRoomService chatRoomService;
@@ -27,7 +32,17 @@ public class DealService {
     @Autowired
     private UserService userService;
 
-    // 현재 세션의 유저가 판매자인 경우 판매 내역 조회
+    public Optional<Deal> findDealById(Long dealId) {
+        return dealDao.findById(dealId);
+    }
+
+    @Autowired
+    public DealService(DealDao dealDao, UserDao userDao) {
+        this.dealDao = dealDao;
+        this.userDao = userDao;
+    }
+
+    /*// 현재 세션의 유저가 판매자인 경우 판매 내역 조회
     public List<Deal> getSellHistory(User seller) {
         return dealDao.findAllBySellerOrderByDealDateDesc(seller);
     }
@@ -35,6 +50,18 @@ public class DealService {
     // 현재 세션의 유저가 구매자인 경우 구매 내역 조회
     public List<Deal> getBuyHistory(User buyer) {
         return dealDao.findAllByBuyerOrderByDealDateDesc(buyer);
+    }*/
+
+    public List<Deal> getSellHistory(Long userId) {
+        User user = userDao.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("유효하지 않은 사용자 ID입니다."));
+        return dealDao.findAllBySellerOrderByDealDateDesc(user);
+    }
+
+    public List<Deal> getBuyHistory(Long userId) {
+        User user = userDao.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("유효하지 않은 사용자 ID입니다."));
+        return dealDao.findAllByBuyerOrderByDealDateDesc(user);
     }
 
     public List<User> getChatParticipantsByItemId(Long itemId) {
@@ -43,7 +70,7 @@ public class DealService {
 
     @Transactional
     public void completeDeal(Long itemId, Long buyerId) {
-        Item item = itemService.findById(itemId);
+        Item item = itemService.findItemById(itemId);
         User buyer = userService.findByUserId(buyerId);
         User seller = userService.findByUserId(chatRoomService.getSellerIdByItemId(itemId));
 
@@ -54,7 +81,7 @@ public class DealService {
         deal.setBuyer(buyer);
         deal.setSeller(item.getUser());
         deal.setDealDate(Timestamp.valueOf(LocalDateTime.now()));
-        deal.setDealMethod("직거래"); //(수정필요)DealMethod값을 어디서 가져와야되는지
+        deal.setDealMethod("직거래");
         deal.setRatingLeft("N,N"); // 판매자,구매자 평점 남김 여부
         dealDao.save(deal);
     }

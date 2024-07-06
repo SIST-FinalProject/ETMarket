@@ -24,7 +24,7 @@ public class DealStatusController {
 
     @PostMapping("/status/update")
     public ResponseEntity<?> updateDealStatus(@RequestBody ItemDto itemDto) {
-        // 아이템 상태 업데이트 로직
+        // 아이템 상태 업데이트
         itemService.updateDealStatus(itemDto);
 
         return ResponseEntity.ok().body(Map.of("success", true, "message", "Status updated successfully"));
@@ -32,7 +32,7 @@ public class DealStatusController {
 
     @GetMapping("/{itemId}/chatParticipants")
     public ResponseEntity<List<UserDto>> getChatParticipants(@PathVariable Long itemId) {
-        Item item = itemService.findById(itemId);
+        Item item = itemService.findItemById(itemId);
         List<User> users = dealService.getChatParticipantsByItemId(item.getItemId());
 
         List<UserDto> userInfoList = users.stream()
