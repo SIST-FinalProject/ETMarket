@@ -1,13 +1,15 @@
 package kr.co.sist.etmarket.controller;
 
+import jakarta.servlet.http.HttpSession;
 import kr.co.sist.etmarket.dto.ChatRoomDto;
+import kr.co.sist.etmarket.dto.ItemDto;
+import kr.co.sist.etmarket.entity.ChatRoom;
+import kr.co.sist.etmarket.entity.User;
+import kr.co.sist.etmarket.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,13 +19,33 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ChattingExController {
 
+    private final ItemService itemService;
+    private final ItemImgService itemImgService;
     private List<ChatRoomDto> roomDtoList = new ArrayList<>();
     static int chatroomId = 0;
+    private final MessageService messageService;
+    private final ChatRoomService chatRoomService;
+    private final UserService userService;
+
 
     @GetMapping("/et/chat")
-    public String chat(@RequestParam String userName, Model model) {
+    public String chatNotItemId(@RequestParam String userName, Model model) {
         System.out.println("userName = " + userName);
         model.addAttribute("userName", userName);
+        return "chating/ex";
+    }
+
+    @GetMapping("/et/chat/choose")
+    public String chat(@RequestParam HashMap<Object, Object> params,
+                       @RequestParam String userName,
+                       @RequestParam String itemId, Model model) {
+
+        System.out.println("/et/chat/choose userName = " + userName);
+        System.out.println("/et/chat/choose itemId = " + itemId);
+
+        model.addAttribute("userName", userName);
+        model.addAttribute("itemId", itemId);
+
         return "chating/ex";
     }
 //
@@ -38,7 +60,7 @@ public class ChattingExController {
 //    /**
 //     * 방 생성하기
 //     */
-//    @PostMapping("/createRoom")
+//    @PostMapping("/et/chat/createRoom")
 //    public @ResponseBody List<ChatRoomDto> createRoom(@RequestParam HashMap<Object, Object> params) {
 //        String roomName = params.get("roomName").toString();
 //
@@ -51,14 +73,64 @@ public class ChattingExController {
 //        }
 //        return roomDtoList;
 //    }
+
+    /**
+     * 방 정보 가져오기
+     */
+    @PostMapping("/et/chat/getRooms")
+    public @ResponseBody List<ChatRoomDto> getRoom(@RequestParam HashMap<Object, Object> params,
+                                                   @RequestParam String userName,
+                                                   @RequestParam String itemId) {
+
+        System.out.println("/et/chat/getRooms params = " + params);
+        System.out.println("/et/chat/getRooms userName = " + userName);
+        System.out.println("/et/chat/getRooms itemId = " + itemId);
+
+        // 해당 닉네임을 가진 회원 찾음
+        User findUser = userService.getUserName(userName);
+        System.out.println("findUser = " + findUser);
+
+        if (itemId != null && isNumeric(itemId)) { // itemId가 null이 아니면
+
+            Long itemIdLong = Long.valueOf(itemId); // 타입 변환
+
+            // 해당 itemId와 senderId에 대한 방이 존재하지 않으면
+            if (!chatRoomService.findChatRoomByItemIdAndSenderId(itemIdLong, findUser.getUserId())) {
+                // 정보 저장 후 db에 저장
+                ChatRoom room = new ChatRoom(itemService.getItem(itemIdLong), // item
+                        findUser, // sender
+                        itemService.getItem(itemIdLong).getUser(), // receiver => 해당 상품 등록한 회원
+                        itemImgService.getFirstItemImgByItemId(itemIdLong)); // img
+
+                chatRoomService.save(room); // 방 생성
+                System.out.println("save room");
+            }
+
+        }
+
+        return chatRoomService.findAllBySender(findUser);
+
+    }
+
+    private boolean isNumeric(String str) {
+        if (str == null) {
+            return false;
+        }
+        try {
+            Long.parseLong(str);
+        } catch (NumberFormatException e) {
+            return false;
+        }
+        return true;
+    }
+
+//    @PostMapping("/et/chat/getImg")
+//    public ItemDto getImg(@RequestParam String senderUserName) {
 //
-//    /**
-//     * 방 정보 가져오기
-//     */
-//    @PostMapping("/getRoom")
-//    public @ResponseBody List<ChatRoomDto> getRoom(@RequestParam HashMap<Object, Object> params) {
-//        return roomDtoList;
+//
 //    }
+
+
 //
 //    /**
 //     * 채팅방

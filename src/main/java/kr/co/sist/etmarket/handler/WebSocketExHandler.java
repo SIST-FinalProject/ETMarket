@@ -1,5 +1,8 @@
 package kr.co.sist.etmarket.handler;
 
+import kr.co.sist.etmarket.service.ChatRoomService;
+import kr.co.sist.etmarket.service.ItemService;
+import kr.co.sist.etmarket.service.MessageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONObject;
@@ -24,17 +27,35 @@ public class WebSocketExHandler extends TextWebSocketHandler {
     HashMap<String, WebSocketSession> sessionMap = new HashMap<>(); //웹소켓 세션을 담아둘 맵
 //    List<HashMap<String, Object>> roomListSession = new ArrayList<>(); //웹소켓 세션을 담아둘 리스트
 
+    //로그인 한 인원 전체
+    private List<WebSocketSession> sessions = new ArrayList<WebSocketSession>();
+
+    private final MessageService messageService;
+    private final ChatRoomService chatRoomService;
+    private final ItemService itemService;
+
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
         // 메세지 발송
         String msg = message.getPayload();
         JSONObject obj = jsonToObjectParser(msg);
+        System.out.println("msg = " + obj);
+
+        String userName = obj.get("userName").toString();
+        Long itemId = Long.parseLong(obj.get("itemId").toString());
+        System.out.println("userName = " + userName);
+        System.out.println("itemId = " + itemId);
+
+        System.out.println("sessionMap size: " + sessionMap.size());
 
         for(String key : sessionMap.keySet()) {
             WebSocketSession wss = sessionMap.get(key);
             try {
-                wss.sendMessage(new TextMessage(obj.toJSONString()));
+                String messageStr = obj.toJSONString();
+                System.out.println("Sending message to session: " + key + ", message = " + messageStr);
+                wss.sendMessage(new TextMessage(messageStr));
             }catch(Exception e) {
+                System.err.println("Error sending message to session " + key);
                 e.printStackTrace();
             }
         }
@@ -44,10 +65,11 @@ public class WebSocketExHandler extends TextWebSocketHandler {
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         // 소켓 연결
-        System.out.println("소켓 연결");
+        System.out.println("소켓 연결: " + session.getId());
         super.afterConnectionEstablished(session);
 
         sessionMap.put(session.getId(), session);
+        sessions.add(session);
 
         JSONObject obj = new JSONObject();
         obj.put("type", "getId");
@@ -58,7 +80,7 @@ public class WebSocketExHandler extends TextWebSocketHandler {
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
         // 소켓 종료
-        System.out.println("소켓 종료");
+        System.out.println("소켓 종료: " + session.getId());
         sessionMap.remove(session.getId());
         super.afterConnectionClosed(session, status);
     }

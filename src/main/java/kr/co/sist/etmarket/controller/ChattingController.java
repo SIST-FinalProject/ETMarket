@@ -32,23 +32,23 @@ public class ChattingController {
     public String room() {
         return "chating/room";
     }
-
-    /**
-     * 방 생성하기
-     */
-    @PostMapping("/createRoom")
-    public @ResponseBody List<ChatRoomDto> createRoom(@RequestParam HashMap<Object, Object> params) {
-        String roomName = params.get("roomName").toString();
-
-        if(roomName != null && !roomName.trim().equals("")){
-            ChatRoomDto roomDto = new ChatRoomDto();
-            roomDto.setRoomName(roomName);
-            roomDto.setChatroomId(++chatroomId);
-
-            roomDtoList.add(roomDto);
-        }
-        return roomDtoList;
-    }
+//
+//    /**
+//     * 방 생성하기
+//     */
+//    @PostMapping("/createRoom")
+//    public @ResponseBody List<ChatRoomDto> createRoom(@RequestParam HashMap<Object, Object> params) {
+//        String roomName = params.get("roomName").toString();
+//
+//        if(roomName != null && !roomName.trim().equals("")){
+//            ChatRoomDto roomDto = new ChatRoomDto();
+//            roomDto.setRoomName(roomName);
+//            roomDto.setChatroomId(++chatroomId);
+//
+//            roomDtoList.add(roomDto);
+//        }
+//        return roomDtoList;
+//    }
 
     /**
      * 방 정보 가져오기

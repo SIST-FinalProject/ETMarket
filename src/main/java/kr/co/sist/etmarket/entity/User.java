@@ -87,4 +87,29 @@ public class User {
     @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ChatRoom> receiverChatroom = new ArrayList<>();
 
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "userId=" + userId +
+                ", userLoginId='" + userLoginId + '\'' +
+                ", userName='" + userName + '\'' +
+                ", userPhone='" + userPhone + '\'' +
+                ", userEmail='" + userEmail + '\'' +
+                ", userImg='" + userImg + '\'' +
+                ", userCreateDate=" + userCreateDate +
+                ", userJoinType='" + userJoinType + '\'' +
+                ", userSocialToken='" + userSocialToken + '\'' +
+                ", userIntroduce='" + userIntroduce + '\'' +
+                ", userStatus=" + userStatus +
+//                ", items=" + items +
+//                ", itemLikes=" + itemLikes +
+//                ", userSearches=" + userSearches +
+//                ", sellers=" + sellers +
+//                ", buyers=" + buyers +
+//                ", target=" + target +
+                ", senderChatroom=" + senderChatroom +
+                ", receiverChatroom=" + receiverChatroom +
+                '}';
+    }
 }

@@ -32,4 +32,6 @@ public interface ItemDao extends JpaRepository<Item, Long> {
     // itemId값에 따른 delete
     void deleteByItemId(Long itemId);
 
+    Item findItemByItemId(Long itemId);
+
 }

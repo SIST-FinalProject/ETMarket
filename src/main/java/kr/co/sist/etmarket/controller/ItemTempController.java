@@ -60,6 +60,7 @@ public class ItemTempController {
         model.addAttribute("sellerDto", simpleSellerDto);
         model.addAttribute("uid", uid);
         model.addAttribute("isWishItem", isWishItem);
+        model.addAttribute("itemId", itemId);
 
         return "item/item_detail";
     }

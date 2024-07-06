@@ -19,6 +19,7 @@ import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
 import java.text.DecimalFormat;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -82,6 +83,10 @@ public class ItemService {
         Item item = itemDao.findByItemId(itemId);
 
         return covertToDto(item);
+    }
+
+    public Item getItem(Long itemID) {
+        return itemDao.findItemByItemId(itemID);
     }
 
     // item 출력을 위해 itemDto로 가공
@@ -184,6 +189,11 @@ public class ItemService {
         Page<Item> items = itemDao.findItemsByCategoryName(category, pageable);
 
         return items.map(this::createItemDto);
+    }
+
+    public ItemDto findItem(Long itemId) {
+        Item item = itemDao.findById(itemId).get();
+        return createItemDto(item);
     }
 
     private ItemDto createItemDto(Item item) {

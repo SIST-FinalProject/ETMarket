@@ -1,6 +1,7 @@
 package kr.co.sist.etmarket.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -34,6 +35,7 @@ public class Message {
 
     @ManyToOne
     @JoinColumn(name = "chatroom_id")
+    @JsonIgnore
     private ChatRoom chatRoom;
 
     private String img;

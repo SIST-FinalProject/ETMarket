@@ -114,4 +114,9 @@ public class ItemImgService {
             s3Uploader.deleteFile(getPath(itemImgDto.getItemImg()));
         }
     }
+
+    public String getFirstItemImgByItemId(Long itemId) {
+        return itemImgDao.findFirstItemImgByItemId(itemId);
+    }
+
 }

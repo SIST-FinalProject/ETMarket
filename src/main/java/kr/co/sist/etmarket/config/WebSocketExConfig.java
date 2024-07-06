@@ -16,6 +16,6 @@ public class WebSocketExConfig implements WebSocketConfigurer {
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(webSocketExHandler, "/chatingEx");
+        registry.addHandler(webSocketExHandler, "/chatingEx/{userName}");
     }
 }
