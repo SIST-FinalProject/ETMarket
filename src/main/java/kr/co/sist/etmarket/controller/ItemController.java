@@ -67,10 +67,11 @@ public class ItemController {
     @GetMapping("/item/updateForm")
     public String updateForm(@RequestParam("itemId") Long itemId, HttpSession session, Model model) {
         Long userId = (Long) session.getAttribute("myUserId");
+        String userName = (String) session.getAttribute("myUserName");
 
         ItemDto itemDto = itemService.getDataItem(itemId);
 
-        if (userId != null && userId.equals(itemDto.getUserId())) {
+        if ((userId != null && userId.equals(itemDto.getUserId())) || (userName != null && userName.equals("admin"))) {
             List<ItemImgDto> itemImgDtos = itemImgService.getItemImgDataByItemId(itemId);
             String itemTags = itemTagService.getItemTagsByItemId(itemId);
 
@@ -148,10 +149,11 @@ public class ItemController {
     @GetMapping("/item/delete")
     public String delete(@RequestParam Long itemId, HttpSession session, Model model){
         Long userId = (Long) session.getAttribute("myUserId");
+        String userName = (String) session.getAttribute("myUserName");
 
         ItemDto itemDto = itemService.getDataItem(itemId);
 
-        if (userId != null && userId.equals(itemDto.getUserId())) {
+        if ((userId != null && userId.equals(itemDto.getUserId())) || (userName != null && userName.equals("admin"))) {
             itemImgService.deleteItemImgS3(itemId);
 
             itemService.deleteItem(itemId);
