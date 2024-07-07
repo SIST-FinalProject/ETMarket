@@ -5,7 +5,6 @@ import kr.co.sist.etmarket.entity.Deal;
 import kr.co.sist.etmarket.entity.Rating;
 import kr.co.sist.etmarket.service.DealService;
 import kr.co.sist.etmarket.service.RatingService;
-import kr.co.sist.etmarket.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -53,10 +52,6 @@ public class RatingController {
 
     @GetMapping("/{dealId}/getTargetId")
     public ResponseEntity<Map<String, Long>> getTargetId(@PathVariable Long dealId, @RequestParam Long reviewerId) {
-       /* Optional<Deal> dealOptional = dealService.findDealById(dealId);
-        if (dealOptional.isEmpty()) {
-            throw new RuntimeException("Deal not found");
-        }*/
 
         Optional<Deal> dealOptional = dealService.findDealById(dealId);
         if (dealOptional.isEmpty()) {
@@ -65,12 +60,12 @@ public class RatingController {
 
         Deal deal = dealOptional.get();
         Long targetId;
+
         if (deal.getBuyer().getUserId().equals(reviewerId)) {
             targetId = deal.getSeller().getUserId();
         } else if (deal.getSeller().getUserId().equals(reviewerId)) {
             targetId = deal.getBuyer().getUserId();
         } else {
-            /*throw new RuntimeException("User not involved in the deal");*/
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
 

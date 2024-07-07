@@ -92,7 +92,8 @@
                                         <i class="bi bi-card-image"></i>
                                     </div>
                                     <section>
-                                        <div class="delete-space">
+                                        <!--삭제버튼-->
+                                       <div class="delete-space">
                                         <i class="bi bi-x-lg close-button"></i>
                                         </div>
                                         <div class="title-container">
@@ -156,8 +157,11 @@
                             <footer class="sc-cd837f27-3 bjPSeA transaction-card-footer">
                                 <button type="button" class="sc-gEvEer upButton bun-ui-button" style="margin-bottom: 0.5rem;"
                                         th:data-itemid="${dto.itemId}" th:data-userid="${userId}">끌어올리기</button>
+
+                                <!--수정버튼-->
                                 <button class="sc-gEvEer fbpoRr bun-ui-button" style="color: rgb(2, 122, 255); margin-bottom: 0.5rem;">
                                     <a th:href="@{'//' + ${dto.itemId} }">게시글 수정</a>
+
                                 </button>
                                 <button class="sc-gEvEer hideButton bun-ui-button"
                                         th:data-itemid="${dto.itemId}"

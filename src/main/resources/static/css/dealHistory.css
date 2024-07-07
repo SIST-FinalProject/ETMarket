@@ -147,7 +147,6 @@
     min-width: 0px;
 }
 
-
 .DJdJS .sc-cd837f27-4 + .sc-cd837f27-5 {
     margin-top: 4px;
 }
@@ -192,8 +191,7 @@
      font-weight: 700;
      font-size: 13px;
      line-height: 120%;
-     color: rgb(216, 12, 24);
-     background: rgb(253, 243, 243);
+     background: #f2f3f7;
  }
 
 /* 모달 전체 화면을 가리키는 배경 */
@@ -239,9 +237,66 @@
 
 .ratingModal .submitRatingButton {
     padding: 10px 20px;
-    background-color: #007bff; /* 버튼 색상 */
-    color: #fff; /* 버튼 텍스트 색상 */
+    background-color: #4eb006;
+    color: #fff;
     border: none;
     border-radius: 4px;
     cursor: pointer;
 }
+
+.item_status {
+    color: #999999;
+    cursor: pointer;
+}
+
+.item_status.active {
+    color: #4eb006;
+    font-weight: bolder;
+}
+
+/* 별점 */
+.rating {
+    float: none;
+    width: 200px;
+    display: flex;
+}
+
+.rating__input {
+    display: none;
+}
+
+.rating__label {
+    width: 20px;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.rating__label .star-icon {
+    width: 20px;
+    height: 40px;
+    display: block;
+    position: relative;
+    left: 0;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="lightgray"><path d="M12 .587l3.668 7.429L24 9.432l-6 5.847 1.417 8.256L12 18.896 4.583 23.535 6 15.679 0 9.432l8.332-1.416L12 .587z"/></svg>') no-repeat;
+    background-size: 40px;
+}
+
+.rating__label--half .star-icon {
+    background-position: left;
+}
+
+.rating__label--full .star-icon {
+    background-position: -20px;
+}
+
+.rating__label .star-icon.filled {
+    background-image: url('https://cdn-icons-png.flaticon.com/512/2107/2107957.png');
+}
+
+.rating.readonly .star-icon {
+    opacity: 0.7;
+    cursor: default;
+}
+
+
+
