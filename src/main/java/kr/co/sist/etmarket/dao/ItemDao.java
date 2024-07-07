@@ -34,4 +34,7 @@ public interface ItemDao extends JpaRepository<Item, Long> {
 
     Item findItemByItemId(Long itemId);
 
+    @Query("SELECT i.user.userName FROM Item i WHERE i.itemId = :itemId")
+    String findUserNameByItemId(@Param("itemId") Long itemId);
+
 }

@@ -87,19 +87,21 @@ public class ChattingExController {
         System.out.println("/et/chat/getRooms itemId = " + itemId);
 
         // 해당 닉네임을 가진 회원 찾음
-        User findUser = userService.getUserName(userName);
-        System.out.println("findUser = " + findUser);
+        User sender = userService.getUserName(userName);
 
         if (itemId != null && isNumeric(itemId)) { // itemId가 null이 아니면
 
             Long itemIdLong = Long.valueOf(itemId); // 타입 변환
+            User receiver = itemService.getItem(itemIdLong).getUser(); // 상품 주인(판매자)
 
             // 해당 itemId와 senderId에 대한 방이 존재하지 않으면
-            if (!chatRoomService.findChatRoomByItemIdAndSenderId(itemIdLong, findUser.getUserId())) {
+            // => 여기에 sender 랑 receiver Id 값이 값지 않은 것도 확인해줘야호미 (추가)
+            if (!chatRoomService.findChatRoomByItemIdAndSenderId(itemIdLong, sender.getUserId())
+                && !sender.getUserId().equals(receiver.getUserId())) {
                 // 정보 저장 후 db에 저장
                 ChatRoom room = new ChatRoom(itemService.getItem(itemIdLong), // item
-                        findUser, // sender
-                        itemService.getItem(itemIdLong).getUser(), // receiver => 해당 상품 등록한 회원
+                        sender, // sender
+                        receiver, // receiver => 해당 상품 등록한 회원
                         itemImgService.getFirstItemImgByItemId(itemIdLong)); // img
 
                 chatRoomService.save(room); // 방 생성
@@ -108,7 +110,8 @@ public class ChattingExController {
 
         }
 
-        return chatRoomService.findAllBySender(findUser);
+//        return chatRoomService.findAllBySender(sender);
+        return chatRoomService.findAllByUser(sender);
 
     }
 
@@ -118,10 +121,10 @@ public class ChattingExController {
         }
         try {
             Long.parseLong(str);
+            return true;
         } catch (NumberFormatException e) {
             return false;
         }
-        return true;
     }
 
 //    @PostMapping("/et/chat/getImg")

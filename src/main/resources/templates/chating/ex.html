@@ -21,19 +21,18 @@
     <div class="left-panel">
         <div class="header">
             <h1>전체 대화</h1>
-        </div>
-        <div class="chat-list">
             <input type="hidden" id="sessionId" value="">
             <input type="hidden" id="userName" th:value="${userName}">
-
-            <div class="chat-list-item">
-                <img src="/image/초롱.png" alt="Profile" width="40" height="40">
-                <div>
-                    <strong>안창환</strong>
-                    <p>안창환 님과 데이터사이언스 입문에 대한 이야기를 시...</p>
-                </div>
-                <span>3월 8일</span>
-            </div>
+        </div>
+        <div class="chat-list">
+<!--            <div class="chat-list-item">-->
+<!--                <img src="/image/초롱.png" alt="Profile" width="40" height="40">-->
+<!--                <div>-->
+<!--                    <strong>안창환</strong>-->
+<!--                    <p>안창환 님과 데이터사이언스 입문에 대한 이야기를 시...</p>-->
+<!--                </div>-->
+<!--                <span>3월 8일</span>-->
+<!--            </div>-->
             <div class="chat-list-item">
                 <img src="/image/et.png" alt="Profile" width="40" height="40">
                 <div>
@@ -54,6 +53,7 @@
             </div>
         </div>
         <div th:if="${itemId != null}">
+<!--            <input type="hidden" id="chatroomId" value="3">-->
             <div class="chat-window">
                 <div class="chat-window-header">
                     <img src="/image/non_img.png" alt="Profile" width="50" height="50">
@@ -144,16 +144,23 @@
     // 내 채팅방 정보 및 채팅방 생성
     function createChatRoom(result) {
         if(result !== null){
+            let lastMessage = "No messages yet";
+            let lastMessageDate = result.createDate; // 기본 날짜는 방 생성 날짜
 
-            let str = `<div class="chat-list-item">
+            if (result.messages.length > 0) {
+                lastMessage = result.messages[result.messages.length - 1].message;
+                lastMessageDate = result.messages[result.messages.length - 1].sendDate;
+            }
+
+            let str = `<div class="chat-list-item" onclick="getChat(this)">
                             <input type="hidden" id="chatroomId" th:value="${result.chatroomId}">
                             <input type="hidden" id="itemId" th:value="${result.itemId}">
                             <img src="${result.chatroomImg}" alt="Profile" width="40" height="40">
                             <div>
                                 <strong>${result.receiverId}</strong>
-                                <p>아직 메시지 못 가져옴</p>
+                                <p>${lastMessage}</p>
                             </div>
-                            <span>${roomAgo(result.createDate)}</span>
+                            <span>${roomAgo(lastMessageDate)}</span>
                         </div>`;
 
             $('.chat-list').append(str);
@@ -238,7 +245,8 @@
             sessionId : $("#sessionId").val(),
             userName : userName,
             itemId : itemId,
-            msg : $("#chatting").val()
+            msg : $("#chatting").val(),
+            chatroomId: 10
 
         }
         ws.send(JSON.stringify(option))
@@ -261,24 +269,25 @@
         });
     }
 
-    function getItems(){
-        let data = {
-            "userName": userName
-        };
-        // url, parameter, type, callback, contentType
-        commonAjax('/et/chat/getImg', data, 'post', function (result) {
-            alert("/et/chat/getImg 성공");
-            // 성공값인 result는 chatroom에 대한 데이터만 넘어옴... item
-            console.log("/et/chat/getImg 성공 : ", result);
-
-            if (Array.isArray(result)) {
-                result.forEach((item, index) => {
-                    console.log(`Item ${index}: `, item);
-                });
-            } else {
-                console.log("Result is not an array");
-            }
-        });
+    function getChat(data){
+        // let data = {
+        //     "userName": userName
+        // };
+        // // url, parameter, type, callback, contentType
+        // commonAjax('/et/chat/getImg', data, 'post', function (result) {
+        //     alert("/et/chat/getImg 성공");
+        //     // 성공값인 result는 chatroom에 대한 데이터만 넘어옴... item
+        //     console.log("/et/chat/getImg 성공 : ", result);
+        //
+        //     if (Array.isArray(result)) {
+        //         result.forEach((item, index) => {
+        //             console.log(`Item ${index}: `, item);
+        //         });
+        //     } else {
+        //         console.log("Result is not an array");
+        //     }
+        // });
+        console.log("클릭 채팅방 : ", data);
     }
 
 

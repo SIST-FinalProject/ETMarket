@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@EntityListeners(AuditingEntityListener.class)
 public class Message {
 
     @Id
@@ -25,13 +26,14 @@ public class Message {
     @Column(columnDefinition = "TEXT")
     private String message;
 
+    @Column(updatable = false)
     @CreatedDate
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private Timestamp sendDate;
 
     private String sender;
 
-    private Long senderId;
+    private String receiver;
 
     @ManyToOne
     @JoinColumn(name = "chatroom_id")
@@ -43,10 +45,10 @@ public class Message {
     private String chatRead; // 읽은 여부
 
     @Builder
-    public Message(ChatRoom chatRoom, String sender, Long senderId, String message) {
+    public Message(ChatRoom chatRoom, String sender, String receiver, String message) {
         this.chatRoom = chatRoom;
         this.sender = sender;
-        this.senderId = senderId;
+        this.receiver = receiver;
         this.sendDate = Timestamp.valueOf(LocalDateTime.now());
         this.message = message;
     }
@@ -56,11 +58,11 @@ public class Message {
     /**
      * 채팅 생성
      */
-    public static Message createMessage(ChatRoom chatRoom, String sender, Long senderId, String message) {
+    public static Message createMessage(ChatRoom chatRoom, String sender, String receiver, String message) {
         return Message.builder()
                 .chatRoom(chatRoom)
                 .sender(sender)
-                .senderId(senderId)
+                .receiver(receiver)
                 .message(message)
                 .build();
     }

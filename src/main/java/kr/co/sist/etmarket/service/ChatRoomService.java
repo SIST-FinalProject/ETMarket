@@ -32,12 +32,23 @@ public class ChatRoomService {
 
     }
 
-    public ChatRoom getChatroomId(Long chatroomId) {
-        return chatRoomDao.findById(chatroomId).get();
+    public ChatRoomDto getChatroom(Long chatroomId) {
+//        return convertToDto(chatRoomDao.findByChatroomId(chatroomId));
+        ChatRoom chatRoom = chatRoomDao.findById(chatroomId).orElse(null);
+        if (chatRoom == null) {
+            return null;
+        }
+        return convertToDto(chatRoom);
     }
 
     public List<ChatRoomDto> findAllBySender(User sender) {
         List<ChatRoom> chatRooms =  chatRoomDao.findBySender(sender);
+        return chatRooms.stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+    }
+    public List<ChatRoomDto> findAllByUser(User user) {
+        List<ChatRoom> chatRooms = chatRoomDao.findBySenderOrReceiver(user);
         return chatRooms.stream()
                 .map(this::convertToDto)
                 .collect(Collectors.toList());
@@ -64,6 +75,10 @@ public class ChatRoomService {
                 .messages(chatRoom.getMessages())
                 .chatroomImg(chatRoom.getChatroomImg())
                 .build();
+    }
+
+    public ChatRoom getEntity(Long chatroomId) {
+        return chatRoomDao.findById(chatroomId).orElse(null);
     }
 
 }

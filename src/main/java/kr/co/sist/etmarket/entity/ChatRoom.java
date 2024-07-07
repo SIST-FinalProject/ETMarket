@@ -59,4 +59,6 @@ public class ChatRoom {
         this.receiver = receiver;
         this.chatroomImg = chatroomImg;
     }
+
+
 }

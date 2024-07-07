@@ -228,4 +228,8 @@ public class ItemService {
 
     }
 
+    public String getReceiverUserName(Long itemId) {
+        return itemDao.findUserNameByItemId(itemId);
+    }
+
 }
