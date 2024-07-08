@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpSession;
 import kr.co.sist.etmarket.dao.ItemDao;
 import kr.co.sist.etmarket.dto.*;
 import kr.co.sist.etmarket.entity.User;
+import kr.co.sist.etmarket.etenum.ItemStatus;
 import kr.co.sist.etmarket.service.AdminService;
 import kr.co.sist.etmarket.service.ItemService;
 import kr.co.sist.etmarket.service.UserService;
@@ -86,6 +87,14 @@ public class AdminController {
         // 성공 거래 비율 추가
         double successfulTransactionRate = adminService.getSuccessfulTransactionRate();
         model.addAttribute("successfulTransactionRate", (int) successfulTransactionRate); // 정수로 변환
+
+        // 상품 상태별 분포 데이터 가져오기
+        Map<ItemStatus, Long> itemStatusDistribution = adminService.getItemStatusDistribution();
+        long totalItems = adminService.getTotalItems();
+
+        // 모델에 데이터 추가
+        model.addAttribute("itemStatusDistribution", itemStatusDistribution);
+        model.addAttribute("totalItems", totalItems);
 
 
 

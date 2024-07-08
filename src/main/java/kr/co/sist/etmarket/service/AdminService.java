@@ -5,6 +5,7 @@ import kr.co.sist.etmarket.dto.*;
 import kr.co.sist.etmarket.entity.Admin;
 import kr.co.sist.etmarket.entity.Item;
 import kr.co.sist.etmarket.entity.User;
+import kr.co.sist.etmarket.etenum.ItemStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -184,6 +185,20 @@ public class AdminService {
             return 0;
         }
         return (double) successfulTransactions / totalTransactions * 100;
+    }
+
+    // 상품 상태별 분포 데이터 가져오기
+    public Map<ItemStatus, Long> getItemStatusDistribution() {
+        Map<ItemStatus, Long> statusDistribution = new LinkedHashMap<>();
+        for (ItemStatus status : ItemStatus.values()) {
+            long count = itemDao.countByItemStatus(status);
+            statusDistribution.put(status, count);
+        }
+        return statusDistribution;
+    }
+
+    public long getTotalItems() {
+        return itemDao.count();
     }
 
 

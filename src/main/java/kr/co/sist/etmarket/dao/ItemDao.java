@@ -2,6 +2,7 @@ package kr.co.sist.etmarket.dao;
 
 import kr.co.sist.etmarket.entity.Item;
 import kr.co.sist.etmarket.etenum.CategoryName;
+import kr.co.sist.etmarket.etenum.ItemStatus;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.domain.Page;
@@ -41,6 +42,8 @@ public interface ItemDao extends JpaRepository<Item, Long> {
 
   // 사용자 ID를 기준으로 아이템 삭제
   //void deleteByUserId(Long userId);
+
+  long countByItemStatus(ItemStatus status);
 
 
 
