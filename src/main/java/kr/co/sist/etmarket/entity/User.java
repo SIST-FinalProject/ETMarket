@@ -79,4 +79,6 @@ public class User {
     @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ChatRoom> receiverChatroom = new ArrayList<>();
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ItemUp> itemUps = new ArrayList<>();
 }

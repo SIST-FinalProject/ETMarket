@@ -6,6 +6,7 @@ import kr.co.sist.etmarket.dao.ItemImgDao;
 import kr.co.sist.etmarket.dao.ReportProductRepository;
 import kr.co.sist.etmarket.dao.UserDao;
 import kr.co.sist.etmarket.dto.ItemDto;
+import kr.co.sist.etmarket.entity.Deal;
 import kr.co.sist.etmarket.entity.Item;
 import kr.co.sist.etmarket.entity.User;
 import kr.co.sist.etmarket.etenum.CategoryName;
@@ -13,13 +14,11 @@ import kr.co.sist.etmarket.etenum.DealStatus;
 import kr.co.sist.etmarket.etenum.ItemHidden;
 import kr.co.sist.etmarket.etenum.PriceStatus;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.text.DecimalFormat;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -222,4 +221,63 @@ public class ItemService {
 
     }
 
+
+
+
+    /*마이페이지에서 사용*/
+
+    /* 유저가 등록한 전체 상품 출력(숨김 상품 제외) */
+    public Page<Item> findByUserIdAllItem(Long userId, Pageable pageable) {
+        pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("itemUpdateDate").descending());
+        return itemDao.findByUser_UserIdAndItemHidden(userId, ItemHidden.보임, pageable);
+    }
+    /* 전체 탭에서 검색 */
+    public Page<Item> itemSearchList(Long userId, String keyword, Pageable pageable) {
+        pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("itemUpdateDate").descending());
+        return itemDao.findByUser_UserIdAndItemTitleContainingAndItemHidden(userId, keyword, ItemHidden.보임, pageable);
+    }
+    /* 거래상태에 따라 출력(숨김 상품 제외) */
+    public Page<Item> itemStatusList(Long userId, DealStatus dealStatus, Pageable pageable) {
+        pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("itemUpdateDate").descending());
+        return itemDao.findByUser_UserIdAndDealStatusAndItemHidden(userId, dealStatus, ItemHidden.보임, pageable);
+    }
+    /* 판매중,예약중,거래완료 탭에서 검색 */
+    public Page<Item> itemSearchAndStatusList(Long userId, String keyword, DealStatus dealStatus, Pageable pageable) {
+        pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("itemUpdateDate").descending());
+        return itemDao.findByUser_UserIdAndItemTitleContainingAndDealStatusAndItemHidden(userId, keyword, dealStatus, ItemHidden.보임, pageable);
+    }
+    /* 숨긴 상품 출력 */
+    public Page<Item> hiddenList(Long userId, Pageable pageable) {
+        pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("itemUpdateDate").descending());
+        return itemDao.findByUser_UserIdAndItemHidden(userId, ItemHidden.숨김, pageable);
+    }
+    /* 숨김 탭에서 검색 */
+    public Page<Item> hiddenSearchList(Long userId, String keyword, Pageable pageable) {
+        pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("itemUpdateDate").descending());
+        return itemDao.findByUser_UserIdAndItemTitleContainingAndItemHidden(userId, keyword, ItemHidden.숨김, pageable);
+    }
+    /* 거래 상태 변경 */
+    public void updateDealStatus(ItemDto itemDto) {
+        Item item = itemDao.findById(itemDto.getItemId())
+                .orElseThrow(() -> new IllegalArgumentException("Invalid item ID"));
+        item.setDealStatus(itemDto.getDealStatus());
+        itemDao.save(item);
+    }
+
+    @Transactional
+    public boolean updateHiddenStatus(Long itemId, ItemHidden hidden) {
+        Optional<Item> optionalItem = itemDao.findById(itemId);
+        if (optionalItem.isPresent()) {
+            Item item = optionalItem.get();
+            item.setItemHidden(hidden);
+            itemDao.save(item);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public Item findItemById(Long itemId) {
+        return itemDao.findById(itemId).orElseThrow(() -> new IllegalArgumentException("Item not found with id: " + itemId));
+    }
 }

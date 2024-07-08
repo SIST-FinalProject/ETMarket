@@ -19,10 +19,10 @@ public interface UserDao extends JpaRepository<User, Long> {
 
 	// 아이디 찾기
 	User findByUserPhoneAndUserEmail(String userPhone, String userEmail);
-	
+
 	// 비밀번호 찾기
 	User findByUserLoginIdAndUserEmail(String userLoginId, String userEmail);
-	
+
 	// 비밀번호 재설정
 	@Query(value="update user set user_password=:userPassword where user_login_id=:userLoginId AND user_email=:userEmail", nativeQuery = true)
 	@Modifying
@@ -69,5 +69,26 @@ public interface UserDao extends JpaRepository<User, Long> {
 	// 월별 사용자 가입 수 구하기
 	@Query("SELECT FUNCTION('MONTH', u.userCreateDate) as month, COUNT(u) as count FROM User u GROUP BY FUNCTION('MONTH', u.userCreateDate)")
 	List<Object[]> countMonthlyUserSignups();
+
+	/*마이페이지에서 사용*/
+	User findByUserId(Long userId);
+
+
+// 중복체크 true/false
+// boolean existsByUserLoginId(String userLoginId);
+// boolean existsByUserName(String userName);
+// boolean existsByUserEmail(String userEmail);
+
+// 회원정보 수정
+//	@Query(value="update user set user_password=:userPassword where user_id=:userId", nativeQuery = true)
+//	@Modifying
+//	@Transactional
+//	public void updateUser(@Param("userLoginId") String userLoginId, @Param("userEmail") String userEmail, @Param("userPassword") String userPassword);
+
+// 회원 탈퇴 status ACTIVE->DELETE
+@Query(value="update user set user_status='DELETE' where user_id=:userId", nativeQuery = true)
+@Modifying
+@Transactional
+public void deleteUser(@Param("userId") Long userId);
 	
 }

@@ -4,7 +4,10 @@ import kr.co.sist.etmarket.entity.Item;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.socket.WebSocketSession;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,4 +32,7 @@ public class ChatRoomDto {
     private List<MessageDto> messages = new ArrayList<>();
 
     private String chatroomImg;
+
+    private Set<WebSocketSession> sessions = new HashSet<>();
+    
 }

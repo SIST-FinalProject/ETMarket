@@ -10,7 +10,8 @@ import java.sql.Timestamp;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter @Setter
+@Builder
+@Data
 public class Deal {
 
     @Id

@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface ItemLikeRepository extends JpaRepository<ItemLike, Long> {
@@ -15,5 +16,9 @@ public interface ItemLikeRepository extends JpaRepository<ItemLike, Long> {
     Optional<ItemLike> findByItem_ItemIdAndUser_UserId(Long itemId, Long userId);
 
     void deleteByItem_ItemIdAndUser_UserId(Long itemId, Long userId);
+
+    /*마이페이지에서 사용*/
+    @Query("SELECT il.item.itemId, COUNT(il.itemLikeId) AS likeCount FROM ItemLike il GROUP BY il.item.itemId")
+    List<Object[]> countLikesByItemId();
 }
 
