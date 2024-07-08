@@ -33,6 +33,16 @@ public interface ItemDao extends JpaRepository<Item, Long> {
     // itemId값에 따른 delete
     void deleteByItemId(Long itemId);
 
+    @Query("SELECT COUNT(i) FROM Item i")
+    long countAllTransactions();
+
+    @Query("SELECT COUNT(i) FROM Item i WHERE i.dealStatus = '거래완료'")
+    long countSuccessfulTransactions();
+
+  // 사용자 ID를 기준으로 아이템 삭제
+  //void deleteByUserId(Long userId);
+
+
 
 
 }

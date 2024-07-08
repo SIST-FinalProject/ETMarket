@@ -8,4 +8,6 @@ import java.util.List;
 public interface ReportProductRepository extends JpaRepository<ReportProduct,Long> {
     // 최근 생성된 상품 신고 상위 5개 조회
     List<ReportProduct> findTop5ByOrderByCreateDateDesc();
+    // 아이템 ID로 삭제
+    void deleteByItem_ItemId(Long itemId);
 }

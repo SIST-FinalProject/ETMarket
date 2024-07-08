@@ -142,6 +142,20 @@ public class AdminService {
         userDao.save(user);
     }
 
+    public void deleteUser(Long userId) {
+        // 신고 목록에서 신고당한 사용자가 reported인 경우 삭제
+        //reportUserRepository.deleteByReported_UserId(userId);
+        // 신고 목록에서 신고한 사용자가 reported인 경우 삭제
+        //reportUserRepository.deleteByReporter_UserId(userId);
+        // 사용자와 관련된 아이템 삭제
+        //itemDao.deleteByUserId(userId);
+
+        userDao.deleteById(userId);
+    }
+
+
+
+
 
 
 
@@ -161,6 +175,17 @@ public class AdminService {
             return dto;
         }).collect(Collectors.toList());
     }
+
+    // 성공 거래 비율 계산 메서드
+    public double getSuccessfulTransactionRate() {
+        long totalTransactions = itemDao.countAllTransactions();
+        long successfulTransactions = itemDao.countSuccessfulTransactions();
+        if (totalTransactions == 0) {
+            return 0;
+        }
+        return (double) successfulTransactions / totalTransactions * 100;
+    }
+
 
 
 
@@ -236,6 +261,16 @@ public class AdminService {
     // 상품 신고 총 수
     public long countTotalProductReports() {
         return reportProductRepository.count();
+    }
+
+    // 사용자 신고 삭제
+    public void deleteUserReport(Long reportUserId) {
+        reportUserRepository.deleteById(reportUserId);
+    }
+
+    // 상품 신고 삭제
+    public void deleteProductReport(Long reportProductId) {
+        reportProductRepository.deleteById(reportProductId);
     }
 
 

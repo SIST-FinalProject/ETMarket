@@ -57,7 +57,11 @@
                                     <td th:text="${user.userLoginId}"></td>
                                     <td th:text="${user.userName}"></td>
                                     <td th:text="${user.userEmail}"></td>
-                                    <td th:text="${user.userStatus}"></td>
+                                    <td>
+                                        <span th:text="${user.userStatus}"
+                                              th:classappend="${user.userStatus.name() == 'ACTIVE'} ? 'badge badge-pill badge-success' : 'badge badge-pill badge-danger'">
+                                        </span>
+                                    </td>
                                     <td>
                                         <button class="btn btn-sm" th:attr="onclick='editUser(' + ${user.userId} + ')'">
                                             <i class="fas fa-edit"></i>
@@ -121,7 +125,20 @@
     }
 
     function deleteUser(userId) {
-        alert("삭제하기: " + userId);
+        //alert("삭제하기: " + userId);
+        if (confirm('정말로 이 회원을 삭제하시겠습니까?')) {
+            $.ajax({
+                url: '/admin/user/' + userId,
+                type: 'DELETE',
+                success: function(result) {
+                    location.reload();
+                },
+                error: function(err) {
+                    console.error('삭제 실패:', err);
+                    alert('삭제에 실패했습니다.');
+                }
+            });
+        }
     }
 </script>
 

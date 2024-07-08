@@ -49,6 +49,7 @@
                                     <th>제목</th>
                                     <th>내용</th>
                                     <th>신고 날짜</th>
+                                    <th>작업</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -61,12 +62,49 @@
                                     <td th:text="${report.title}"></td>
                                     <td th:text="${report.content}"></td>
                                     <td th:text="${#dates.format(report.createDate, 'yyyy-MM-dd HH:mm')}"></td>
+                                    <td>
+                                        <button class="btn btn-sm" th:attr="data-itemid=${report.itemId}" onclick="showDeleteModal(this)">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                    </td>
                                 </tr>
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
+
+                <!-- Delete Confirmation Modal -->
+                <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="deleteModalLabel">신고 처리</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label for="actionType">조치 유형</label>
+                                    <select class="form-control" id="actionType">
+                                        <option value="delete">게시물 삭제</option>
+                                        <!-- 다른 조치 유형이 있으면 추가 -->
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="reportContent">신고 내용</label>
+                                    <textarea class="form-control" id="reportContent" rows="3"></textarea>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                <button type="button" class="btn btn-danger" id="confirmDeleteButton">Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
 
             </div>
             <!-- /.container-fluid -->
@@ -107,6 +145,38 @@
             }
         });
     });
+
+    function showDeleteModal(button) {
+        var itemId = $(button).data('itemid');
+        $('#confirmDeleteButton').attr('onclick', 'deleteItem(' + itemId + ')');
+        $('#deleteModal').modal('show');
+    }
+
+    function deleteItem(itemId) {
+        var actionType = $('#actionType').val();
+        // var reportContent = $('#reportContent').val(); // 사용되지 않는 변수
+
+        if (actionType === 'delete') {
+            console.log('Deleting item with ID:', itemId); // 로그 추가
+            $.ajax({
+                url: '/admin/item/' + itemId,
+                type: 'DELETE',
+                success: function(result) {
+                    console.log('Delete successful:', result); // 로그 추가
+                    alert('상품이 삭제되었습니다.');
+                    location.reload();
+                },
+                error: function(err) {
+                    console.error('삭제 실패:', err); // 로그 추가
+                    alert('상품 삭제에 실패했습니다.');
+                }
+            });
+        } else {
+            alert('알 수 없는 조치 유형입니다.');
+        }
+    }
+
+
 </script>
 </body>
 
