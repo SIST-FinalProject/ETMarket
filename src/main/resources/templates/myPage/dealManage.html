@@ -20,13 +20,13 @@
 <div class="sc-dTsoBL qMyCA">
     <div class="sc-btewqU IQTNO">
         <nav class="sc-hAnkBK bvTSLH">
-            <div class="sc-bJTOcE bwpcVz">
+            <div class="sc-bJTOcE bwpcVz" onclick="changeColor(this)" data-item-id="uniqueItemId1">
                 <a class="sc-DNdyV ihLswr" th:href="@{/item/like}">찜목록</a>
             </div>
-            <div class="sc-bJTOcE cxNxJu" onclick="changeColor(this)">
+            <div class="sc-bJTOcE cxNxJu" onclick="changeColor(this)" data-item-id="uniqueItemId2">
                 <a class="sc-DNdyV ihLswr" th:href="@{/deal/manage}" >상품관리</a>
             </div>
-            <div class="sc-bJTOcE bwpcVz" onclick="changeColor(this)">
+            <div class="sc-bJTOcE bwpcVz" onclick="changeColor(this)" data-item-id="uniqueItemId3">
                 <a class="sc-geAPOV fEXFkE" th:href="@{/deal/history}" >거래내역</a>
             </div>
         </nav>
@@ -55,16 +55,16 @@
                 <div style="display: flex; align-items: center; margin-left: auto;">
                     <div id="select-3">
                         <div id="option-list-3" style="display: flex; column-gap: 24px;">
-                            <a class="item_status"  th:href="@{/deal/manage}">전체</a>
-                            <a class="item_status" th:classappend="${dealStatus == '판매중' ? 'selected' : ''}" th:href="@{/deal/manage(dealStatus='판매중')}">판매중</a>
-                            <a class="item_status" th:classappend="${dealStatus == '예약중' ? 'selected' : ''}" th:href="@{/deal/manage(dealStatus='예약중')}">예약중</a>
-                            <a class="item_status" th:classappend="${dealStatus == '거래완료' ? 'selected' : ''}" th:href="@{/deal/manage(dealStatus='거래완료')}">거래완료</a>
+                            <a class="item_status  status"  th:href="@{/deal/manage}">전체</a>
+                            <a class="item_status status" th:classappend="${dealStatus == '판매중' ? 'selected' : ''}" th:href="@{/deal/manage(dealStatus='판매중')}">판매중</a>
+                            <a class="item_status status" th:classappend="${dealStatus == '예약중' ? 'selected' : ''}" th:href="@{/deal/manage(dealStatus='예약중')}">예약중</a>
+                            <a class="item_status status" th:classappend="${dealStatus == '거래완료' ? 'selected' : ''}" th:href="@{/deal/manage(dealStatus='거래완료')}">거래완료</a>
                         </div>
                     </div>
                     <div style="width: 1px; height: 16px; margin-left: 20px; margin-right: 20px; background-color: rgb(204, 204, 204);"></div>
                     <div id="select-4">
                         <div id="option-list-4" style="display: flex; align-items: center; column-gap: 24px;">
-                            <a data-selected="false" style="font-weight: 500; line-height: normal; cursor: pointer; color: rgb(127, 127, 127);"
+                            <a class="status"  data-selected="false" style="font-weight: 500; line-height: normal; cursor: pointer; color: rgb(127, 127, 127);"
                                th:href="@{/deal/manage(hidden=${'숨김'})}">숨김</a>
                         </div>
                     </div>
@@ -91,7 +91,7 @@
                                     <div th:if="${dtoIndex == null}">
                                         <i class="bi bi-card-image"></i>
                                     </div>
-                                    <section>
+                                    <section style="margin-left: 60px; margin-top:15px;">
                                         <!--삭제버튼-->
                                        <div class="delete-space">
                                            <a th:href="@{'/item/delete?itemId='+${dto.itemId}}">
@@ -99,7 +99,7 @@
                                            </a>
                                         </div>
                                         <div class="title-container">
-                                        <header class="sc-cd837f27-4 hmyVuO" th:text="${dto.itemTitle}">상품 제목</header>
+                                        <header class="sc-cd837f27-4 hmyVuO" th:text="${dto.itemTitle}" th:href="@{'/items/'+${dto.itemId}}">상품 제목</header>
                                         </div>
                                         <div class="sc-cd837f27-5 bxbsbo">
                                             <p class="sc-cd837f27-5 bxb" th:if="${dto.itemAddress == null or #strings.listSplit(dto.itemAddress, ' ').size() == 0}" th:text="'지역정보 없음'"></p>
@@ -117,14 +117,17 @@
                                             <p class="item-price" th:text="${#numbers.formatInteger(dto.itemPrice, 3, 'COMMA') + '원'}">상품 가격</p>
                                         </div>
 
-                                        <th:block th:if="${chatRoomsByItemId[dto.itemId] != null and chatRoomsByItemId[dto.itemId] > 0}">
+                                        <div style="display: flex; align-items: center;">
+                                            <th:block th:if="${chatRoomsByItemId[dto.itemId] != null and chatRoomsByItemId[dto.itemId] > 0}">
                                             <i class="bi bi-chat chat_count" th:text="${chatRoomsByItemId[dto.itemId]}" >채팅방 개수</i>
                                         </th:block>
 
                                         <th:block th:if="${likesByItemId[dto.itemId] != null and likesByItemId[dto.itemId] > 0}">
                                             <i class="bi bi-heart likes" th:text="${likesByItemId[dto.itemId]}" >찜 개수</i>
                                         </th:block>
+                                        </div>
                                     </section>
+                                    <section>
 
                                     <div class="css-2b097c-container">
                                         <div class="dropdown">
@@ -139,6 +142,9 @@
 
                                         <div class="sc-gCwZxT byUzHg"></div>
                                     </div>
+
+
+                                    </section>
                                 </section>
                             </section>
 
