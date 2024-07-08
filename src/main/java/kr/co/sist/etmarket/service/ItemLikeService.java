@@ -1,6 +1,5 @@
 package kr.co.sist.etmarket.service;
 
-
 import kr.co.sist.etmarket.dao.ItemDetailRepository;
 import kr.co.sist.etmarket.dao.ItemLikeRepository;
 import kr.co.sist.etmarket.dao.SellerDetailRepository;

@@ -3,14 +3,18 @@ package kr.co.sist.etmarket.entity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Timestamp;
 
+@Data
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class ItemUp {
 
     @Id

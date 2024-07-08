@@ -9,6 +9,7 @@ import kr.co.sist.etmarket.entity.UserSearch;
 
 import kr.co.sist.etmarket.etenum.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -21,6 +22,8 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
+
 public class ItemDto {
     private Long itemId;
 
@@ -170,5 +173,4 @@ public class ItemDto {
             return seconds + "초 전";
         }
     }
-
 }

@@ -67,4 +67,9 @@ public class UserService {
     }
     
 
+
+    /*마이페이지에서 사용*/
+    public User findByUserId(Long userId) {
+        return userDao.findByUserId(userId);
+    }
 }

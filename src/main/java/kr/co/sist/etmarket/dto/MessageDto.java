@@ -27,4 +27,11 @@ public class MessageDto {
 
     private String chatRead; // 읽은 여부
 
+    private MessageType type;
+
+    public enum MessageType {
+        // 입장, 채팅, 나감
+        ENTER, TALK, QUIT
+    }
+
 }

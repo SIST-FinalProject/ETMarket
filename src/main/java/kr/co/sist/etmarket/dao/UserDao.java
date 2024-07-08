@@ -17,15 +17,20 @@ public interface UserDao extends JpaRepository<User, Long> {
 
 	// 아이디 찾기
 	User findByUserPhoneAndUserEmail(String userPhone, String userEmail);
-	
+
 	// 비밀번호 찾기
 	User findByUserLoginIdAndUserEmail(String userLoginId, String userEmail);
-	
+
 	// 비밀번호 재설정
 	@Query(value="update user set user_password=:userPassword where user_login_id=:userLoginId AND user_email=:userEmail", nativeQuery = true)
 	@Modifying
 	@Transactional
 	public void updateUserPassword(@Param("userLoginId") String userLoginId, @Param("userEmail") String userEmail, @Param("userPassword") String userPassword);
+
+
+	/*마이페이지에서 사용*/
+	User findByUserId(Long userId);
+}
 	
 	// 중복체크 true/false
 	boolean existsByUserLoginId(String userLoginId);
