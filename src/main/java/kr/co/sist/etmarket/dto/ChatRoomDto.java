@@ -34,9 +34,5 @@ public class ChatRoomDto {
     private String chatroomImg;
 
     private Set<WebSocketSession> sessions = new HashSet<>();
-
-    public ChatRoomDto(int chatroomId, String roomName) {
-        this.chatroomId = chatroomId;
-        this.roomName = roomName;
-    }
+    
 }

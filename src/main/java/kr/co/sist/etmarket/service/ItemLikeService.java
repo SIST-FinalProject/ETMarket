@@ -3,6 +3,7 @@ package kr.co.sist.etmarket.service;
 import kr.co.sist.etmarket.dao.ItemDetailRepository;
 import kr.co.sist.etmarket.dao.ItemLikeRepository;
 import kr.co.sist.etmarket.dao.SellerDetailRepository;
+import kr.co.sist.etmarket.dto.ItemLikeDto;
 import kr.co.sist.etmarket.entity.Item;
 import kr.co.sist.etmarket.entity.ItemLike;
 import kr.co.sist.etmarket.entity.User;
@@ -10,10 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @Transactional
@@ -58,6 +56,22 @@ public class ItemLikeService {
         response.put("wishCount", wishCount);
 
         return response;
+    }
+
+
+    /*마이페이지에서 사용*/
+    public List<ItemLikeDto> countLikesByItemId() {
+        List<Object[]> result = itemLikeRepository.countLikesByItemId();
+        List<ItemLikeDto> dtos = new ArrayList<>();
+
+        for (Object[] row : result) {
+            ItemLikeDto dto = new ItemLikeDto();
+            dto.setItemId((Long) row[0]);
+            dto.setLikeCount((Long) row[1]);
+            dtos.add(dto);
+        }
+
+        return dtos;
     }
 
 }

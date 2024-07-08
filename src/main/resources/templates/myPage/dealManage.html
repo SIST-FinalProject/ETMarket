@@ -20,8 +20,8 @@
 <div class="sc-dTsoBL qMyCA">
     <div class="sc-btewqU IQTNO">
         <nav class="sc-hAnkBK bvTSLH">
-            <div class="sc-bJTOcE bwpcVz" onclick="changeColor(this)">
-                <a class="sc-DNdyV ihLswr" th:href="@{/deal/manage}" >상품등록</a>
+            <div class="sc-bJTOcE bwpcVz">
+                <a class="sc-DNdyV ihLswr" th:href="@{/item/like}">찜목록</a>
             </div>
             <div class="sc-bJTOcE cxNxJu" onclick="changeColor(this)">
                 <a class="sc-DNdyV ihLswr" th:href="@{/deal/manage}" >상품관리</a>
@@ -94,7 +94,9 @@
                                     <section>
                                         <!--삭제버튼-->
                                        <div class="delete-space">
-                                        <i class="bi bi-x-lg close-button"></i>
+                                           <a th:href="@{'/item/delete?itemId='+${dto.itemId}}">
+                                               <i class="bi bi-x-lg close-button"></i>
+                                           </a>
                                         </div>
                                         <div class="title-container">
                                         <header class="sc-cd837f27-4 hmyVuO" th:text="${dto.itemTitle}">상품 제목</header>
@@ -160,8 +162,7 @@
 
                                 <!--수정버튼-->
                                 <button class="sc-gEvEer fbpoRr bun-ui-button" style="color: rgb(2, 122, 255); margin-bottom: 0.5rem;">
-                                    <a th:href="@{'//' + ${dto.itemId} }">게시글 수정</a>
-
+                                    <a th:href="@{'/item/updateForm?itemId='+${dto.itemId}}">게시글 수정</a>
                                 </button>
                                 <button class="sc-gEvEer hideButton bun-ui-button"
                                         th:data-itemid="${dto.itemId}"
