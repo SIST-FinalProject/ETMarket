@@ -57,10 +57,10 @@
 
                 <div class="chat-window-body"></div>
 
-                <div class="message-input">
-                    <input type="text" id="chatting"  placeholder="메시지를 입력하세요.">
-                    <button onclick="send()" id="sendBtn">보내기</button>
-                </div>
+<!--                <div class="message-input">-->
+<!--                    <input type="text" id="chatting"  placeholder="메시지를 입력하세요.">-->
+<!--                    <button onclick="send()" id="sendBtn">보내기</button>-->
+<!--                </div>-->
 
             </div>
         </div>
@@ -73,7 +73,7 @@
     var ws;
     var userName = [[${userName}]];
     var itemId = [[${itemId}]];
-    var items = [];
+    var sessionId;
 
     if (itemId !== null){
         $('.chat-non-itemId').hide();
@@ -148,14 +148,17 @@
     function wsEvt() {
         ws.onopen = function(data){
             //소켓이 열리면 초기화 세팅하기
+            console.log("소켓 연결:", sessionId);
         }
 
         ws.onmessage = function(data) {
             let msg = data.data;
-            console.log("ws.onmessage : " + msg);
+            console.log("ws.onmessage : ", msg);
+
             if(msg != null && msg.trim() !== ''){
-                var json = JSON.parse(msg);
+                let json = JSON.parse(msg);
                 if (json.type === "getId"){
+                    sessionId = json.sessionId;
                     console.log("type==getId")
                     let ss = json.sessionId != null ? json.sessionId : "";
                     if(ss !== ''){
@@ -185,6 +188,12 @@
                 }
 
             }
+        }
+
+        ws.onclose = function() {
+            console.log("소켓 종료:", sessionId);
+            // 재연결 로직 추가
+            setTimeout(wsOpen, 1000); // 1초 후에 다시 연결 시도
         }
 
         document.getElementById("chatting").addEventListener("keypress", function(e) {
