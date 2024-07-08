@@ -10,6 +10,7 @@
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
     <script src="/js/menu.js"></script>
     <script src="/js/item_detail.js"></script>
+    <script src="/js/header.js"></script>
     <title>Title</title>
 
 
@@ -249,8 +250,8 @@
                         <div class="seller-info">
                             <div class="seller-profile">
                                 <a th:href="@{/seller/{sellerId}/items(sellerId=${sellerDto.getSellerId()})}" class="seller-profile-image">
-                                    <img th:if="${sellerDto.getSellerImgUrl() != null}" th:src="${sellerDto.getSellerImgUrl()}" width="48" height="48" alt="판매자 프로필 이미지">
-                                    <img th:if="${sellerDto.getSellerImgUrl() == null}" src="/image/basic_profile_image.png" width="48" height="48" alt="기본 프로필 이미지">
+                                    <img th:if="${sellerDto.getSellerImgUrl() != 'NoImage'}" th:src="${sellerDto.getSellerImgUrl()}" width="48" height="48" alt="판매자 프로필 이미지">
+                                    <img th:if="${sellerDto.getSellerImgUrl() == 'NoImage'}" src="/image/basic_profile_image.png" width="48" height="48" alt="기본 프로필 이미지">
                                 </a>
                                 <div class="seller-name">
                                     <a th:href="@{/seller/{sellerId}/items(sellerId=${sellerDto.getSellerId()})}" class="seller-name-link" th:text="${sellerDto.getSellerName()}">sellername</a>
@@ -283,8 +284,8 @@
                                 <div th:each="review : ${sellerDto.getRevieweDtoList()}" class="seller-review-list">
                                     <div class="seller-review-box">
                                         <a th:href="@{/seller/{sellerId}/items(sellerId=${review.getReviewerId()})}" class="reviewer-profile-image">
-                                            <img th:if="${review.getReviewerImgUrl() != null}" th:src="${review.getReviewerImgUrl()}" width="32" height="32" alt="리뷰어 프로필 이미지">
-                                            <img th:if="${review.getReviewerImgUrl() == null}" src="/image/basic_profile_image.png" width="32" height="32" alt="리뷰어 프로필 이미지">
+                                            <img th:if="${review.getReviewerImgUrl() != 'NoImage'}" th:src="${review.getReviewerImgUrl()}" width="32" height="32" alt="리뷰어 프로필 이미지">
+                                            <img th:if="${review.getReviewerImgUrl() == 'NoImage'}" src="/image/basic_profile_image.png" width="32" height="32" alt="리뷰어 프로필 이미지">
                                         </a>
                                         <div class="review-info-wrapper">
                                             <div class="reviewer-name-date">

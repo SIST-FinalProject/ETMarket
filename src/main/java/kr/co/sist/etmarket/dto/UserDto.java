@@ -115,5 +115,10 @@ public class UserDto {
 	public void encryptPassword(String BCryptpassword) {
 		this.userPassword=BCryptpassword;
 	}
-
+   
+      /*마이페이지에서 사용*/
+    public UserDto(Long userId, String userName) {
+        this.userId = userId;
+        this.userName = userName;
+    }
 }

@@ -66,6 +66,4 @@ public class Message {
                 .message(message)
                 .build();
     }
-
-
 }

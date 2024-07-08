@@ -222,6 +222,7 @@ $(function() {
 				if(res==true){
 					$("#emailOverError").show();
 					$("#btnJoin").prop('disabled',true);
+					$("#btnJoin").css("background-color", "#aaa");
 				}
 			}
 		});	

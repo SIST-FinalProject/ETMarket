@@ -80,5 +80,30 @@ public class ChatRoomService {
     public ChatRoom getEntity(Long chatroomId) {
         return chatRoomDao.findById(chatroomId).orElse(null);
     }
+  
+  /*마이페이지에서 사용*/
+    public List<ChatRoomCountDto> getChatRoomCountByItemId() {
+        List<Object[]> results = chatRoomDao.countChatRoomsByItemId();
+        return results.stream()
+                .map(result -> new ChatRoomCountDto(
+                        (Long) result[0],
+                        (Long) result[1]
+                ))
+                .collect(Collectors.toList());
+    }
 
+    public List<User> getChatParticipantNamesByItemId(Long itemId) {
+        List<User> participantIds = new ArrayList<>();
+        List<ChatRoom> chatRooms = chatRoomDao.findByItem_ItemId(itemId); // Item ID로 조회하도록 수정
+        for (ChatRoom chatRoom : chatRooms) {
+            participantIds.add(chatRoom.getSender()); // 채팅에 참여한 유저 객체 가져오기 (senderId)
+        }
+        return participantIds;
+    }
+
+    public Long getSellerIdByItemId(Long itemId) {
+        ChatRoom chatRoom = chatRoomDao.findByItem_ItemId(itemId).stream().findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Chat room not found for item ID"));
+        return chatRoom.getReceiver().getUserId(); // 판매자 ID 반환
+    }
 }

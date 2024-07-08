@@ -44,6 +44,14 @@ public interface UserSearchDao extends JpaRepository<UserSearch, Long> {
     @Query("SELECT DISTINCT i FROM Item i " +
             "WHERE i.itemTitle LIKE %:content% AND NOT (i.itemHidden = '숨김' OR i.dealStatus = '거래완료') " +
             "ORDER BY i.itemUpdateDate DESC")
+    /*@Query("SELECT DISTINCT i FROM Item i " +
+            "LEFT JOIN FETCH i.itemTags " +
+            "LEFT JOIN FETCH i.itemImgs " +
+            "LEFT JOIN FETCH i.itemChecks " +
+            "LEFT JOIN FETCH i.itemLikes " +
+            "WHERE i.itemTitle LIKE %:content% " +
+            "AND NOT (i.itemHidden = '숨김' OR i.dealStatus = '거래완료') " +
+            "ORDER BY i.itemUpdateDate DESC")*/
     Page<Item> findItemsByContentAndItemTitle(@Param("content") String content, Pageable pageable);
 
 

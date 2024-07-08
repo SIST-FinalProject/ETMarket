@@ -5,6 +5,8 @@ import kr.co.sist.etmarket.entity.Message;
 import lombok.*;
 import org.springframework.web.socket.WebSocketSession;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -37,4 +39,6 @@ public class ChatRoomDto {
         this.chatroomId = chatroomId;
         this.roomName = roomName;
     }
+
+    private Set<WebSocketSession> sessions = new HashSet<>();
 }

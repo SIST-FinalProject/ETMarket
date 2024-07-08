@@ -5,6 +5,7 @@ import kr.co.sist.etmarket.entity.*;
 
 import kr.co.sist.etmarket.etenum.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -18,6 +19,8 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
+
 public class ItemDto {
     private Long itemId;
 
@@ -168,5 +171,4 @@ public class ItemDto {
             return seconds + "초 전";
         }
     }
-
 }

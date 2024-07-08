@@ -16,6 +16,7 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.UpdateTimestamp;
 
+@Data
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -87,14 +88,14 @@ public class Item {
 
     @Builder.Default
     @JsonIgnoreProperties
-//    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true) // 조회시 같이 조회되게 LAZY 없앰
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+//    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true) // 조회시 같이 조회되게 LAZY 없앰
     private List<ItemTag> itemTags = new ArrayList<>(); // 상품 태그
 
     @Builder.Default
     @JsonIgnoreProperties
-//    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true) // 조회시 같이 조회되게 LAZY 없앰
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+//    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true) // 조회시 같이 조회되게 LAZY 없앰
     private List<ItemImg> itemImgs = new ArrayList<>(); // 상품 이미지
 
     @Builder.Default
@@ -106,6 +107,9 @@ public class Item {
     @JsonIgnoreProperties
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<ItemLike> itemLikes = new ArrayList<>(); // 상품 좋아요
+
+    @OneToOne(mappedBy = "item", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    private ItemUp itemUp;
 
     @Override
     public String toString() {

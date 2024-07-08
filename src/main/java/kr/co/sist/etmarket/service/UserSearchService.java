@@ -5,11 +5,9 @@ import kr.co.sist.etmarket.dao.UserDao;
 import kr.co.sist.etmarket.dao.UserSearchDao;
 import kr.co.sist.etmarket.dto.UserDto;
 import kr.co.sist.etmarket.dto.UserSearchDto;
-import kr.co.sist.etmarket.entity.Item;
-import kr.co.sist.etmarket.entity.ItemImg;
-import kr.co.sist.etmarket.entity.User;
-import kr.co.sist.etmarket.entity.UserSearch;
+import kr.co.sist.etmarket.entity.*;
 import kr.co.sist.etmarket.etenum.*;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -96,6 +94,18 @@ public class UserSearchService {
         Pageable pageable = PageRequest.of(page, size);
         Page<Item> items = userSearchDao.findItemsByContentAndItemTitle(content, pageable);
 //        Page<ItemDto> itemDtos = items.map(this::createItemDto);
+
+        /*for (Item item : items) {
+            List<ItemTag> itemTags = item.getItemTags();
+            List<ItemImg> itemImgs = item.getItemImgs();
+            List<ItemCheck> itemChecks = item.getItemChecks();
+            List<ItemLike> itemLikes = item.getItemLikes();
+
+            System.out.println("태그갯수: " + itemTags.size());
+            System.out.println("이미지갯수: " + itemImgs.size());
+            System.out.println("체크갯수: " + itemChecks.size());
+            System.out.println("좋아요갯수: " + itemLikes.size());
+        }*/
 
         return items.map(this::createItemDto);
     }
