@@ -55,13 +55,13 @@
         <div th:if="${itemId != null}">
             <div class="chat-window  chat-exist-itemId">
 
-                <div class="chat-window-body">
+                <div class="chat-window-body"></div>
 
-                </div>
                 <div class="message-input">
                     <input type="text" id="chatting"  placeholder="메시지를 입력하세요.">
                     <button onclick="send()" id="sendBtn">보내기</button>
                 </div>
+
             </div>
         </div>
 
@@ -109,6 +109,7 @@
             } else {
                 console.log("Result is not an array");
             }
+
         });
     }
 
@@ -135,6 +136,7 @@
                         </div>`;
 
             $('.chat-list').append(str);
+
         }
     }
 
@@ -242,8 +244,10 @@
 
     // 채팅방 위에 item 정보 출력
     function getChat(getThis){
-        // $('.chat-window').empty();
-        
+        $('.chat-window').empty();
+        // $('.chat-window-header, .chat-window-body').empty();
+
+
         let chatroomId = getThis.querySelector('input[id="chatroomId"]').value;
         let itemId = getThis.querySelector('input[id="itemId"]').value;
 
@@ -282,24 +286,33 @@
                             <div class="message other">
                                 <img src="/image/et.png" alt="Profile" width="40" height="40">
                                 <div class="message-content">
-                                    <p>${result.userId} 님과 ${result.itemTitle}에 대한 이야기를 시작해보세요.</p><br>
-                                    <p>상품금액: ${result.itemPrice}원</p><br>
-                                    <p>배송비: ${itemDeliveryPrice}원</p><br>
+                                    <p>${result.userId} 님과 ${result.itemTitle}에 대한 이야기를 시작해보세요.</p>
+                                    <p>상품금액: ${result.itemPrice}원</p>
+                                    <p>배송비: ${itemDeliveryPrice}원</p>
                                 </div>
                             </div>
+                        </div>
+                        <div class="message-input">
+                            <input type="text" id="chatting"  placeholder="메시지를 입력하세요.">
+                            <button onclick="send()" id="sendBtn">보내기</button>
                         </div>`;
 
             $('.chat-window').prepend(str);
+
+            getMessage(chatroomId, itemId);
 
         });
         console.log("클릭 채팅방 : ", getThis);
         console.log("getChat 데이터 : ", data);
 
-        getMessage(chatroomId, itemId);
+        // getMessage(chatroomId, itemId);
     }
 
     // 채팅방 메시지 내역
     function getMessage(chatroom, item){
+        // $('.chat-window').empty();
+        // $('.chat-window-body').empty();
+
         let chatroomId = chatroom;
         let itemId = item;
 
