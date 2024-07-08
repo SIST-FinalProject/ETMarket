@@ -11,6 +11,8 @@ import kr.co.sist.etmarket.dto.UserDto;
 
 import kr.co.sist.etmarket.entity.User;
 
+import java.util.List;
+
 public interface UserDao extends JpaRepository<User, Long> {
 	// 로그인
 	User findByUserLoginId(String userLoginId);
@@ -27,15 +29,55 @@ public interface UserDao extends JpaRepository<User, Long> {
 	@Transactional
 	public void updateUserPassword(@Param("userLoginId") String userLoginId, @Param("userEmail") String userEmail, @Param("userPassword") String userPassword);
 
+	// 회원가입
+	User save(UserDto userDto);
+	
+	// 중복체크 true/false
+	boolean existsByUserLoginId(String userLoginId);
+	boolean existsByUserName(String userName);
+	boolean existsByUserEmail(String userEmail);
+
+	// 총 사용자 수 구하기
+	@Query("SELECT COUNT(u) FROM User u")
+	long countTotalUsers();
+
+	// 오늘 신규 가입자 수 구하기
+	@Query("SELECT COUNT(u) FROM User u WHERE u.userCreateDate >= CURRENT_DATE")
+	long countNewUsersToday();
+
+	// 활성 사용자 수 구하기
+	@Query("SELECT COUNT(u) FROM User u WHERE u.userStatus = 'ACTIVE'")
+	long countActiveUsers();
+
+    // 가입 수단별 사용자 수 구하기
+
+	// 일반 사용자 수 구하기
+	@Query("SELECT COUNT(u) FROM User u WHERE u.userJoinType = 'GENERAL'")
+	long countGeneralUsers();
+
+	// 카카오 사용자 수 구하기
+	@Query("SELECT COUNT(u) FROM User u WHERE u.userJoinType = 'KAKAO'")
+	long countKakaoUsers();
+
+	// 네이버 사용자 수 구하기
+	@Query("SELECT COUNT(u) FROM User u WHERE u.userJoinType = 'NAVER'")
+	long countNaverUsers();
+
+	// 최근 가입자 5명 가져오기
+	List<User> findTop5ByOrderByUserCreateDateDesc();
+
+	// 월별 사용자 가입 수 구하기
+	@Query("SELECT FUNCTION('MONTH', u.userCreateDate) as month, COUNT(u) as count FROM User u GROUP BY FUNCTION('MONTH', u.userCreateDate)")
+	List<Object[]> countMonthlyUserSignups();
 
 	/*마이페이지에서 사용*/
 	User findByUserId(Long userId);
 
 
 // 중복체크 true/false
-boolean existsByUserLoginId(String userLoginId);
-boolean existsByUserName(String userName);
-boolean existsByUserEmail(String userEmail);
+// boolean existsByUserLoginId(String userLoginId);
+// boolean existsByUserName(String userName);
+// boolean existsByUserEmail(String userEmail);
 
 // 회원정보 수정
 //	@Query(value="update user set user_password=:userPassword where user_id=:userId", nativeQuery = true)

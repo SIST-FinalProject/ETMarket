@@ -3,6 +3,7 @@ package kr.co.sist.etmarket.service;
 import jakarta.transaction.Transactional;
 import kr.co.sist.etmarket.dao.ItemDao;
 import kr.co.sist.etmarket.dao.ItemImgDao;
+import kr.co.sist.etmarket.dao.ReportProductRepository;
 import kr.co.sist.etmarket.dao.UserDao;
 import kr.co.sist.etmarket.dto.ItemDto;
 import kr.co.sist.etmarket.entity.Deal;
@@ -26,6 +27,9 @@ public class ItemService {
     private final ItemDao itemDao;
     private final UserDao userDao;
     private final ItemImgDao itemImgDao;
+    private final ReportProductRepository reportProductRepository;
+
+
 
     // Item DB insert
     public Item insertItem(ItemDto itemDto) {
@@ -209,7 +213,11 @@ public class ItemService {
 
     // Item DB Delete(itemId)
     public void deleteItem(Long itemId) {
-        itemDao.deleteByItemId(itemId);
+        // ReportProduct 테이블에서 해당 Item을 참조하는 레코드를 먼저 삭제합니다.
+        reportProductRepository.deleteByItem_ItemId(itemId);
+
+        // 그런 다음 Item을 삭제합니다.
+        itemDao.deleteById(itemId);
 
     }
 
