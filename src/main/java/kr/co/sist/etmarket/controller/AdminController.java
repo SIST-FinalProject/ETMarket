@@ -46,8 +46,19 @@ public class AdminController {
         }
     }
 
+    // 로그아웃 처리
+    @GetMapping("/admin/logout")
+    public String logout(HttpSession session) {
+        session.invalidate();
+        return "redirect:/admin/login?logout";
+    }
+
     @GetMapping("/admin/dashboard")
-    public String dashboard(Model model) {
+    public String dashboard(HttpSession session, Model model) {
+
+        if (session.getAttribute("loginok") == null) {
+            return "redirect:/admin/login";
+        }
 
         // 최근 사용자 및 리포트 데이터를 가져오기
         List<User> recentUsers = adminService.getRecentUsers();
@@ -102,7 +113,11 @@ public class AdminController {
     }
 
     @GetMapping("/admin/userlist")
-    public String getAllUsers(Model model) {
+    public String getAllUsers(HttpSession session, Model model) {
+
+        if (session.getAttribute("loginok") == null) {
+            return "redirect:/admin/login";
+        }
         List<UserDto> users = adminService.findAllUsers();
         model.addAttribute("users", users);
         return "admin/user/userlist";
