@@ -21,7 +21,7 @@ public class ItemUp {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long itemUpId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "item_id")
     private Item item;
 

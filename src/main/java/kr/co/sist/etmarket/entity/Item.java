@@ -108,6 +108,9 @@ public class Item {
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<ItemLike> itemLikes = new ArrayList<>(); // 상품 좋아요
 
+    @OneToOne(mappedBy = "item", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    private ItemUp itemUp;
+
     @Override
     public String toString() {
         return "Item{" +
