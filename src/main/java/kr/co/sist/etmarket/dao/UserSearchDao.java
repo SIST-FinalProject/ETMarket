@@ -1,8 +1,11 @@
 package kr.co.sist.etmarket.dao;
 
 
+import kr.co.sist.etmarket.entity.Item;
 import kr.co.sist.etmarket.entity.User;
 import kr.co.sist.etmarket.entity.UserSearch;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -33,8 +36,24 @@ public interface UserSearchDao extends JpaRepository<UserSearch, Long> {
     List<UserSearch> findByContent(String content);
 
     // 검색어에 맞는 상품 리스트 출력
-    @Query(value = "SELECT i.* FROM item i LEFT JOIN user_search us USING(user_search_id) WHERE i.item_title LIKE %:content%", nativeQuery = true)
-    List<Object[]> findItemsByContentAndItemTitle(@Param("content") String content);
+//    @Query(value = "SELECT i.* FROM item i LEFT JOIN user_search us USING(user_search_id) WHERE i.item_title LIKE %:content%", nativeQuery = true)
+    //------------------------ 잠시 LAZY 테스트
+//    @Query("SELECT DISTINCT i FROM Item i LEFT JOIN FETCH i.itemImgs LEFT JOIN i.userSearch us " +
+//            "WHERE i.itemTitle LIKE %:content% AND NOT (i.itemHidden = '숨김' OR i.dealStatus = '거래완료') " +
+//            "ORDER BY i.itemUpdateDate DESC") =======> img랑 tag는 조회 시 같이 조회되는 것이 나을 거 같아 없앰
+    @Query("SELECT DISTINCT i FROM Item i " +
+            "WHERE i.itemTitle LIKE %:content% AND NOT (i.itemHidden = '숨김' OR i.dealStatus = '거래완료') " +
+            "ORDER BY i.itemUpdateDate DESC")
+    /*@Query("SELECT DISTINCT i FROM Item i " +
+            "LEFT JOIN FETCH i.itemTags " +
+            "LEFT JOIN FETCH i.itemImgs " +
+            "LEFT JOIN FETCH i.itemChecks " +
+            "LEFT JOIN FETCH i.itemLikes " +
+            "WHERE i.itemTitle LIKE %:content% " +
+            "AND NOT (i.itemHidden = '숨김' OR i.dealStatus = '거래완료') " +
+            "ORDER BY i.itemUpdateDate DESC")*/
+    Page<Item> findItemsByContentAndItemTitle(@Param("content") String content, Pageable pageable);
+
 
 
     Long findByUserSearchId(UserSearch search);

@@ -5,6 +5,9 @@ import kr.co.sist.etmarket.dto.UserDto;
 import kr.co.sist.etmarket.dto.UserSearchDto;
 import kr.co.sist.etmarket.service.UserSearchService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,9 +28,12 @@ public class UserSearchRestController {
         userSearchService.insertContent(userSearchDto);
     }
 
-    @GetMapping("/search/items")
-    public List<ItemDto> findItemsByContentAndItemTitle(@RequestParam String content) {
-        return userSearchService.getItemTitle(content);
+    @GetMapping("/api/search/items")
+    public Page<ItemDto> findItemsByContentAndItemTitle(@RequestParam String content,
+                                                        @RequestParam(defaultValue = "0") int page,
+                                                        @RequestParam(defaultValue = "10") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return userSearchService.getItemTitle(content, page, size);
     }
 
     @PostMapping("/search/delete")

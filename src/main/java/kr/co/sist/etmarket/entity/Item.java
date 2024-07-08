@@ -12,14 +12,16 @@ import jakarta.persistence.*;
 import kr.co.sist.etmarket.etenum.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.UpdateTimestamp;
 
 @Data
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter @Setter
 @Builder(toBuilder = true)
-@Getter
 public class Item {
 
     @Id
@@ -87,30 +89,49 @@ public class Item {
     @Builder.Default
     @JsonIgnoreProperties
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    private List<ItemTag> itemTags = new ArrayList<>();
+//    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true) // 조회시 같이 조회되게 LAZY 없앰
+    private List<ItemTag> itemTags = new ArrayList<>(); // 상품 태그
 
     @Builder.Default
     @JsonIgnoreProperties
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    private List<ItemImg> itemImgs = new ArrayList<>();
+//    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true) // 조회시 같이 조회되게 LAZY 없앰
+    private List<ItemImg> itemImgs = new ArrayList<>(); // 상품 이미지
 
     @Builder.Default
     @JsonIgnoreProperties
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    private List<ItemCheck> itemChecks = new ArrayList<>();
+    private List<ItemCheck> itemChecks = new ArrayList<>(); // 상품 조회
 
     @Builder.Default
     @JsonIgnoreProperties
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    private List<ItemLike> itemLikes = new ArrayList<>();
+    private List<ItemLike> itemLikes = new ArrayList<>(); // 상품 좋아요
 
     @Override
     public String toString() {
         return "Item{" +
                 "itemId=" + itemId +
                 ", itemTitle='" + itemTitle + '\'' +
+                ", itemContent='" + itemContent + '\'' +
+                ", itemPrice=" + itemPrice +
+                ", itemAddress='" + itemAddress + '\'' +
+                ", itemStatus=" + itemStatus +
+                ", dealStatus=" + dealStatus +
+                ", dealHow=" + dealHow +
+                ", deliveryStatus=" + deliveryStatus +
+                ", itemDeliveryPrice=" + itemDeliveryPrice +
+                ", priceStatus=" + priceStatus +
+                ", categoryName=" + categoryName +
+                ", itemCount=" + itemCount +
+                ", itemHidden=" + itemHidden +
+                ", itemResistDate=" + itemResistDate +
+                ", itemUpdateDate=" + itemUpdateDate +
                 ", userSearchId=" + (userSearch != null ? userSearch.getUserSearchId() : null) +
+                ", itemTags=" + itemTags.size() +
+                ", itemImgs=" + itemImgs.size() +
+                ", itemChecks=" + itemChecks.size() +
+                ", itemLikes=" + itemLikes.size() +
                 '}';
     }
-
 }

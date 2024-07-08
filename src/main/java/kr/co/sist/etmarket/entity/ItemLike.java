@@ -2,14 +2,13 @@ package kr.co.sist.etmarket.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Getter @Setter
 public class ItemLike {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

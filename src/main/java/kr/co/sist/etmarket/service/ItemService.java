@@ -8,6 +8,7 @@ import kr.co.sist.etmarket.dto.ItemDto;
 import kr.co.sist.etmarket.entity.Deal;
 import kr.co.sist.etmarket.entity.Item;
 import kr.co.sist.etmarket.entity.User;
+import kr.co.sist.etmarket.etenum.CategoryName;
 import kr.co.sist.etmarket.etenum.DealStatus;
 import kr.co.sist.etmarket.etenum.ItemHidden;
 import kr.co.sist.etmarket.etenum.PriceStatus;
@@ -126,7 +127,7 @@ public class ItemService {
         return itemDao.save(updatedItem);
     }
 
-    // itemDto insert를 위해 가공 후 Item Entity로 변환
+    // itemDto update를 위해 가공 후 Item Entity로 변환
     public Item processUpdateItemDto(ItemDto itemDto, Item item) {
         // itemDto 가공
         itemDto.setItemPrice(Integer.parseInt(itemDto.getItemPriceText().replace(",","")));
@@ -135,7 +136,6 @@ public class ItemService {
         } else {
             itemDto.setItemAddress(itemDto.getRoadAddress() + " (" + itemDto.getDetailAddress() + ")");
         }
-        itemDto.setDealStatus(DealStatus.판매중);
         itemDto.setItemDeliveryPrice(Integer.parseInt(itemDto.getItemDeliveryPriceText().replace(",","")));
         if (itemDto.isPriceStatusCheck()) {
             itemDto.setPriceStatus(PriceStatus.가능);
@@ -143,7 +143,6 @@ public class ItemService {
             itemDto.setPriceStatus(PriceStatus.불가능);
         }
         itemDto.setItemCount(Integer.parseInt(itemDto.getItemCountText().replace(",","")));
-        itemDto.setItemHidden(ItemHidden.보임);
 
         // Item Entity로 변환
         User user = userDao.findById(itemDto.getUserId()).orElseThrow(() -> new IllegalArgumentException("없는 user ID"));
@@ -156,28 +155,62 @@ public class ItemService {
                 .itemPrice(itemDto.getItemPrice())
                 .itemAddress(itemDto.getItemAddress())
                 .itemStatus(itemDto.getItemStatus())
-                .dealStatus(itemDto.getDealStatus())
                 .dealHow(itemDto.getDealHow())
                 .deliveryStatus(itemDto.getDeliveryStatus())
                 .itemDeliveryPrice(itemDto.getItemDeliveryPrice())
                 .priceStatus(itemDto.getPriceStatus())
                 .categoryName(itemDto.getCategoryName())
                 .itemCount(itemDto.getItemCount())
-                .itemHidden(itemDto.getItemHidden())
                 .build();
     }
-
-    public Slice<Item> getItemSlice(Pageable pageable) {
-        return itemDao.findAllOrderByItemUpdateDateDesc(pageable);
+  
+    // 연관관계 때문에 무조건 Dto로 변환하여 사용해야함
+    public Slice<ItemDto> getItemSlice(Pageable pageable) {
+        Slice<Item> items = itemDao.findAllOrderByItemUpdateDateDesc(pageable);
+        return items.map(this::createItemDto);
     }
     //    public Slice<Item> getItemSlice(int page, int size) {
     //        Pageable pageable = PageRequest.of(page, size);
     //        return itemDao.findAllOrderByItemUpdateDateDesc(pageable);
     //    }
 
+    public Page<ItemDto> getCategoryList(CategoryName category, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Item> items = itemDao.findItemsByCategoryName(category, pageable);
+
+        return items.map(this::createItemDto);
+    }
+
+    private ItemDto createItemDto(Item item) {
+        return new ItemDto(
+                item.getItemId(),
+                item.getItemTitle(),
+                item.getItemContent(),
+                item.getItemPrice(),
+                item.getItemAddress(),
+                item.getItemStatus(),
+                item.getDealStatus(),
+                item.getDealHow(),
+                item.getDeliveryStatus(),
+                item.getItemDeliveryPrice(),
+                item.getPriceStatus(),
+                item.getCategoryName(),
+                item.getItemCount(),
+                item.getItemHidden(),
+                item.getItemResistDate(),
+                item.getItemUpdateDate(),
+                item.getUserSearch() != null ? item.getUserSearch().getUserSearchId() : null,
+                item.getItemImgs(), // Include the item images list
+                item.getItemTags(),
+                item.getItemChecks().size(),
+                item.getItemLikes().size()
+        );
+    }
+
     // Item DB Delete(itemId)
     public void deleteItem(Long itemId) {
         itemDao.deleteByItemId(itemId);
+
     }
 
 

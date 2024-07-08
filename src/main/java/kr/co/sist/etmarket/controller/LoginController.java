@@ -1,5 +1,11 @@
 package kr.co.sist.etmarket.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+
+import jakarta.servlet.http.HttpServletRequest;
+import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,37 +40,43 @@ public class LoginController {
 
 	// 로그인 처리
 	@PostMapping("/member/loginProcess")
-	public String loginProcess(@ModelAttribute UserDto userDto, Model model, HttpSession session) {
-
-		UserDto loginUser = loginService.login(userDto);
-
-		if (loginUser != null) {
-			// 로그인 성공
+	public String loginProcess(@ModelAttribute UserDto userDto, Model model, HttpSession session, 
+			@RequestParam(value="redirectUrl", required = false) String redirectUrl) {
+		
+		UserDto loginUser=loginService.login(userDto);
+		
+		if (loginUser!=null) {
+			 // 로그인 성공
 			UserDto loggedIn = loginUser; // UserDto에(loggedIn) 로그인된 계정 정보 추가
-			model.addAttribute("user", loginUser); // userDto 객체를 모델에 추가
-
-			// 세션 생성
-			session.setMaxInactiveInterval(60 * 60 * 8);
+            model.addAttribute("user", loginUser); // userDto 객체를 모델에 추가
+            
+            session.setMaxInactiveInterval(60*60*8);
 			session.setAttribute("myUserLoginId", loggedIn.getUserLoginId()); // 로그인 아이디
 			session.setAttribute("myUserId", loggedIn.getUserId()); // 회원번호
+			session.setAttribute("myUserName", loggedIn.getUserName()); // 회원 닉네임 0702 추가
+			//System.out.println("세션값 확인: "+loggedIn.getUserLoginId()+", "+loggedIn.getUserId()+", "+loggedIn.getUserName());
 			session.setAttribute("loginok", "yes");
-
-			return "redirect:/";
-		} else {
-			// 로그인 실패
-			session.setAttribute("loginError", "아이디 및 비밀번호가 일치하지 않습니다."); // 에러 메시지를 세션에 추가
-
-			return "redirect:/login";
-		}
-	}
-
-	// 로그아웃 처리 (세션 삭제)
+            
+			if (redirectUrl != null && !redirectUrl.isEmpty()) {
+				return "redirect:" + redirectUrl; // 원래 요청 페이지로 리디렉션
+			} else {
+				return "redirect:/"; // 홈 페이지로 리디렉션
+			}
+        } else {
+        	 // 로그인 실패 
+            session.setAttribute("loginError", "아이디 및 비밀번호가 일치하지 않습니다."); // 에러 메시지를 세션에 추가
+           
+            return "redirect:/login"; 
+        }
+	}	
+		
+	// 로그아웃 처리
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {
 		session.removeAttribute("loginok");
 		session.removeAttribute("myUserLoginId");
 		session.removeAttribute("myUserId");
-
+		session.removeAttribute("myUserName");
 		return "redirect:/";
 	}
 

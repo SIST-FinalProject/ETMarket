@@ -11,19 +11,17 @@ import java.sql.Timestamp;
 @Data
 public class MessageDto {
 
-    private int messageId;
+    private Long messageId;
 
-    private String message;
+    private String content;
 
     private Timestamp sendTime;
 
-    private String sender;
+    private UserDto sender;
 
-//    private String receiver;
+    private UserDto receiver;
 
     private ChatRoomDto chatRoom;
-
-    private String chatroomId;
 
     private String img;
 

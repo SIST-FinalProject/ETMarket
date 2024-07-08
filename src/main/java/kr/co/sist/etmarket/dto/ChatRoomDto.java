@@ -6,18 +6,18 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.web.socket.WebSocketSession;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 public class ChatRoomDto {
 
-    private int chatroomId;
+    private Long chatroomId;
 
     private String roomName;
 
@@ -39,5 +39,4 @@ public class ChatRoomDto {
         this.chatroomId = chatroomId;
         this.roomName = roomName;
     }
-
 }

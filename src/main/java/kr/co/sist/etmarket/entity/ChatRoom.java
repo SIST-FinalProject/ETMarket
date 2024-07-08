@@ -15,7 +15,8 @@ import java.util.List;
 
 @Entity
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
 public class ChatRoom {
 
     @Id
