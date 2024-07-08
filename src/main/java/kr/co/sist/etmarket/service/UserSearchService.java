@@ -122,7 +122,8 @@ public class UserSearchService {
                 item.getItemImgs(), // Include the item images list
                 item.getItemTags(),
                 item.getItemChecks().size(),
-                item.getItemLikes().size()
+                item.getItemLikes().size(),
+                item.getUser().getUserId()
         );
     }
 

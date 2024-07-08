@@ -45,7 +45,7 @@
     </div>
     <div class="right-panel">
         <div th:if="${itemId == null}">
-            <div class="chat-window">
+            <div class="chat-window chat-non-itemId">
                 <div class="non-img-black">
                     <img src="/image/non_chat.png" width="80" height="80">
                     <p>대화방을 선택해주세요.</p>
@@ -53,50 +53,13 @@
             </div>
         </div>
         <div th:if="${itemId != null}">
-<!--            <input type="hidden" id="chatroomId" value="3">-->
-            <div class="chat-window">
-                <div class="chat-window-header">
-                    <img src="/image/non_img.png" alt="Profile" width="50" height="50">
-                    <div>
-                        <strong>안창환</strong>
-                        <p>4일 전 접속</p>
-                    </div>
-                    <div>
-                        <strong>8,000원</strong>
-                        <p>데이터사이언스 입문</p>
-                    </div>
-                    <button>구매하기</button>
-                </div>
+            <div class="chat-window  chat-exist-itemId">
+
                 <div class="chat-window-body">
-                    <div class="message other">
-                        <img src="/image/초롱.png" alt="Profile" width="40" height="40">
-                        <div class="message-content">
-                            <p>안창환 님과 데이터사이언스 입문에 대한 이야기를 시작해보세요.</p>
-                            <p>상품금액: 8,000원</p>
-                            <p>배송비: 4,000원</p>
-                        </div>
-                    </div>
-                    <div class="message mine">
-                        <div class="message-content">
-                            <p>안녕하세요! 혹시 직거래도 가능한가요??</p>
-                        </div>
-    <!--                    <img src="/image/초롱.png" alt="Profile" width="40" height="40">-->
-                    </div>
-                    <div class="message mine">
-                        <div class="message-content">
-                            <p>물론 가능합니다! 언제 어디서 만날까요?</p>
-                        </div>
-    <!--                    <img src="/image/초롱.png" alt="Profile" width="40" height="40">-->
-                    </div>
-                    <div class="message other">
-                        <img src="/image/초롱.png" alt="Profile" width="40" height="40">
-                        <div class="message-content">
-                            <p>이번 주 토요일에 강남역 근처에서 만나는 게 어떨까요?</p>
-                        </div>
-                    </div>
+
                 </div>
                 <div class="message-input">
-                    <input type="text"id="chatting"  placeholder="메시지를 입력하세요.">
+                    <input type="text" id="chatting"  placeholder="메시지를 입력하세요.">
                     <button onclick="send()" id="sendBtn">보내기</button>
                 </div>
             </div>
@@ -111,6 +74,14 @@
     var userName = [[${userName}]];
     var itemId = [[${itemId}]];
     var items = [];
+
+    if (itemId !== null){
+        $('.chat-non-itemId').hide();
+        $('.chat-exist-itemId').show();
+    } else {
+        $('.chat-non-itemId').show();
+        $('.chat-exist-itemId').hide();
+    }
 
     setName();
     getRoom();
@@ -132,7 +103,7 @@
 
             if (Array.isArray(result)) {
                 result.forEach((item, index) => {
-                    console.log(`Item ${index}: `, item);
+                    console.log(`getRoom ${index}: `, item);
                     createChatRoom(item); // 성공 데이터 넘김
                 });
             } else {
@@ -153,11 +124,11 @@
             }
 
             let str = `<div class="chat-list-item" onclick="getChat(this)">
-                            <input type="hidden" id="chatroomId" th:value="${result.chatroomId}">
-                            <input type="hidden" id="itemId" th:value="${result.itemId}">
+                            <input type="hidden" id="chatroomId" value="${result.chatroomId}">
+                            <input type="hidden" id="itemId" value="${result.itemId}">
                             <img src="${result.chatroomImg}" alt="Profile" width="40" height="40">
                             <div>
-                                <strong>${result.receiverId}</strong>
+                                <strong id="otherUserName">${result.receiverId}</strong>
                                 <p>${lastMessage}</p>
                             </div>
                             <span>${roomAgo(lastMessageDate)}</span>
@@ -214,8 +185,8 @@
             }
         }
 
-        document.addEventListener("keypress", function(e){
-            if(e.keyCode == 13){ //enter press
+        document.getElementById("chatting").addEventListener("keypress", function(e) {
+            if (e.key === "Enter" || e.keyCode === 13) { //enter press
                 send();
             }
         });
@@ -269,26 +240,118 @@
         });
     }
 
-    function getChat(data){
-        // let data = {
-        //     "userName": userName
-        // };
-        // // url, parameter, type, callback, contentType
-        // commonAjax('/et/chat/getImg', data, 'post', function (result) {
-        //     alert("/et/chat/getImg 성공");
-        //     // 성공값인 result는 chatroom에 대한 데이터만 넘어옴... item
-        //     console.log("/et/chat/getImg 성공 : ", result);
-        //
-        //     if (Array.isArray(result)) {
-        //         result.forEach((item, index) => {
-        //             console.log(`Item ${index}: `, item);
-        //         });
-        //     } else {
-        //         console.log("Result is not an array");
-        //     }
-        // });
-        console.log("클릭 채팅방 : ", data);
+    // 채팅방 위에 item 정보 출력
+    function getChat(getThis){
+        // $('.chat-window').empty();
+        
+        let chatroomId = getThis.querySelector('input[id="chatroomId"]').value;
+        let itemId = getThis.querySelector('input[id="itemId"]').value;
+
+        let data = {
+            "userName": userName,
+            "itemId": itemId,
+            "chatroomId": chatroomId
+        };
+        // url, parameter, type, callback, contentType
+        commonAjax('/et/chat/getChat', data, 'post', function (result) {
+            alert("/et/chat/getChat 성공");
+            // 채팅방 클릭 시 먼저 item 정보를 가져옴
+            console.log("/et/chat/getChat 성공 : ", result);
+
+            let lastItemDate = result.itemUpdateDate; // 기본 날짜는 방 생성 날짜
+            let itemDeliveryPrice;
+            if(result.itemDeliveryPrice != null){
+                itemDeliveryPrice = result.itemDeliveryPrice;
+            } else {
+                itemDeliveryPrice = 0;
+            }
+
+            let str = `<div class="chat-window-header">
+                            <img src="${result.itemImgs[0].itemImg}" alt="Profile" width="50" height="50">
+                            <div>
+                                <strong>${result.userId}</strong>
+                                <p style="color: #999999">${roomAgo(lastItemDate)}&nbsp;등록</p>
+                            </div>
+                            <div>
+                                <strong>${result.itemPrice}원</strong>
+                                <p style="color: #999999">${result.itemTitle}</p>
+                            </div>
+                            <button>구매하기</button>
+                        </div>
+                        <div class="chat-window-body">
+                            <div class="message other">
+                                <img src="/image/et.png" alt="Profile" width="40" height="40">
+                                <div class="message-content">
+                                    <p>${result.userId} 님과 ${result.itemTitle}에 대한 이야기를 시작해보세요.</p><br>
+                                    <p>상품금액: ${result.itemPrice}원</p><br>
+                                    <p>배송비: ${itemDeliveryPrice}원</p><br>
+                                </div>
+                            </div>
+                        </div>`;
+
+            $('.chat-window').prepend(str);
+
+        });
+        console.log("클릭 채팅방 : ", getThis);
+        console.log("getChat 데이터 : ", data);
+
+        getMessage(chatroomId, itemId);
     }
+
+    // 채팅방 메시지 내역
+    function getMessage(chatroom, item){
+        let chatroomId = chatroom;
+        let itemId = item;
+
+        let data = {
+            "userName": userName,
+            "itemId": itemId,
+            "chatroomId": chatroomId
+        };
+        // url, parameter, type, callback, contentType
+        commonAjax('/et/chat/getMessage', data, 'post', function (result) {
+            alert("/et/chat/getMessage 성공");
+            // 채팅방 클릭 시 먼저 item 정보를 가져옴
+            console.log("/et/chat/getMessage 성공 : ", result);
+
+            if (Array.isArray(result)) {
+                result.forEach((message, index) => {
+                    console.log(`getMessage ${index}: `, message);
+                    settingMessage(message);
+                });
+            } else {
+                console.log("Result is not an array");
+            }
+
+        });
+        console.log("채팅 내역 메소드");
+        console.log("getMessage 데이터 : ", data);
+    }
+
+    // 채팅 내역 출력
+    function settingMessage(message) {
+        if(message !== null){
+            if (userName === message.sender) { // 내 자신이 보낸 메시지
+                let str = `<div class="message mine">
+                                <div class="message-content">
+                                    <p>${message.message}</p>
+                                </div>
+                            </div>`
+                $('.chat-window-body').append(str);
+            } else{
+                let str = `<div class="message other">
+                                <img src="/image/초롱.png" alt="Profile" width="40" height="40">
+                                <div class="message-content">
+                                    <p>${message.message}</p>
+                                </div>
+                            </div>`;
+                $('.chat-window-body').append(str);
+            }
+
+        }
+    }
+
+
 
 
     // 날짜 차이를 계산하여 사람이 읽을 수 있는 형식으로 반환하는 함수

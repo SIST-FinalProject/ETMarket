@@ -3,6 +3,7 @@ package kr.co.sist.etmarket.controller;
 import jakarta.servlet.http.HttpSession;
 import kr.co.sist.etmarket.dto.ChatRoomDto;
 import kr.co.sist.etmarket.dto.ItemDto;
+import kr.co.sist.etmarket.dto.MessageDto;
 import kr.co.sist.etmarket.entity.ChatRoom;
 import kr.co.sist.etmarket.entity.User;
 import kr.co.sist.etmarket.service.*;
@@ -35,10 +36,21 @@ public class ChattingExController {
         return "chating/ex";
     }
 
+    @GetMapping("/et/chat/{itemId}")
+    public String chatFindItemId(@RequestParam HashMap<Object, Object> params,
+                       @RequestParam String userName,
+                       @PathVariable String itemId,
+                       Model model) {
+        // itemId가 경로 변수로 전달됩니다.
+        model.addAttribute("userName", userName);
+        model.addAttribute("itemId", itemId);
+        return "chating/ex";
+    }
     @GetMapping("/et/chat/choose")
     public String chat(@RequestParam HashMap<Object, Object> params,
                        @RequestParam String userName,
-                       @RequestParam String itemId, Model model) {
+                       @RequestParam String itemId,
+                       Model model) {
 
         System.out.println("/et/chat/choose userName = " + userName);
         System.out.println("/et/chat/choose itemId = " + itemId);
@@ -48,31 +60,7 @@ public class ChattingExController {
 
         return "chating/ex";
     }
-//
-//    /**
-//     * 방 페이지
-//     */
-//    @GetMapping("/room")
-//    public String room() {
-//        return "chating/room";
-//    }
-//
-//    /**
-//     * 방 생성하기
-//     */
-//    @PostMapping("/et/chat/createRoom")
-//    public @ResponseBody List<ChatRoomDto> createRoom(@RequestParam HashMap<Object, Object> params) {
-//        String roomName = params.get("roomName").toString();
-//
-//        if(roomName != null && !roomName.trim().equals("")){
-//            ChatRoomDto roomDto = new ChatRoomDto();
-//            roomDto.setRoomName(roomName);
-//            roomDto.setChatroomId(++chatroomId);
-//
-//            roomDtoList.add(roomDto);
-//        }
-//        return roomDtoList;
-//    }
+
 
     /**
      * 방 정보 가져오기
@@ -127,34 +115,26 @@ public class ChattingExController {
         }
     }
 
-//    @PostMapping("/et/chat/getImg")
-//    public ItemDto getImg(@RequestParam String senderUserName) {
-//
-//
-//    }
+    @PostMapping("/et/chat/getChat")
+    public @ResponseBody ItemDto getImg(@RequestParam String userName,
+                          @RequestParam String itemId,
+                          @RequestParam String chatroomId) {
+
+        return itemService.findItem(Long.valueOf(itemId));
+
+    }
 
 
-//
-//    /**
-//     * 채팅방
-//     */
-//    @GetMapping("/moveChating")
-//    public String chating(@RequestParam HashMap<Object, Object> params, Model model) {
-//        int chatroomId = Integer.parseInt(params.get("chatroomId").toString());
-//
-//        List<ChatRoomDto> newRoomDtoList = roomDtoList.stream()
-//                .filter(ob -> ob.getChatroomId() == chatroomId)
-//                .toList();
-//
-//        if(newRoomDtoList.size() > 0 && newRoomDtoList != null){
-//            model.addAttribute("chatroomId", params.get("chatroomId").toString());
-//            model.addAttribute("roomName", newRoomDtoList.get(0).getRoomName());
-//
-//            return "chating/chat";
-//        } else {
-//            return "chating/room";
-//        }
-//    }
+    /**
+     * 채팅 정보
+     */
+    @PostMapping("/et/chat/getMessage")
+    public @ResponseBody List<MessageDto> getMessages(@RequestParam HashMap<Object, Object> params) {
+
+        Long chatRoomId = Long.valueOf(params.get("chatroomId").toString());
+        return messageService.getMessagesByChatRoomId(chatRoomId);
+
+    }
 
 
 }
