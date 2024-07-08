@@ -42,4 +42,4 @@ spring:
         host: 3.228.194.18 # EC2 탄력적 IP
 
 server:
-    port: 9000
+  port: 9000

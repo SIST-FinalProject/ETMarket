@@ -10,7 +10,7 @@ import java.sql.Timestamp;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter @Setter
+@Data
 public class Rating {
 
     @Id

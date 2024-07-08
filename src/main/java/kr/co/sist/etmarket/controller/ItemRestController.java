@@ -24,14 +24,13 @@ public class ItemRestController {
 
     @GetMapping("/items")
     public Slice<ItemDto> getAllItems(@RequestParam(defaultValue = "0", name = "page") int page,
-                                   @RequestParam(defaultValue = "10", name = "size") int size) {
- //   public Slice<ItemDto> getAllItems(@RequestParam(defaultValue = "0") int page,
-   // 							@RequestParam(defaultValue = "10") int size) {
+                                      @RequestParam(defaultValue = "10", name = "size") int size) {
         Pageable pageable = PageRequest.of(page, size);
 //        Slice<ItemDto> itemSlice = itemService.getItemSlice(pageable);
         return itemService.getItemSlice(pageable);
     }
-//    @GetMapping("/items")
+
+    //    @GetMapping("/items")
 //    public ResponseEntity<List<Item>> getItems(@RequestParam(defaultValue = "0") int page,
 //                                               @RequestParam(defaultValue = "20") int size) {
 //        Slice<Item> itemSlice = itemService.getItemSlice(page, size);
@@ -47,5 +46,10 @@ public class ItemRestController {
         return itemService.getCategoryList(CategoryName.valueOf(category), page, size);
     }
 
+    @GetMapping("api/item/detail")
+    public ItemDto getItem(@RequestParam String itemId) {
+        ItemDto dataItem = itemService.getDataItem(Long.valueOf(itemId));
 
+        return dataItem;
+    }
 }

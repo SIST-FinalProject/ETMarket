@@ -68,4 +68,7 @@ document.addEventListener('DOMContentLoaded', function() {
     closeBtn.addEventListener("click", function() {
         searchBox.style.display = "none";
     });
+
+    // 채팅
+
 });

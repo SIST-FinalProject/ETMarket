@@ -1,5 +1,4 @@
 package kr.co.sist.etmarket.dto;
-
 import kr.co.sist.etmarket.entity.User;
 
 import kr.co.sist.etmarket.etenum.UserStatus;
@@ -12,8 +11,8 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
+//import jakarta.validation.constraints.NotBlank;
+//import jakarta.validation.constraints.Pattern;
 
 @Data
 @NoArgsConstructor
@@ -44,7 +43,7 @@ public class UserDto {
     private String userSocialToken;
 
     private UserStatus userStatus;
-    
+
     private String userIntroduce;
 
     @Builder.Default
@@ -63,13 +62,13 @@ public class UserDto {
 
 
     // 생성자 - 로그인
-//    public UserDto(String userLoginId, String userPassword, Long userId, String userName) {
-//        this.userLoginId = userLoginId;
-//        this.userPassword = userPassword;
-//        this.userId = userId;
-//        this.userName = userName;
-//    }
-  
+    public UserDto(String userLoginId, String userPassword, Long userId, String userName) {
+        this.userLoginId = userLoginId;
+        this.userPassword = userPassword;
+        this.userId = userId;
+        this.userName = userName;
+    }
+
 	// User 엔티티를 UserDto로 변환하는 메소드
 	public static UserDto fromEntity(User user) {
 		return UserDto.builder()
@@ -89,16 +88,16 @@ public class UserDto {
 	// UserDto를 User 엔티티로 변환하는 메소드
 	public User toEntity() {
 		return new User(
-				this.userId, 
-				this.userLoginId, 
-				this.userPassword, 
-				this.userName, 
-				this.userPhone, 
+				this.userId,
+				this.userLoginId,
+				this.userPassword,
+				this.userName,
+				this.userPhone,
 				this.userEmail,
-				this.userImg, 
-				this.userCreateDate, 
-				this.userJoinType, 
-				this.userSocialToken, 
+				this.userImg,
+				this.userCreateDate,
+				this.userJoinType,
+				this.userSocialToken,
 				this.userIntroduce,
 				this.userStatus,
 				new ArrayList<>(), // items
@@ -111,10 +110,15 @@ public class UserDto {
 				new ArrayList<>() // receiverChatroom
 		);
 	}
-	
+
 	// 비밀번호 암호화
 	public void encryptPassword(String BCryptpassword) {
 		this.userPassword=BCryptpassword;
 	}
-    
+   
+      /*마이페이지에서 사용*/
+    public UserDto(Long userId, String userName) {
+        this.userId = userId;
+        this.userName = userName;
+    }
 }

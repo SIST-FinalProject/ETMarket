@@ -1,6 +1,7 @@
 package kr.co.sist.etmarket.dto;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -9,19 +10,20 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@Builder
 public class MessageDto {
 
-    private Long messageId;
+    private int messageId;
 
-    private String content;
+    private String message;
 
-    private Timestamp sendTime;
+    private Timestamp sendDate;
 
-    private UserDto sender;
+    private String sender;
 
-    private UserDto receiver;
+    private String receiver;
 
-    private ChatRoomDto chatRoom;
+    private Long chatroomId;
 
     private String img;
 

@@ -4,12 +4,14 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import kr.co.sist.etmarket.etenum.UserStatus;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Timestamp;
 
 @Entity
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class Admin {

@@ -13,13 +13,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 @Transactional
 public class ItemImgService {
     private final ItemImgDao itemImgDao;
-    private final S3Uploader s3Uploader;
+    private  final S3Uploader s3Uploader;
 
     // ItemImg DB Insert
     public void insertItemImg(ArrayList<MultipartFile> itemImgUpload, Item item) {
@@ -114,4 +115,23 @@ public class ItemImgService {
             s3Uploader.deleteFile(getPath(itemImgDto.getItemImg()));
         }
     }
+
+    public String getFirstItemImgByItemId(Long itemId) {
+        return itemImgDao.findFirstItemImgByItemId(itemId);
+    }
+
+}
+
+    /*마이페이지에서 사용*/
+   /*@Autowired
+    public ItemImgService(ItemImgDao itemImgDao) {
+        this.itemImgDao = itemImgDao;
+    }
+*/
+    public ItemImg getFirstImageByItemId(Long itemId) {
+        Optional<ItemImg> optionalItemImg = itemImgDao.findFirstByItem_ItemIdOrderByItemImgIdAsc(itemId);
+        return optionalItemImg.orElse(null); // orElse를 사용하여 값이 없을 경우 null을 반환하도록 처리
+    }
+    
+    
 }
