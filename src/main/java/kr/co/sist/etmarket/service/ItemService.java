@@ -87,6 +87,10 @@ public class ItemService {
         return covertToDto(item);
     }
 
+    public Item getItem(Long itemID) {
+        return itemDao.findItemByItemId(itemID);
+    }
+
     // item 출력을 위해 itemDto로 가공
     private ItemDto covertToDto(Item item) {
         DecimalFormat decimalFormat = new DecimalFormat("#,###");
@@ -140,6 +144,7 @@ public class ItemService {
         } else {
             itemDto.setItemAddress(itemDto.getRoadAddress() + " (" + itemDto.getDetailAddress() + ")");
         }
+        itemDto.setDealStatus(DealStatus.판매중);
         itemDto.setItemDeliveryPrice(Integer.parseInt(itemDto.getItemDeliveryPriceText().replace(",","")));
         if (itemDto.isPriceStatusCheck()) {
             itemDto.setPriceStatus(PriceStatus.가능);
@@ -147,6 +152,7 @@ public class ItemService {
             itemDto.setPriceStatus(PriceStatus.불가능);
         }
         itemDto.setItemCount(Integer.parseInt(itemDto.getItemCountText().replace(",","")));
+        itemDto.setItemHidden(ItemHidden.보임);
 
         // Item Entity로 변환
         User user = userDao.findById(itemDto.getUserId()).orElseThrow(() -> new IllegalArgumentException("없는 user ID"));
@@ -159,12 +165,14 @@ public class ItemService {
                 .itemPrice(itemDto.getItemPrice())
                 .itemAddress(itemDto.getItemAddress())
                 .itemStatus(itemDto.getItemStatus())
+                .dealStatus(itemDto.getDealStatus())
                 .dealHow(itemDto.getDealHow())
                 .deliveryStatus(itemDto.getDeliveryStatus())
                 .itemDeliveryPrice(itemDto.getItemDeliveryPrice())
                 .priceStatus(itemDto.getPriceStatus())
                 .categoryName(itemDto.getCategoryName())
                 .itemCount(itemDto.getItemCount())
+                .itemHidden(itemDto.getItemHidden())
                 .build();
     }
   
@@ -183,6 +191,11 @@ public class ItemService {
         Page<Item> items = itemDao.findItemsByCategoryName(category, pageable);
 
         return items.map(this::createItemDto);
+    }
+
+    public ItemDto findItem(Long itemId) {
+        Item item = itemDao.findById(itemId).get();
+        return createItemDto(item);
     }
 
     private ItemDto createItemDto(Item item) {
@@ -207,7 +220,8 @@ public class ItemService {
                 item.getItemImgs(), // Include the item images list
                 item.getItemTags(),
                 item.getItemChecks().size(),
-                item.getItemLikes().size()
+                item.getItemLikes().size(),
+                item.getUser().getUserId()
         );
     }
 
@@ -275,6 +289,10 @@ public class ItemService {
         } else {
             return false;
         }
+    }
+
+    public String getReceiverUserName(Long itemId) {
+        return itemDao.findUserNameByItemId(itemId);
     }
 
     public Item findItemById(Long itemId) {

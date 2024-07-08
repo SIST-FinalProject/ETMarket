@@ -37,6 +37,8 @@ public interface UserDao extends JpaRepository<User, Long> {
 	boolean existsByUserName(String userName);
 	boolean existsByUserEmail(String userEmail);
 
+	User findByUserName(String userName);
+
 	// 총 사용자 수 구하기
 	@Query("SELECT COUNT(u) FROM User u")
 	long countTotalUsers();

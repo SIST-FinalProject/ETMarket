@@ -8,7 +8,15 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import kr.co.sist.etmarket.etenum.UserStatus;
 import lombok.*;
+import lombok.Getter;
 import org.hibernate.annotations.CreationTimestamp;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 @Entity
 @AllArgsConstructor
@@ -48,7 +56,7 @@ public class User {
 
     @Column
     private String userSocialToken;
-    
+
     @Column
     private String userIntroduce;
 
@@ -78,6 +86,33 @@ public class User {
 
     @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ChatRoom> receiverChatroom = new ArrayList<>();
+
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "userId=" + userId +
+                ", userLoginId='" + userLoginId + '\'' +
+                ", userName='" + userName + '\'' +
+                ", userPhone='" + userPhone + '\'' +
+                ", userEmail='" + userEmail + '\'' +
+                ", userImg='" + userImg + '\'' +
+                ", userCreateDate=" + userCreateDate +
+                ", userJoinType='" + userJoinType + '\'' +
+                ", userSocialToken='" + userSocialToken + '\'' +
+                ", userIntroduce='" + userIntroduce + '\'' +
+                ", userStatus=" + userStatus +
+//                ", items=" + items +
+//                ", itemLikes=" + itemLikes +
+//                ", userSearches=" + userSearches +
+//                ", sellers=" + sellers +
+//                ", buyers=" + buyers +
+//                ", target=" + target +
+                ", senderChatroom=" + senderChatroom +
+                ", receiverChatroom=" + receiverChatroom +
+                '}';
+    }
+}
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ItemUp> itemUps = new ArrayList<>();

@@ -26,7 +26,6 @@ public interface ItemDao extends JpaRepository<Item, Long> {
   // itemId값에 따른 getData
     Item findByItemId(Long itemId);
 
-
     @Query("SELECT i FROM Item i " +
             "WHERE i.categoryName = :category " +
             "ORDER BY i.itemUpdateDate DESC")
@@ -36,6 +35,11 @@ public interface ItemDao extends JpaRepository<Item, Long> {
     // itemId값에 따른 delete
     void deleteByItemId(Long itemId);
 
+    Item findItemByItemId(Long itemId);
+
+    @Query("SELECT i.user.userName FROM Item i WHERE i.itemId = :itemId")
+    String findUserNameByItemId(@Param("itemId") Long itemId);
+  
     @Query("SELECT COUNT(i) FROM Item i")
     long countAllTransactions();
 
