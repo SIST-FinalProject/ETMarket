@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
+import kr.co.sist.etmarket.dto.UserDto;
 import kr.co.sist.etmarket.etenum.UserStatus;
 import lombok.*;
 import lombok.Getter;
@@ -22,6 +23,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter @Setter
+@Builder
 public class User {
 
     @Id
@@ -116,4 +118,22 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ItemUp> itemUps = new ArrayList<>();
+
+    // UserDto를 User 엔티티로 변환하는 메소드
+    public static User fromDto(UserDto userDto) {
+        return User.builder()
+                .userId(userDto.getUserId())
+                .userLoginId(userDto.getUserLoginId())
+                .userPassword(userDto.getUserPassword())
+                .userName(userDto.getUserName())
+                .userPhone(userDto.getUserPhone())
+                .userEmail(userDto.getUserEmail())
+                .userImg(userDto.getUserImg())
+                .userCreateDate(userDto.getUserCreateDate())
+                .userJoinType(userDto.getUserJoinType())
+                .userSocialToken(userDto.getUserSocialToken())
+                .userIntroduce(userDto.getUserIntroduce())
+                .userStatus(userDto.getUserStatus())
+                .build();
+    }
 }

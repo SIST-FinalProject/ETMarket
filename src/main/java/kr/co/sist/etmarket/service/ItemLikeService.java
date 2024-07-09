@@ -5,6 +5,7 @@ import kr.co.sist.etmarket.dao.ItemLikeRepository;
 import kr.co.sist.etmarket.dao.SellerDetailRepository;
 import kr.co.sist.etmarket.dto.ItemLikeDto;
 import kr.co.sist.etmarket.entity.Item;
+import kr.co.sist.etmarket.entity.ItemImg;
 import kr.co.sist.etmarket.entity.ItemLike;
 import kr.co.sist.etmarket.entity.User;
 import lombok.RequiredArgsConstructor;
@@ -72,6 +73,35 @@ public class ItemLikeService {
         }
 
         return dtos;
+    }
+
+    public List<Map<String, Object>> getLikedItems(Long userId) {
+        List<Object[]> results = itemLikeRepository.findLikedItemsByUserId(userId);
+        List<Map<String, Object>> likedItems = new ArrayList<>();
+
+        for (Object[] result : results) {
+            Item item = (Item) result[0];
+            ItemImg itemImage = (ItemImg) result[1];
+
+            Map<String, Object> itemMap = new HashMap<>();
+            itemMap.put("itemId", item.getItemId());
+            itemMap.put("itemTitle", item.getItemTitle());
+            itemMap.put("itemImg", itemImage.getItemImg());
+            itemMap.put("itemPrice", item.getItemPrice());
+            itemMap.put("itemAddress", item.getItemAddress());
+            likedItems.add(itemMap);
+        }
+
+        return likedItems;
+    }
+
+    public void deleteItemLike(Long itemId, Long userId) {
+        Optional<ItemLike> itemLike = itemLikeRepository.findByItem_ItemIdAndUser_UserId(itemId, userId);
+        if (itemLike.isPresent()) {
+            itemLikeRepository.delete(itemLike.get());
+        } else {
+            throw new NoSuchElementException("Item like not found");
+        }
     }
 
 }

@@ -39,7 +39,7 @@ spring:
     data:
       redis:
         port: 6379
-        host: 3.228.194.18 # EC2 탄력적 IP
+        host: 3.228.194.18
 
 server:
   port: 9000

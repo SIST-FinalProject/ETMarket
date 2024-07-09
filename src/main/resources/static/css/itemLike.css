@@ -121,11 +121,11 @@
      margin-bottom: 20px;
  }
 
-.kAXfEi {
+.kVTaan {
     width: 100%;
     height: 140px;
     display: flex;
-    border: 1px solid rgb(238, 238, 238);
+    /*border: 1px solid rgb(238, 238, 238);*/
     position: relative;
 }
 
@@ -135,3 +135,125 @@
      text-decoration: none;
      cursor: pointer;
  }
+
+.hkOzft {
+    position: relative;
+    width: 139px;
+    flex-shrink: 0;
+}
+
+.eyCCxv {
+    background: rgba(0, 0, 0, 0.4);
+    font-size: 13px;
+    padding: 2px 3px 3px;
+    position: absolute;
+    left: 10px;
+    bottom: 10px;
+    color: rgb(255, 255, 255);
+}
+
+.iovqKN {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+}
+
+.huitHV {
+    width: 363px;
+    flex-shrink: 0;
+}
+
+.jgwDOt {
+    padding: 0px 64px 0px 20px;
+    width: 100%;
+}
+
+.deAGaV {
+    margin: 18px 0px 10px;
+    width: 100%;
+    height: 14px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+   /* overflow: hidden;*/
+}
+
+.ySSXL {
+    font-size: 16px;
+    font-weight: bold;
+    display: flex;
+}
+
+.ySSXL {
+    font-size: 16px;
+    font-weight: bold;
+    display: flex;
+}
+
+.ySSXL div {
+    position: relative;
+}
+
+.ySSXL div::after {
+    content: "원";
+    position: absolute;
+    font-weight: normal;
+    font-size: 13px;
+    top: 3px;
+    right: -15px;
+}
+
+.gimUQy {
+    height: 40px;
+    display: flex;
+    width: 100%;
+    -webkit-box-align: center;
+    align-items: center;
+    color: rgb(136, 136, 136);
+    font-size: 12px;
+}
+
+.dUXZPL {
+    height: 40px;
+    display: flex;
+    width: 100%;
+    -webkit-box-align: center;
+    align-items: center;
+    padding-left: 20px;
+    border-top: 1px solid rgb(238, 238, 238);
+    font-size: 12px;
+    color: rgb(102, 102, 102);
+    box-sizing: border-box;
+}
+
+.kAXfEi {
+    width: 100%;
+    height: 140px;
+    display: flex;
+    border: 1px solid rgb(238, 238, 238);
+    position: relative;
+}
+
+.fOnekV:nth-last-child(-n+2):nth-child(2n+1), .fOnekV:nth-last-child(-n+2):nth-child(2n+1) ~ .fOnekV {
+    margin-bottom: 0px;
+}
+
+ .fOnekV {
+     width: 502px;
+     margin-bottom: 20px;
+ }
+
+.ipkdeR {
+    display: flex;
+    flex-wrap: wrap;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+}
+
+.hwfvVn {
+    position: absolute;
+    top: 20px;
+    right: 12px;
+}
+
