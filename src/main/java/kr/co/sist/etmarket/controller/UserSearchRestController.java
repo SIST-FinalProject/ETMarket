@@ -29,9 +29,9 @@ public class UserSearchRestController {
     }
 
     @GetMapping("/api/search/items")
-    public Page<ItemDto> findItemsByContentAndItemTitle(@RequestParam String content,
-                                                        @RequestParam(defaultValue = "0") int page,
-                                                        @RequestParam(defaultValue = "10") int size) {
+    public Page<ItemDto> findItemsByContentAndItemTitle(@RequestParam("content") String content,
+                                                        @RequestParam(defaultValue = "0", name = "page") int page,
+                                                        @RequestParam(defaultValue = "10", name = "size") int size) {
         Pageable pageable = PageRequest.of(page, size);
         return userSearchService.getItemTitle(content, page, size);
     }
@@ -49,7 +49,7 @@ public class UserSearchRestController {
     }
 
     @PostMapping("/search/init")
-    public List<UserSearchDto> getTop8SearchContent(@RequestParam Long userId) {
+    public List<UserSearchDto> getTop8SearchContent(@RequestParam("userId") Long userId) {
         try {
             UserSearchDto userSearchDto = new UserSearchDto();
             userSearchDto.setUserId(userId);

@@ -112,9 +112,9 @@ public class ItemController {
     }
 
     @GetMapping("/search/category")
-    public String getCategoryList(@RequestParam String category,
-                                  @RequestParam(defaultValue = "0") int page,
-                                  @RequestParam(defaultValue = "10") int size,
+    public String getCategoryList(@RequestParam("category") String category,
+                                  @RequestParam(defaultValue = "0", name = "page") int page,
+                                  @RequestParam(defaultValue = "10", name = "size") int size,
                                   Model model) {
 
         Page<ItemDto> categorys = itemService.getCategoryList(CategoryName.valueOf(category), page, size);
@@ -148,7 +148,7 @@ public class ItemController {
 
     // Item DB Delete, S3 Image Delete
     @GetMapping("/item/delete")
-    public String delete(@RequestParam Long itemId, HttpSession session, Model model){
+    public String delete(@RequestParam("itemId") Long itemId, HttpSession session, Model model){
         Long userId = (Long) session.getAttribute("myUserId");
         String userName = (String) session.getAttribute("myUserName");
 
