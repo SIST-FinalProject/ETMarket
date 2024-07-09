@@ -37,7 +37,7 @@ $(document).ready(function() {
             location.href="/search?content="+query;
 
         } else {
-            alert('Please enter a search term.');
+            // alert('Please enter a search term.');
         }
     }
 
@@ -47,7 +47,7 @@ $(document).ready(function() {
             userId: 1, // 의미로 설정
             content: content
         };
-        alert("content : " + content);
+        // alert("content : " + content);
         $.ajax({
             url: '/search/update',
             type: 'POST',
@@ -58,10 +58,10 @@ $(document).ready(function() {
                 // $('#searchInput').val(content);
 
                 if (response.status === "success") {
-                    alert("Content updated successfully");
+                    // alert("Content updated successfully");
                     $('#searchInput').val(response.updatedContent);
                 } else {
-                    alert("Error: " + response.message);
+                    // alert("Error: " + response.message);
                 }
 
             },
@@ -97,9 +97,9 @@ $(document).ready(function() {
             url: '/search/deleteall',
             type: 'POST',
             contentType: 'application/json',
-            data:  JSON.stringify({"userId":userId}),
+            // data:  JSON.stringify({"userId":userId}),
             success: function (response){
-                alert("delete All");
+                // alert("delete All");
                 init();
             }
         })

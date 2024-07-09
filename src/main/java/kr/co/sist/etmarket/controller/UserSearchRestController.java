@@ -43,9 +43,9 @@ public class UserSearchRestController {
     }
 
     @PostMapping("/search/deleteall")
-    public void deleteAll(@RequestBody UserSearchDto userSearchDto) {
-        System.out.println("userSearchDto = " + userSearchDto);
-        userSearchService.deleteContent(userSearchDto.getContent());
+    public void deleteAll() {
+//        System.out.println("userSearchDto = " + userSearchDto);
+        userSearchService.deleteAll();
     }
 
     @PostMapping("/search/init")

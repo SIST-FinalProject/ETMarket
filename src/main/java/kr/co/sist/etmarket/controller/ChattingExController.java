@@ -83,7 +83,7 @@ public class ChattingExController {
             User receiver = itemService.getItem(itemIdLong).getUser(); // 상품 주인(판매자)
 
             // 해당 itemId와 senderId에 대한 방이 존재하지 않으면
-            // => 여기에 sender 랑 receiver Id 값이 값지 않은 것도 확인해줘야호미 (추가)
+            // => 여기에 sender 랑 receiver Id 값이 값지 않은 것도 확인해줘야 (추가)
             if (!chatRoomService.findChatRoomByItemIdAndSenderId(itemIdLong, sender.getUserId())
                 && !sender.getUserId().equals(receiver.getUserId())) {
                 // 정보 저장 후 db에 저장

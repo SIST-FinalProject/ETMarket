@@ -139,12 +139,13 @@ public class UserSearchService {
 
     }
 
-    public void deleteAll(UserSearchDto userSearchDto){
-        if(userSearchDao.existsById(userSearchDto.getUserId())){
-            userSearchDao.deleteAll();
-        } else {
-            System.out.println("존재하지 않은 id임");
-        }
+    public void deleteAll(){
+//        if(userSearchDao.existsById(userSearchDto.getUserId())){
+//            userSearchDao.deleteAll();
+//        } else {
+//            System.out.println("존재하지 않은 id임");
+//        }
+        userSearchDao.deleteAll();
     }
 
 
