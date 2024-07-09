@@ -120,7 +120,6 @@ public class ItemImgService {
         return itemImgDao.findFirstItemImgByItemId(itemId);
     }
 
-}
 
     /*마이페이지에서 사용*/
    /*@Autowired

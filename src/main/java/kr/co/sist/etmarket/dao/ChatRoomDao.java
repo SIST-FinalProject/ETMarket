@@ -25,7 +25,6 @@ public interface ChatRoomDao extends JpaRepository<ChatRoom, Long> {
     @Query("SELECT cr FROM ChatRoom cr WHERE cr.sender = :user OR cr.receiver = :user ORDER BY cr.createDate desc ")
     List<ChatRoom> findBySenderOrReceiver(@Param("user") User user);
 
-}
     /* 마이페이지에서 사용 */
     @Query("SELECT c.item.itemId, COUNT(c.chatroomId) AS ChatRoomCount FROM ChatRoom c GROUP BY c.item.itemId")
     List<Object[]> countChatRoomsByItemId();

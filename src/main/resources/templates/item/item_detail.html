@@ -175,7 +175,7 @@
                         </button>
                     </div>
                     <div th:if="${session.myUserName != null}">
-                        <button class="chat" th:onclick="|location.href='@{/et/chat(userName=${session.myUserName}, itemId=${itemId})}'|">
+                        <button class="chat" th:onclick="|location.href='@{/et/chat/choose(userName=${session.myUserName}, itemId=${itemId})}'|">
                             <!--                        <img src="/image/wish_icon.png" width="16" height="16" alt="상품 상태 아이콘">-->
                             <span>채팅</span>
                         </button>

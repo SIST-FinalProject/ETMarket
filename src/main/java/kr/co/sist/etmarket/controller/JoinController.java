@@ -36,7 +36,7 @@ public class JoinController {
 	
 	// 회원가입 save
 	@PostMapping("/member/joinProcess")
-	public String joinProcess(@ModelAttribute UserDto userDto, @RequestParam("phoneVerifyCode") String phoneVerifyCode, 
+	public String joinProcess(@ModelAttribute UserDto userDto,
 			Errors errors, Model model) {
 		
 		userDto.setUserStatus(UserStatus.ACTIVE); //회원상태 세팅
@@ -47,7 +47,7 @@ public class JoinController {
 		// userDto.encryptPassword(encoder.encode(userDto.getUserPassword())); // 비밀번호 암호화
 		//userDto.setUserPassword(userDto.encryptPassword(userDto.getUserPassword()));
 		
-		System.out.println("joinController 입력받은 값: "+userDto+", 인증코드: "+phoneVerifyCode);
+//		System.out.println("joinController 입력받은 값: "+userDto+", 인증코드: "+phoneVerifyCode);
 		
 		joinService.join(userDto);
 		

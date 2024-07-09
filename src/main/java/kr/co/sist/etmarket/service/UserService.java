@@ -26,6 +26,7 @@ public class UserService {
 
     public User getUserName(String userName) {
         return userDao.findByUserName(userName);
+    }
     // 회원번호로 조회
     public User getUserById(Long id) {
         return userDao.findById(id).get();

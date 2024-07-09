@@ -64,7 +64,7 @@ public class WebSocketExHandler extends TextWebSocketHandler {
             if (chatroom != null) {
                 Long chatroomSenderId = chatroom.getSenderId(); // 처음 메시지 보낸 user 가져옴 (구매자)
                 System.out.println("chatroomSenderId = " + chatroomSenderId);
-                UserDto sender = userService.getUserById(chatroomSenderId);
+                UserDto sender = userService.getUserDtoById(chatroomSenderId);
 
                 if (sender != null) {
                     receiver = sender.getUserName(); // sender와 item를 파는 사람이 같은 경우에는 상대방이 구매자임

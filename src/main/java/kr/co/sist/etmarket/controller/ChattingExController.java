@@ -36,16 +36,16 @@ public class ChattingExController {
         return "chating/ex";
     }
 
-    @GetMapping("/et/chat/{itemId}")
-    public String chatFindItemId(@RequestParam HashMap<Object, Object> params,
-                       @RequestParam String userName,
-                       @PathVariable String itemId,
-                       Model model) {
-        // itemId가 경로 변수로 전달됩니다.
-        model.addAttribute("userName", userName);
-        model.addAttribute("itemId", itemId);
-        return "chating/ex";
-    }
+//    @GetMapping("/et/chat/{itemId}")
+//    public String chatFindItemId(@RequestParam HashMap<Object, Object> params,
+//                       @RequestParam String userName,
+//                       @PathVariable String itemId,
+//                       Model model) {
+//        // itemId가 경로 변수로 전달됩니다.
+//        model.addAttribute("userName", userName);
+//        model.addAttribute("itemId", itemId);
+//        return "chating/ex";
+//    }
     @GetMapping("/et/chat/choose")
     public String chat(@RequestParam HashMap<Object, Object> params,
                        @RequestParam String userName,

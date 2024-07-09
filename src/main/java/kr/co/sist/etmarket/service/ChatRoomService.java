@@ -1,12 +1,14 @@
 package kr.co.sist.etmarket.service;
 
 import kr.co.sist.etmarket.dao.ChatRoomDao;
+import kr.co.sist.etmarket.dto.ChatRoomCountDto;
 import kr.co.sist.etmarket.dto.ChatRoomDto;
 import kr.co.sist.etmarket.entity.ChatRoom;
 import kr.co.sist.etmarket.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 

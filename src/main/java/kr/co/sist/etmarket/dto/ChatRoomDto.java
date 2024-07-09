@@ -40,5 +40,4 @@ public class ChatRoomDto {
         this.roomName = roomName;
     }
 
-    private Set<WebSocketSession> sessions = new HashSet<>();
 }

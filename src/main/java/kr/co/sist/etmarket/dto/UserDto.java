@@ -86,30 +86,30 @@ public class UserDto {
 	}
 
 	// UserDto를 User 엔티티로 변환하는 메소드
-	public User toEntity() {
-		return new User(
-				this.userId,
-				this.userLoginId,
-				this.userPassword,
-				this.userName,
-				this.userPhone,
-				this.userEmail,
-				this.userImg,
-				this.userCreateDate,
-				this.userJoinType,
-				this.userSocialToken,
-				this.userIntroduce,
-				this.userStatus,
-				new ArrayList<>(), // items
-				new ArrayList<>(), // itemLikes
-				new ArrayList<>(), // userSearches
-				new ArrayList<>(), // sellers
-				new ArrayList<>(), // buyers
-				new ArrayList<>(), // target
-				new ArrayList<>(), // senderChatroom
-				new ArrayList<>() // receiverChatroom
-		);
-	}
+//	public User toEntity() {
+//		return new User(
+//				this.userId,
+//				this.userLoginId,
+//				this.userPassword,
+//				this.userName,
+//				this.userPhone,
+//				this.userEmail,
+//				this.userImg,
+//				this.userCreateDate,
+//				this.userJoinType,
+//				this.userSocialToken,
+//				this.userIntroduce,
+//				this.userStatus,
+//				new ArrayList<>(), // items
+//				new ArrayList<>(), // itemLikes
+//				new ArrayList<>(), // userSearches
+//				new ArrayList<>(), // sellers
+//				new ArrayList<>(), // buyers
+//				new ArrayList<>(), // target
+//				new ArrayList<>(), // senderChatroom
+//				new ArrayList<>() // receiverChatroom
+//		);
+//	}
 
 	// 비밀번호 암호화
 	public void encryptPassword(String BCryptpassword) {
