@@ -117,6 +117,9 @@ public class User {
                 ", receiverChatroom=" + receiverChatroom +
                 '}';
     }
+
+
+
     // UserDto를 User 엔티티로 변환하는 메소드
     public static User fromDto(UserDto userDto) {
         return User.builder()

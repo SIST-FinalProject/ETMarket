@@ -219,12 +219,12 @@ function toggleHiddenStatus(button, itemId, currentStatus) {
 
 
 
-document.addEventListener("DOMContentLoaded", function() {
+/*document.addEventListener("DOMContentLoaded", function() {
     var clickedDivId = localStorage.getItem('clickedDivId');
     if (clickedDivId) {
         document.getElementById(clickedDivId).classList.add('clicked');
     }
-});
+});*/
 
 function changeColor(element) {
     // 모든 div에서 clicked 클래스를 제거
@@ -235,7 +235,9 @@ function changeColor(element) {
 
     // 클릭된 div에 clicked 클래스를 추가하고 로컬 스토리지에 저장
     element.classList.add('clicked');
-    localStorage.setItem('clickedDivId', element.id);
+
+    // element의 고유 식별자를 localStorage에 저장
+    localStorage.setItem('clickedDivId', element.dataset.itemId);
 }
 
 

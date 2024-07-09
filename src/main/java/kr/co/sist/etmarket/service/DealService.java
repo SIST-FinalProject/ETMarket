@@ -42,16 +42,6 @@ public class DealService {
         this.userDao = userDao;
     }
 
-    /*// 현재 세션의 유저가 판매자인 경우 판매 내역 조회
-    public List<Deal> getSellHistory(User seller) {
-        return dealDao.findAllBySellerOrderByDealDateDesc(seller);
-    }
-
-    // 현재 세션의 유저가 구매자인 경우 구매 내역 조회
-    public List<Deal> getBuyHistory(User buyer) {
-        return dealDao.findAllByBuyerOrderByDealDateDesc(buyer);
-    }*/
-
     public List<Deal> getSellHistory(Long userId) {
         User user = userDao.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("유효하지 않은 사용자 ID입니다."));

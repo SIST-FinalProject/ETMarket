@@ -111,6 +111,11 @@ public class Item {
     @OneToOne(mappedBy = "item", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private ItemUp itemUp;
 
+    @Builder.Default
+    @JsonIgnoreProperties
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    private List<Deal> deals = new ArrayList<>(); // 거래
+
     @Override
     public String toString() {
         return "Item{" +
