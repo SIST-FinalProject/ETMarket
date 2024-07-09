@@ -1,17 +1,20 @@
 package kr.co.sist.etmarket.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
+@Data
 public class Deal {
 
     @Id
@@ -40,5 +43,11 @@ public class Deal {
     private String dealMethod;
 
     private String ratingLeft;
+
+    @Builder.Default
+    @JsonIgnoreProperties
+    @OneToMany(mappedBy = "deal", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    private List<Rating> ratings = new ArrayList<>(); // 평점
+
 
 }

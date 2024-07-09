@@ -2,6 +2,7 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <script src="/js/header.js"></script>
     <title>Title</title>
 </head>
 <body>
@@ -13,8 +14,13 @@
                 <i class="bi bi-star-fill" style="color: rgb(233 180 87);"></i>즐겨찾기
             </button>
         </div>
-        <div>
-            <button class="dDTfxq">로그인</button>
+       
+       <!-- 로그인 시 로그아웃 버튼 출력, 비로그인 시 로그인 버튼 출력 -->
+        <div th:if="${session.loginok == null}">
+            <button class="dDTfxq" onclick="location.href='/login'">로그인</button>
+        </div>
+        <div th:if="${session.loginok != null}">
+        	<button class="dDTfxq" onclick="location.href='/logout'">로그아웃</button>
         </div>
     </div>
 </div>
@@ -24,14 +30,14 @@
     <div class="ciqSeg">
         <div class="kPWKwK">
             <!--로고-->
-            <a class="bNjUuQ">
+            <a class="bNjUuQ" href="/">
                 <img alt="ET 로고" src="/image/logo_up.png" width="136" height="40">
             </a>
             <!--검색창-->
             <div class="keyjxL">
                 <div class="voMyM">
-                    <input type="text" placeholder="상품명" class="cLfdog">
-                    <a><i class="bi bi-search" style="cursor: pointer;"></i></a>
+                    <input type="text" placeholder="상품명" class="cLfdog" id="searchInput" autocomplete="off">
+                    <a><i class="bi bi-search" style="cursor: pointer;" id="searchButton"></i></a>
                 </div>
                 <!--검책창>최근검색어/인기검색어-->
                 <div class="eLTnVY">
@@ -86,7 +92,7 @@
                     <!--닫기/검색어 전체삭제-->
                     <div class="bNSExK">
                         <a class="iotYfC">닫기</a>
-                        <a class="bprumR">
+                        <a class="bprumR" onclick="deleteAllContent()">
                             <i class="bi bi-trash"></i>검색어 전체삭제
                         </a>
                     </div>
@@ -94,13 +100,21 @@
             </div>
             <!--채팅/내상점/판매하기-->
             <div class="eqbkiv">
-                <button class="foChwP">
-                    <i class="bi bi-chat-right-dots"></i>채팅
-                </button>
-                <a class="BltZS">
+                <div th:if="${session.myUserName != null}">
+                    <button class="foChwP" th:onclick="|location.href='@{/et/chat(userName=${session.myUserName})}'|">
+                        <i class="bi bi-chat-right-dots"></i>채팅
+                    </button>
+                </div>
+                <div th:if="${session.myUserName == null}">
+                    <button class="foChwP" th:onclick="|location.href='@{/login}'|">
+                        <i class="bi bi-chat-right-dots"></i>채팅
+                    </button>
+                </div>
+
+                <a class="BltZS" id="myStoreLink">
                     <i class="bi bi-person"></i>내상점
                 </a>
-                <a class="BltZS">
+                <a class="BltZS" href="item/insertForm">
                     <i class="bi bi-currency-dollar"></i>판매하기
                 </a>
             </div>
@@ -110,14 +124,14 @@
             <div class="gIJOQQ">
                 <i class="bi bi-list" style="font-size: 2em; cursor: pointer;"></i>
                 <div class="vertical-menu">
-                    <a href="#">식품</a>
-                    <a href="#">패션</a>
-                    <a href="#">전자기기</a>
-                    <a href="#">생활/주방</a>
-                    <a href="#">뷰티/미용</a>
-                    <a href="#">도서</a>
-                    <a href="#">티켓/교환권</a>
-                    <a href="#">기타</a>
+                    <a th:href="@{/search/category(category='식품')}">식품</a>
+                    <a th:href="@{/search/category(category='패션')}">패션</a>
+                    <a th:href="@{/search/category(category='전자기기')}">전자기기</a>
+                    <a th:href="@{/search/category(category='생활주방')}">생활/주방</a>
+                    <a th:href="@{/search/category(category='뷰티미용')}">뷰티/미용</a>
+                    <a th:href="@{/search/category(category='도서')}">도서</a>
+                    <a th:href="@{/search/category(category='티켓교환권')}">티켓/교환권</a>
+                    <a th:href="@{/search/category(category='기타')}">기타</a>
                 </div>
             </div>
         </div>
