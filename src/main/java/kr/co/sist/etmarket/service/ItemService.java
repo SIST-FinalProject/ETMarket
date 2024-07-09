@@ -175,7 +175,7 @@ public class ItemService {
                 .itemHidden(itemDto.getItemHidden())
                 .build();
     }
-
+  
     // 연관관계 때문에 무조건 Dto로 변환하여 사용해야함
     public Slice<ItemDto> getItemSlice(Pageable pageable) {
         Slice<Item> items = itemDao.findAllOrderByItemUpdateDateDesc(pageable);

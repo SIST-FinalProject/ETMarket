@@ -2,9 +2,7 @@ package kr.co.sist.etmarket.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Timestamp;
@@ -12,10 +10,11 @@ import java.sql.Timestamp;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Setter @Getter
 public class ReportProduct {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long reportUserId;
+    private Long reportProductId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
