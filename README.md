@@ -62,7 +62,14 @@
 
 ### :조석훈
   <div>
-    
+    <span><b>상품 추가</b></span>
+    <div><video src="https://github.com/SIST-FinalProject/ETMarket/assets/118476694/6896fa09-a7fb-4d29-bb8a-6db516fb8338" type="video/mp4"></video></div>
+    <br>
+    <span><b>상품 수정</b></span>
+    <div><video src="https://github.com/SIST-FinalProject/ETMarket/assets/118476694/a9a6cfc7-ee41-4f84-96b3-d7f95941d2f2" type="video/mp4"></video></div>
+    <br>
+    <span><b>상품 삭</b></span>
+    <div><video src="https://github.com/SIST-FinalProject/ETMarket/assets/118476694/a03004a0-42c2-4b10-9605-3affd1f2b498" type="video/mp4"></video></div>
   </div>
 
 ***
