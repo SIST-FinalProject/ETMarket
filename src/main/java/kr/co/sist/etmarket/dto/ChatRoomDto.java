@@ -16,7 +16,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@Builder
+@Builder(toBuilder = true)
 public class ChatRoomDto {
 
     private Long chatroomId;
@@ -31,6 +31,7 @@ public class ChatRoomDto {
 
     private Long receiverId; // 최초 메제지 받는 사람 id
 
+    @Builder.Default
     private List<Message> messages = new ArrayList<>();
 
     private String chatroomImg;
