@@ -9,12 +9,10 @@ import kr.co.sist.etmarket.entity.*;
 import kr.co.sist.etmarket.etenum.*;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.query.Param;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -134,7 +132,8 @@ public class UserSearchService {
                 item.getItemImgs(), // Include the item images list
                 item.getItemTags(),
                 item.getItemChecks().size(),
-                item.getItemLikes().size()
+                item.getItemLikes().size(),
+                item.getUser().getUserId()
         );
     }
 

@@ -2,6 +2,7 @@ package kr.co.sist.etmarket.dao;
 
 import kr.co.sist.etmarket.entity.Item;
 import kr.co.sist.etmarket.etenum.CategoryName;
+import kr.co.sist.etmarket.etenum.ItemStatus;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.domain.Page;
@@ -25,7 +26,6 @@ public interface ItemDao extends JpaRepository<Item, Long> {
   // itemId값에 따른 getData
     Item findByItemId(Long itemId);
 
-
     @Query("SELECT i FROM Item i " +
             "WHERE i.categoryName = :category " +
             "ORDER BY i.itemUpdateDate DESC")
@@ -34,6 +34,24 @@ public interface ItemDao extends JpaRepository<Item, Long> {
 
     // itemId값에 따른 delete
     void deleteByItemId(Long itemId);
+
+    Item findItemByItemId(Long itemId);
+
+    @Query("SELECT i.user.userName FROM Item i WHERE i.itemId = :itemId")
+    String findUserNameByItemId(@Param("itemId") Long itemId);
+  
+    @Query("SELECT COUNT(i) FROM Item i")
+    long countAllTransactions();
+
+    @Query("SELECT COUNT(i) FROM Item i WHERE i.dealStatus = '거래완료'")
+    long countSuccessfulTransactions();
+
+    // 사용자 ID를 기준으로 아이템 삭제
+    //void deleteByUserId(Long userId);
+
+    long countByItemStatus(ItemStatus status);
+
+
 
   /*마이페이지에서 사용*/
 
@@ -48,4 +66,5 @@ public interface ItemDao extends JpaRepository<Item, Long> {
 
    /* 판매중,예약중,거래완료 탭에서 검색 */
    Page<Item> findByUser_UserIdAndItemTitleContainingAndDealStatusAndItemHidden(Long userId, String keyword, DealStatus dealStatus, ItemHidden hidden, Pageable pageable);
+
 }

@@ -116,7 +116,11 @@ public class ItemImgService {
         }
     }
 
+    public String getFirstItemImgByItemId(Long itemId) {
+        return itemImgDao.findFirstItemImgByItemId(itemId);
+    }
 
+}
 
     /*마이페이지에서 사용*/
    /*@Autowired
