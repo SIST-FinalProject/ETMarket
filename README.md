@@ -52,8 +52,8 @@
 </div>
 
 <div><h4>:love_letter:Developmet Tools</h4>
-  <img src="https://img.shields.io/badge/IntelliJ%20IDEAE-000000?style=flat&logo=EclipseIDE&logoColor=white" />
-  <img src="https://img.shields.io/badge/Eclipse%20IDE-2C2255?style=flat&logo=EclipseIDE&logoColor=white" />
+  <img src="https://img.shields.io/badge/IntelliJ IDEA-000000?style=flat-square&logo=intellij-idea&logoColor=white">
+   <img src="https://img.shields.io/badge/Eclipse IDE-2C2255?style=flat-square&logo=eclipse-ide&logoColor=white">
 </div>
 
 <div><h4>:love_letter:Version Control</h4>
