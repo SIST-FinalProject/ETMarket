@@ -35,7 +35,7 @@
     <img src="https://img.shields.io/badge/css-1572B6?style=for-the-badge&logo=css3&logoColor=white"/>
     <img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=white"/>
     <img src="https://img.shields.io/badge/thymeleaf-005F0F?style=for-the-badge&logo=thymeleaf&logoColor=white"/>
-    <img src="https://img.shields.io/badge/Ajax-00758F?style=flat-square&logo=ajax&logoColor=white">
+    <img src="https://img.shields.io/badge/Ajax-00758F?style=for-the-badge&logo=ajax&logoColor=white">
 </div>
 
 <div><h4>:hammer:Backend</h4>
@@ -53,8 +53,8 @@
 </div>
 
 <div><h4>:love_letter:Developmet Tools</h4>
-  <img src="https://img.shields.io/badge/IntelliJ IDEA-000000?style=flat-square&logo=intellij-idea&logoColor=white">
-   <img src="https://img.shields.io/badge/Eclipse IDE-2C2255?style=flat-square&logo=eclipse-ide&logoColor=white">
+  <img src="https://img.shields.io/badge/IntelliJ IDEA-000000?style=for-the-badge&logo=intellij-idea&logoColor=white">
+   <img src="https://img.shields.io/badge/Eclipse IDE-2C2255?style=for-the-badge&logo=eclipse-ide&logoColor=white">
 </div>
 
 <div><h4>:love_letter:Version Control</h4>
