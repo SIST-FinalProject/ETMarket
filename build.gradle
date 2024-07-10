@@ -62,7 +62,3 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
-
-bootJar{
-	mainClassName='kr.co.sist.etmarket.EtmarketApplication'
-}
