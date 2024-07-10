@@ -8,6 +8,7 @@
     <link href="/css/ex.css" rel="stylesheet" type="text/css">
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
     <script src="/js/menu.js"></script>
+    <script src="/js/header.js"></script>
     <title>통합화면</title>
     <link href="image/favicon.ico" rel="icon" type="image/x-icon">
 
@@ -97,7 +98,6 @@
         };
         // url, parameter, type, callback, contentType
         commonAjax('/et/chat/getRooms', data, 'post', function (result) {
-            alert("/et/chat/getRooms 성공");
             // 성공값인 result는 chatroom에 대한 데이터만 넘어옴... item
             console.log("/et/chat/getRooms 성공 : ", result);
 
@@ -267,7 +267,6 @@
         };
         // url, parameter, type, callback, contentType
         commonAjax('/et/chat/getChat', data, 'post', function (result) {
-            alert("/et/chat/getChat 성공");
             // 채팅방 클릭 시 먼저 item 정보를 가져옴
             console.log("/et/chat/getChat 성공 : ", result);
 
@@ -332,7 +331,6 @@
         };
         // url, parameter, type, callback, contentType
         commonAjax('/et/chat/getMessage', data, 'post', function (result) {
-            alert("/et/chat/getMessage 성공");
             // 채팅방 클릭 시 먼저 item 정보를 가져옴
             console.log("/et/chat/getMessage 성공 : ", result);
 

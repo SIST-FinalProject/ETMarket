@@ -11,7 +11,7 @@ import java.util.Map;
 public class UserTempController {
 
     @GetMapping("/check-login-status")
-    public Map<String,Object> checkLoginStatus(HttpSession session) {
+    public Map<String, Object> checkLoginStatus(HttpSession session) {
 
         Long uid = (Long) session.getAttribute("myUserId");
         String isLogin = (String) session.getAttribute("loginok");
