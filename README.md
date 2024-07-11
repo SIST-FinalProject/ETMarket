@@ -93,9 +93,20 @@
   
 ### 👽 우예은
 <div>
-  <span><b>대시보드</b></span>
-    <div><video src="https://github.com/YeeunWoo/Sist0103Project/assets/107892669/ead4c8f1-dc33-4cf4-a0c6-850772229960" type="video/mp4"></video></div>
+  <span><b>로그인</b></span>
+    <div><video src="https://github.com/YeeunWoo/Sist0103Project/assets/107892669/4f0809b0-4769-478c-9359-f35799430629" type="video/mp4"></video></div>
     <br>
+    <span><b>대시보드</b></span>
+    <div><video src="https://github.com/YeeunWoo/Sist0103Project/assets/107892669/ead4c8f1-dc33-4cf4-a0c6-850772229960"  type="video/mp4"></video></div>
+    <br>
+    <span><b>회원관리</b></span>
+    <div><video src="https://github.com/YeeunWoo/Sist0103Project/assets/107892669/e686bb40-ac0e-4f78-be7f-c4e2020509dd"></video></div>
+    <br>
+    <span><b>상품관리</b></span>
+    <div><video src="https://github.com/YeeunWoo/Sist0103Project/assets/107892669/b976d8f1-0c85-45d2-8c27-8dbbcd569eaf"></video></div>
+    <br>
+    <span><b>신관리</b></span>
+    <div><video src="https://github.com/YeeunWoo/Sist0103Project/assets/107892669/9bc1dc62-ca2e-4a08-81c2-d259e734ed90"></video></div>
 </div>
 
 ***
