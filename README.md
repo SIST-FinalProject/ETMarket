@@ -63,14 +63,14 @@
 </div>
 
 ## 기능설명
-### :김우찬
+### 👽 김우찬
   <div>
     
   </div>  
   
 ***
 
-### :조석훈
+### 👽 조석훈
   <div>
     <span><b>상품 추가</b></span>
     <div><video src="https://github.com/SIST-FinalProject/ETMarket/assets/118476694/6896fa09-a7fb-4d29-bb8a-6db516fb8338" type="video/mp4"></video></div>
@@ -84,28 +84,43 @@
 
 ***
   
-### :홍재희
+### 👽 홍재희
  <div>
 
 </div>
 
 ***
   
-### :우예은
+### 👽 우예은
 <div>
 
 </div>
 
 ***
 
-### :한동희
+### 👽 한동희
 <div>
-
-</div>
+    <span><b>로그인</b></span>
+    <div>
+      <video src="https://github.com/SIST-FinalProject/ETMarket/assets/155527545/6e5237c5-c544-496b-b9f4-f5d07b139b8e" type="video/mp4"></video></div>
+    <br>
+    <span><b>회원가입</b></span>
+    <div><video src="https://github.com/SIST-FinalProject/ETMarket/assets/155527545/7a3e9281-c16e-429a-9045-c94c9648fc89"></video></div>
+    <br>
+      <span><b>아이디찾기</b></span>
+    <div>
+      <video src="https://github.com/SIST-FinalProject/ETMarket/assets/155527545/c1ac9e47-1331-49fe-92e6-3d276ea7245e" type="video/mp4"></video></div>
+    <br>
+      <span><b>비밀번호찾기</b></span> <br>
+      <div><video src="https://github.com/SIST-FinalProject/ETMarket/assets/155527545/742040e9-7d70-4c8d-ac2d-99cfd005e2b6" type="video/mp4"></video></div>
+    <br>
+      <span><b>회원정보 수정/탈퇴</b></span>
+      <div><video src="https://github.com/SIST-FinalProject/ETMarket/assets/155527545/9d484452-972f-400e-8295-78b09a61d565" type="video/mp4"></video></div>
+  </div>
 
 ***
 
-### :최유리
+### 👽 최유리
 <div>
 
 </div>
