@@ -46,6 +46,7 @@
 
 <div><h4>:open_file_folder:Database</h4>
   <img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Redis-FF4438?style=for-the-badge&logo=Redis&logoColor=white"/>
 </div>
 
 <div><h4>:open_file_folder:Cloud</h4>
