@@ -93,7 +93,9 @@
   
 ### 👽 우예은
 <div>
-
+  <span><b>대시보드</b></span>
+    <div><video src="https://github.com/YeeunWoo/Sist0103Project/assets/107892669/ead4c8f1-dc33-4cf4-a0c6-850772229960" type="video/mp4"></video></div>
+    <br>
 </div>
 
 ***
