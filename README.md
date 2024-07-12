@@ -67,7 +67,7 @@
 ### 👽 김우찬
   <div>
     <span><b>상품 상세페이지</b></span>
-    <div><video src="https://github.com/SIST-FinalProject/ETMarket/assets/155542667/05a7132b-ffd1-4c30-ac08-6f49ea1bf52b" type="video/mp4"></video></div>
+    <div><video src="https://github.com/user-attachments/assets/8a14216b-44d2-45b3-8182-e0988ba4a9a7" type="video/mp4"></video></div>
     <br>
     <span><b>판매자 상세페이지</b></span>
     <div><video src="https://github.com/SIST-FinalProject/ETMarket/assets/155542667/583da1b6-0051-4f73-9888-189b27577e14" type="video/mp4"></video></div>
