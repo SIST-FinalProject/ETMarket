@@ -142,5 +142,9 @@
 
 ### 👽 최유리
 <div>
-
+  <span><b>채팅</b></span>
+  <img src="C:\Users\dbfl3\Videos\Captures\파이널프로젝트\gif">
+  <span><b>검색</b></span>
+  <span><b>무한스크롤</b></span>
+  <span><b>페이징</b></span>
 </div>
