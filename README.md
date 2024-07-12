@@ -66,9 +66,15 @@
 ## 기능설명
 ### 👽 김우찬
   <div>
-    
+    <span><b>상품 상세페이지</b></span>
+    <div><video src="https://github.com/SIST-FinalProject/ETMarket/assets/155542667/05a7132b-ffd1-4c30-ac08-6f49ea1bf52b" type="video/mp4"></video></div>
+    <br>
+    <span><b>판매자 상세페이지</b></span>
+    <div><video src="https://github.com/SIST-FinalProject/ETMarket/assets/155542667/583da1b6-0051-4f73-9888-189b27577e14" type="video/mp4"></video></div>
+    <br>
+    <span><b>상품/판매자 신고</b></span>
+    <div><video src="https://github.com/SIST-FinalProject/ETMarket/assets/155542667/017ab1e5-e57e-42f0-9471-d9c707008075" type="video/mp4"></video></div>
   </div>  
-  
 ***
 
 ### 👽 조석훈
