@@ -143,13 +143,13 @@
 ### 👽 최유리
 <div>
   <span><b>채팅</b></span>
-  
+  <div><img src="https://github.com/user-attachments/assets/04262389-f4e8-42be-b332-b42567ad596d"></div>
   <br>
   <span><b>검색</b></span>
   <div><img src="https://github.com/user-attachments/assets/f9f38600-7d30-43da-a226-bfd7df8db2d1"></div>
   <br>  
   <span><b>무한스크롤</b></span>
-
+  <div><video src="https://github.com/user-attachments/assets/9d7f9155-cfcb-45e4-8592-4fe2a3b0cb5e" type="video/mp4"></video></div>
   <br>
   <span><b>페이징</b></span>
   <div><img src="https://github.com/user-attachments/assets/1014d60c-b792-4541-ba38-eb9032784b85"></div>
