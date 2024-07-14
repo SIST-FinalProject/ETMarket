@@ -74,7 +74,8 @@
     <br>
     <span><b>상품/판매자 신고</b></span>
     <div><video src="https://github.com/SIST-FinalProject/ETMarket/assets/155542667/017ab1e5-e57e-42f0-9471-d9c707008075" type="video/mp4"></video></div>
-  </div>  
+  </div>
+  
 ***
 
 ### 👽 조석훈
