@@ -94,7 +94,20 @@
   
 ### 👽 홍재희
  <div>
-
+  <span><b>거래 상태</b></span>
+    <div><video src="https://github.com/user-attachments/assets/6bd099b4-09f3-4245-a040-d4fdf9750fd4" type="video/mp4"></video></div>
+    <br>
+   <span><b>끌어올리기</b></span>
+    <div><video src="https://github.com/user-attachments/assets/6bafd665-f641-4c48-b9ec-2368966d0c14" type="video/mp4"></video></div>
+    <br>
+   <span><b>숨기기</b></span>
+    <div><video src="https://github.com/user-attachments/assets/9137306b-84ea-4a46-aeae-cd6565d30bf2" type="video/mp4"></video></div>
+    <br>
+   <span><b>거래완료 </b></span>
+    <div><video src="https://github.com/user-attachments/assets/e674d54d-8b25-43bc-98c3-9f085b2c058c" type="video/mp4"></video></div>
+    <br>
+   <span><b>후기 남기기</b></span>
+    <div><video src="https://github.com/user-attachments/assets/149dd317-23c1-412b-889a-2e3910287136" type="video/mp4"></video></div>
 </div>
 
 ***
